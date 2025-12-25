@@ -17,6 +17,7 @@ function ExamPage() {
   const [showCalc, setShowCalc] = useState(false);
   // const studentId = localStorage.getItem("student_id") || "101"; // example
   const studentId = localStorage.getItem("student_id");
+  const navigate = useNavigate(); // ✅ define
 
   useEffect(() => {
     if (!studentId) {

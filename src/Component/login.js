@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 
 const API_BASE = "https://cbt-backend-production-8bf2.up.railway.app";
-const navigate = useNavigate();
+
 
 
 
@@ -19,6 +19,7 @@ function Login() {
   });
 
   const SECRET_KEY = "Babi@2302";
+  const navigate = useNavigate();
 
   function encryptData(text) {
     const key = CryptoJS.SHA256(SECRET_KEY);
