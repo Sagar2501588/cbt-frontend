@@ -20,19 +20,27 @@ function ExamPage() {
   const studentId = localStorage.getItem("student_id");
   const navigate = useNavigate(); // ✅ define
 
-  useEffect(() => {
-    if (!studentId) {
-      alert("Session expired. Please login again.");
-      window.location.href = "/login";
-    }
-  }, [studentId]);
+//   useEffect(() => {
+//     if (!studentId) {
+//       alert("Session expired. Please login again.");
+//       window.location.href = "/login";
+//     }
+//   }, [studentId]);
 
-  useEffect(() => {
-  const studentId = localStorage.getItem("student_id");
+//   useEffect(() => {
+//   const studentId = localStorage.getItem("student_id");
+//   if (!studentId) {
+//     navigate("/login");
+//   }
+// }, [navigate]);
+
+
+useEffect(() => {
   if (!studentId) {
-    navigate("/login");
+    navigate("/");
   }
-}, [navigate]);
+}, [studentId, navigate]);
+
 
 
 
