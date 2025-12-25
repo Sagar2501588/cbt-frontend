@@ -290,26 +290,26 @@ function ExamPage() {
   const studentId = localStorage.getItem("student_id");
   const navigate = useNavigate(); // ✅ define
 
-//   useEffect(() => {
-//     if (!studentId) {
-//       alert("Session expired. Please login again.");
-//       window.location.href = "/login";
-//     }
-//   }, [studentId]);
+  //   useEffect(() => {
+  //     if (!studentId) {
+  //       alert("Session expired. Please login again.");
+  //       window.location.href = "/login";
+  //     }
+  //   }, [studentId]);
 
-//   useEffect(() => {
-//   const studentId = localStorage.getItem("student_id");
-//   if (!studentId) {
-//     navigate("/login");
-//   }
-// }, [navigate]);
+  //   useEffect(() => {
+  //   const studentId = localStorage.getItem("student_id");
+  //   if (!studentId) {
+  //     navigate("/login");
+  //   }
+  // }, [navigate]);
 
 
-useEffect(() => {
-  if (!studentId) {
-    navigate("/");
-  }
-}, [studentId, navigate]);
+  useEffect(() => {
+    if (!studentId) {
+      navigate("/");
+    }
+  }, [studentId, navigate]);
 
 
 
@@ -430,6 +430,17 @@ useEffect(() => {
   if (loading) return <h2>Loading...</h2>;
   if (error) return <h2>{error}</h2>;
 
+  if (loading) return <h2>Loading questions...</h2>;
+
+  if (!questions.length) {
+    return <h2>No questions found</h2>;
+  }
+
+  if (!questions[current]) {
+    return <h2>Loading current question...</h2>;
+  }
+
+
   return (
     <div className="exam-page">
       {/* -------------------- TOP NAVBAR -------------------- */}
@@ -457,10 +468,13 @@ useEffect(() => {
             </h4>
           </div>
           <div className="question-body">
-            <p className="question-text">{questions[current].question}</p>
+            {/* QUESTION */}
+            <p className="question-text">
+              {questions[current]?.question}
+            </p>
 
             <div className="options">
-              {questions[current].options.map((opt, i) => (
+              {questions[current]?.options?.map((opt, i) => (
                 <label key={i} className="option-item">
                   <input
                     type="radio"
@@ -472,6 +486,7 @@ useEffect(() => {
                 </label>
               ))}
             </div>
+
           </div>
 
           {/* ACTION BUTTONS */}
