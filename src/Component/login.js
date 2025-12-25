@@ -3,6 +3,9 @@ import "./login.css";
 import CryptoJS from "crypto-js";
 
 
+const API_BASE = "https://cbt-backend-production-8bf2.up.railway.app";
+
+
 function Login() {
   const [isRegister, setIsRegister] = useState(false);
   const [formData, setFormData] = useState({
@@ -62,7 +65,7 @@ function Login() {
       // 🔐 Password hash (SHA256)
       const hashedPassword = await hashPassword(formData.password);
 
-      const res = await fetch("http://localhost:8000/register-student", {
+      const res = await fetch(`${API_BASE}/register-student`, {
         method: "POST",
         body: new URLSearchParams({
           name: formData.name,
@@ -99,7 +102,7 @@ function Login() {
       // 🔐 Password hash (SHA256)
       const hashedPassword = await hashPassword(formData.password);
 
-      const res = await fetch("http://localhost:8000/login-student", {
+      const res = await fetch(`${API_BASE}/login-student`, {
         method: "POST",
         body: new URLSearchParams({
           email: formData.email,        // ➤ plain email

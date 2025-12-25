@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./ExamPage.css";
 import Calculator from "./Calculator";
+import { API_BASE } from "../config";
+
 
 
 function ExamPage() {
@@ -13,7 +15,15 @@ function ExamPage() {
   const [visited, setVisited] = useState({});
   const [time, setTime] = useState(180 * 60); // 3 hrs for mock
   const [showCalc, setShowCalc] = useState(false);
-  const studentId = localStorage.getItem("student_id") || "101"; // example
+  // const studentId = localStorage.getItem("student_id") || "101"; // example
+  const studentId = localStorage.getItem("student_id");
+
+  useEffect(() => {
+    if (!studentId) {
+      alert("Session expired. Please login again.");
+      window.location.href = "/login";
+    }
+  }, [studentId]);
 
 
 
@@ -24,7 +34,7 @@ function ExamPage() {
   useEffect(() => {
     async function loadQuestions() {
       try {
-        const response = await fetch("http://localhost:8000/questions/1");
+        const response = await fetch(`${API_BASE}/questions/1`);
         const data = await response.json();
 
         const formatted = data.map((q) => ({
@@ -78,7 +88,7 @@ function ExamPage() {
       const selectedOption = currentQuestion.options[selectedIndex];
 
       try {
-        await fetch("http://localhost:8000/save-answer", {
+        await fetch(`${API_BASE}/save-answer`, {
           method: "POST",
           body: new URLSearchParams({
             exam_id: "1",          // Static for now
@@ -117,7 +127,9 @@ function ExamPage() {
 
   const handleSubmit = async () => {
     try {
-      const res = await fetch("http://localhost:8000/calculate-marks/1/101");
+      const res = await fetch(
+        `${API_BASE}/calculate-marks/1/${studentId}`
+      );
       const result = await res.json();
       alert(`🎯 Exam Submitted!\nYour Score: ${result.total_marks}`);
     } catch (error) {

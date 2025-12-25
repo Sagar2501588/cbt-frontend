@@ -1,17 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./StudentDashboard.css";
 
 function StudentDashboard() {
   const [guidelineRead, setGuidelineRead] = useState(false);
+  const navigate = useNavigate();
+
+  // 🔒 Login guard: login ছাড়া dashboard দেখা যাবে না
+  useEffect(() => {
+    const studentId = localStorage.getItem("student_id");
+    if (!studentId) {
+      navigate("/login");
+    }
+  }, [navigate]);
 
   const handleStartExam = () => {
     if (!guidelineRead) {
       alert("Please read and accept the guidelines before starting the exam.");
       return;
     }
-    alert("Exam Started!");
-    // redirect to exam page
-    // navigate("/exam");
+
+    // ✅ Proper redirect to exam page
+    navigate("/exam");
   };
 
   return (
