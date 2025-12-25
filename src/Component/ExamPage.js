@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./ExamPage.css";
 import Calculator from "./Calculator";
 import { API_BASE } from "../config";
+import { useNavigate } from "react-router-dom"; // ✅ এই line টা ছিল না
 
 
 
