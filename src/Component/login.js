@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import "./login.css";
 import CryptoJS from "crypto-js";
+import { useNavigate } from "react-router-dom";
 
 
 const API_BASE = "https://cbt-backend-production-8bf2.up.railway.app";
+const navigate = useNavigate();
+
 
 
 function Login() {
@@ -118,7 +121,8 @@ function Login() {
         alert(`Welcome ${data.name}! Your ID: ${data.student_id}`);
         localStorage.setItem("student_id", data.student_id);
         localStorage.setItem("student_name", data.name);
-        window.location.href = "/exam";
+        // window.location.href = "/exam";
+        navigate("/dashboard");
       }
     } catch (error) {
       alert("Login failed!");

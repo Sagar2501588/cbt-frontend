@@ -25,6 +25,14 @@ function ExamPage() {
     }
   }, [studentId]);
 
+  useEffect(() => {
+  const studentId = localStorage.getItem("student_id");
+  if (!studentId) {
+    navigate("/login");
+  }
+}, [navigate]);
+
+
 
 
   useEffect(() => {

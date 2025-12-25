@@ -21,7 +21,7 @@ function StudentDashboard() {
     }
 
     // ✅ Proper redirect to exam page
-    navigate("/exam");
+    navigate("/ExamPage");
   };
 
   return (

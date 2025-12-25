@@ -1,18 +1,28 @@
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./Component/login";
 import StudentDashboard from "./Component/StudentDashboard";
 import ExamPage from "./Component/ExamPage";
 
 function App() {
   return (
-    <Routes>
-      {/* Default route → Login Page */}
-      <Route path="/" element={<Login />} />
+    <BrowserRouter>
+      <Routes>
+        {/* Default → Login */}
+        <Route path="/" element={<Navigate to="/login" />} />
 
-      {/* After login → Student Dashboard */}
-      <Route path="/StudentDashboard" element={<StudentDashboard />} />
-      <Route path="/ExamPage" element={<ExamPage />} />
-    </Routes>
+        {/* Login Page */}
+        <Route path="/login" element={<Login />} />
+
+        {/* Student Dashboard */}
+        <Route path="/dashboard" element={<StudentDashboard />} />
+
+        {/* Exam Page */}
+        <Route path="/exam" element={<ExamPage />} />
+
+        {/* Fallback (optional but recommended) */}
+        <Route path="*" element={<Navigate to="/login" />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
