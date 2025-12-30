@@ -340,6 +340,11 @@ function Login() {
 
   return (
     <div className="login-container">
+
+          <div className="login-header-banner">
+      Welcome to Haru Geomatics Mocktest
+    </div>
+    
       <div className="login-box">
         <h2>{isRegister ? "Student Registration" : "Student Login"}</h2>
 
