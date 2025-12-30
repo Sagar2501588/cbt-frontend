@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./StudentDashboard.css";
+import { API_BASE } from "../config";
 
 function StudentDashboard() {
-  const [guidelineRead, setGuidelineRead] = useState(false);
   const navigate = useNavigate();
+  const [guidelineRead, setGuidelineRead] = useState(false);
+  const [activeExam, setActiveExam] = useState(null);
 
   // 🔒 Login guard: login ছাড়া dashboard দেখা যাবে না
   useEffect(() => {
@@ -14,26 +16,59 @@ function StudentDashboard() {
     }
   }, [navigate]);
 
+  // 🟦 Prevent BACK button
+  useEffect(() => {
+    const disableBack = () => {
+      window.history.pushState(null, "", window.location.href);
+    };
+
+    disableBack();
+    window.addEventListener("popstate", disableBack);
+
+    return () => {
+      window.removeEventListener("popstate", disableBack);
+    };
+  }, []);
+
+  // 🟩 LOAD ACTIVE EXAM FROM BACKEND
+  useEffect(() => {
+    async function loadExam() {
+      try {
+        const res = await fetch(`${API_BASE}/active-exam`);
+        const data = await res.json();
+        setActiveExam(data);
+      } catch (err) {
+        console.error("❌ Failed to load active exam", err);
+      }
+    }
+
+    loadExam();
+  }, []);
+
+  // 👉 Start Exam Button
   const handleStartExam = () => {
     if (!guidelineRead) {
       alert("Please read and accept the guidelines before starting the exam.");
       return;
     }
 
-    // ✅ Proper redirect to exam page
-    navigate("/exam");
+    if (!activeExam?.exam_id) {
+      alert("No active exam is available.");
+      return;
+    }
+
+    // 🔥 Redirect to exam based on ACTIVE exam ID
+    navigate(`/exam/${activeExam.exam_id}`);
   };
 
   return (
     <div className="dashboard-container">
       <h2>Student Dashboard</h2>
 
+      {/* SHOW ACTIVE EXAM INFO */}
       <div className="exam-card">
-        <h3>CBT Model Examination</h3>
-        <p><strong>Subject:</strong> Computer Basics</p>
-        <p><strong>Duration:</strong> 60 minutes</p>
-        <p><strong>Total Questions:</strong> 50</p>
-        <p><strong>Status:</strong> Upcoming</p>
+        <h3>{activeExam?`Exam ID: ${activeExam.exam_id}`: "Loading active exam..."}</h3>
+        <p><strong>Status:</strong> Active Exam</p>
       </div>
 
       <div className="guideline-box">
@@ -41,8 +76,8 @@ function StudentDashboard() {
         <ul>
           <li>Read each question carefully before answering.</li>
           <li>Do not refresh or close the window during the exam.</li>
-          <li>Once you submit, the exam cannot be reattempted.</li>
-          <li>The timer will continue even if you minimize the tab.</li>
+          <li>Once submitted, exam cannot be reattempted.</li>
+          <li>The timer will continue even if the tab is minimized.</li>
         </ul>
 
         <label>

@@ -273,6 +273,8 @@ import "./ExamPage.css";
 import Calculator from "./Calculator";
 import { API_BASE } from "../config";
 import { useNavigate } from "react-router-dom"; // ✅ এই line টা ছিল না
+import { useParams } from "react-router-dom";
+
 
 
 
@@ -287,8 +289,77 @@ function ExamPage() {
   const [time, setTime] = useState(180 * 60); // 3 hrs for mock
   const [showCalc, setShowCalc] = useState(false);
   // const studentId = localStorage.getItem("student_id") || "101"; // example
-  const studentId = localStorage.getItem("student_id");
+  const studentId = (localStorage.getItem("student_id") || "").trim();
   const navigate = useNavigate(); // ✅ define
+  const studentName = localStorage.getItem("student_name") || "Student";
+  const { examId } = useParams();
+  const examIdNum = parseInt(examId);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedAnswers, setSelectedAnswers] = useState({});
+
+
+
+
+
+  const getInitials = (name) => {
+    if (!name) return "NA";
+
+    const parts = name.trim().split(" ");
+
+    if (parts.length === 1) {
+      return parts[0].charAt(0).toUpperCase();
+    }
+
+    return (
+      parts[0].charAt(0).toUpperCase() +
+      parts[1].charAt(0).toUpperCase()
+    );
+  };
+
+
+  const saveAnswer = async (questionId, selectedOption) => {
+    if (!studentId) {
+      console.error("❌ No student_id in localStorage");
+      return;
+    }
+
+    // Convert STD101 → 101 safely
+    // const numericStudentId = Number(studentId.replace(/\D/g, "")) || null;
+
+    // if (!numericStudentId) {
+    //   console.error("❌ student_id could not be converted:", studentId);
+    //   return;
+    // }
+
+    const formData = new FormData();
+    formData.append("exam_id", examIdNum);
+    formData.append("student_id", studentId.trim());  
+    formData.append("question_id", questionId);
+    formData.append("selected_option", selectedOption);
+
+    try {
+      const res = await fetch(`${API_BASE}/save-answer`, {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await res.json();
+      console.log("✅ Answer saved:", data);
+    } catch (err) {
+      console.error("❌ Save error:", err);
+    }
+  };
+
+
+
+
+
+
+
+
+
+
+
 
   //   useEffect(() => {
   //     if (!studentId) {
@@ -311,6 +382,35 @@ function ExamPage() {
     }
   }, [studentId, navigate]);
 
+  useEffect(() => {
+    const disableBack = () => {
+      window.history.pushState(null, "", window.location.href);
+    };
+
+    disableBack();
+    window.addEventListener("popstate", disableBack);
+
+    return () => {
+      window.removeEventListener("popstate", disableBack);
+    };
+  }, []);
+
+
+  useEffect(() => {
+    const confirmExit = (e) => {
+      e.preventDefault();
+      e.returnValue = ""; // Chrome requires returnValue
+    };
+
+    window.addEventListener("beforeunload", confirmExit);
+
+    return () => {
+      window.removeEventListener("beforeunload", confirmExit);
+    };
+  }, []);
+
+
+
 
 
 
@@ -322,7 +422,7 @@ function ExamPage() {
   useEffect(() => {
     async function loadQuestions() {
       try {
-        const response = await fetch(`${API_BASE}/questions/1`);
+        const response = await fetch(`${API_BASE}/questions/${examIdNum}`);
         const data = await response.json();
 
         const formatted = data.map((q) => ({
@@ -361,37 +461,69 @@ function ExamPage() {
       .padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
   };
 
-  const handleOptionSelect = (index) => {
-    setAnswers({ ...answers, [current]: index });
+  // const handleOptionSelect = (option) => {
+  //   const qId = questions[currentIndex].id;  // backend question id
+
+  //   setSelectedAnswers((prev) => ({
+  //     ...prev,
+  //     [qId]: option,
+  //   }));
+
+  //   // Call save API
+  //   saveAnswer(qId, option);
+  // };
+
+  const handleOptionSelect = (optionIndex) => {
+    const qId = questions[current].id;
+    const selectedOptionText = questions[current].options[optionIndex];
+
+    // Save answer to state (UI highlight)
+    setAnswers((prev) => ({
+      ...prev,
+      [current]: optionIndex,
+    }));
+
+    // Save to backend
+    saveAnswer(qId, selectedOptionText);
   };
 
-  const handleNext = async () => {
+
+  // const handleNext = async () => {
+  //   if (questions.length === 0) return;
+
+  //   const currentQuestion = questions[current];
+  //   const selectedIndex = answers[current];
+
+  //   // ✅ If the student selected an option, save it to DB
+  //   if (selectedIndex !== undefined) {
+  //     const selectedOption = currentQuestion.options[selectedIndex];
+
+  //     try {
+  //       await fetch(`${API_BASE}/save-answer`, {
+  //         method: "POST",
+  //         body: new URLSearchParams({
+  //           exam_id: "1",          // Static for now
+  //           student_id: studentId,
+  //           question_id: currentQuestion.id,
+  //           selected_option: selectedOption,
+  //         }),
+  //       });
+  //       console.log("✅ Answer saved to DB for question:", currentQuestion.id);
+  //     } catch (error) {
+  //       console.error("❌ Error saving answer:", error);
+  //     }
+  //   }
+
+  //   // 👉 Move to the next question
+  //   if (current < questions.length - 1) {
+  //     setCurrent(current + 1);
+  //   }
+  // };
+
+  const handleNext = () => {
     if (questions.length === 0) return;
 
-    const currentQuestion = questions[current];
-    const selectedIndex = answers[current];
-
-    // ✅ If the student selected an option, save it to DB
-    if (selectedIndex !== undefined) {
-      const selectedOption = currentQuestion.options[selectedIndex];
-
-      try {
-        await fetch(`${API_BASE}/save-answer`, {
-          method: "POST",
-          body: new URLSearchParams({
-            exam_id: "1",          // Static for now
-            student_id: studentId,
-            question_id: currentQuestion.id,
-            selected_option: selectedOption,
-          }),
-        });
-        console.log("✅ Answer saved to DB for question:", currentQuestion.id);
-      } catch (error) {
-        console.error("❌ Error saving answer:", error);
-      }
-    }
-
-    // 👉 Move to the next question
+    // Just move to next question (saving already handled in handleOptionSelect)
     if (current < questions.length - 1) {
       setCurrent(current + 1);
     }
@@ -401,6 +533,7 @@ function ExamPage() {
   const handlePrev = () => {
     if (current > 0) setCurrent(current - 1);
   };
+
 
   const handleReview = () => {
     setReview({ ...review, [current]: true });
@@ -413,18 +546,41 @@ function ExamPage() {
     setAnswers(updated);
   };
 
+  // const handleSubmit = async () => {
+  //   try {
+  //     const res = await fetch(
+  //       `${API_BASE}/calculate-marks/1/${studentId}`
+  //     );
+  //     const result = await res.json();
+  //     alert(`🎯 Exam Submitted!\nYour Score: ${result.total_marks}`);
+  //   } catch (error) {
+  //     alert("❌ Failed to calculate marks.");
+  //     console.error(error);
+  //   }
+  // };
+
   const handleSubmit = async () => {
     try {
-      const res = await fetch(
-        `${API_BASE}/calculate-marks/1/${studentId}`
+      const response = await fetch(
+        `${API_BASE}/calculate-marks/${examIdNum}/${studentId.trim()}`
       );
-      const result = await res.json();
-      alert(`🎯 Exam Submitted!\nYour Score: ${result.total_marks}`);
+
+      if (!response.ok) {
+        throw new Error("Failed to calculate marks");
+      }
+
+      const result = await response.json();
+      localStorage.setItem("last_score", result.total_marks);
+
+      window.onbeforeunload = null;
+      navigate("/result");
+
     } catch (error) {
-      alert("❌ Failed to calculate marks.");
-      console.error(error);
+      console.error("❌ Error submitting exam:", error);
     }
   };
+
+
 
 
   if (loading) return <h2>Loading...</h2>;
@@ -452,8 +608,8 @@ function ExamPage() {
         <div className="right-nav">
           <p className="timer">Time Left: {formatTime()}</p>
           <div className="profile">
-            <span className="user-avatar">JS</span>
-            <span className="user-name">John Smith</span>
+            <span className="user-avatar">{getInitials(studentName)}</span>
+            <span className="user-name">{studentName}</span>
           </div>
         </div>
       </div>
