@@ -31,6 +31,17 @@ function ExamPage() {
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [msqAnswers, setMsqAnswers] = useState({});  // MSQ checkbox
   const [natAnswers, setNatAnswers] = useState({});  // NAT input
+ 
+
+  useEffect(() => {
+    if (examIdNum) {
+      localStorage.setItem("exam_id", examIdNum);
+    }
+  }, [examIdNum]);
+
+ 
+
+
 
 
 
@@ -100,6 +111,7 @@ function ExamPage() {
   const saveAnswer = async (questionId, selectedOption) => {
     if (!studentId) {
       console.error("❌ No student_id in localStorage");
+      console.log("Saving answer:", questionId, selectedOption);
       return;
     }
 
@@ -270,9 +282,18 @@ function ExamPage() {
   //   saveAnswer(qId, selectedOptionText);
   // };
 
+  const goNext = () => {
+  if (current < questions.length - 1) {
+    setCurrent(current + 1);
+  }
+};
+
+
   const handleOptionSelect = (optionIndex) => {
     const qId = questions[current].id;
     const qType = questions[current].question_type;
+    // const qId = questions?.[current]?.id;
+        if (!qId) return;
 
     // A/B/C/D mapping
     const optLetter = ["A", "B", "C", "D"][optionIndex];
@@ -313,7 +334,7 @@ function ExamPage() {
 
   const handleNatChange = (value) => {
     const qId = questions[current].id;
-
+      if (!qId) return;
     setAnswers((prev) => ({
       ...prev,
       [current]: value,
@@ -463,9 +484,9 @@ function ExamPage() {
           </div>
           <div className="question-body">
             {/* QUESTION */}
-            <p className="question-text">
+            <div className="question-text">
               {renderMath(questions[current]?.question)}
-            </p>
+            </div>
 
             {/* ✅ Question Image (if available) */}
             {questions[current]?.question_image_url && (

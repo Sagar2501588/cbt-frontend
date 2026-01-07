@@ -5,6 +5,8 @@ export default function ResultPage() {
   const navigate = useNavigate();
   const [score, setScore] = useState(0);
   const [loading, setLoading] = useState(true);
+  const API_BASE = "https://cbt-backend-production-8bf2.up.railway.app";
+
 
   useEffect(() => {
     const exam_id = localStorage.getItem("exam_id");
@@ -15,7 +17,7 @@ export default function ResultPage() {
       return;
     }
 
-    fetch(`http://localhost:8000/calculate-marks/${exam_id}/${student_id}`)
+    fetch(`${API_BASE}/calculate-marks/${exam_id}/${student_id}`)
       .then((res) => res.json())
       .then((data) => {
         setScore(data.total_marks || 0);
