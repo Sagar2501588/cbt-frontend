@@ -1,16 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function ResultPage() {
+export default function ResultPage() {
   const navigate = useNavigate();
-  const score = localStorage.getItem("last_score") || 0;
-  const name = localStorage.getItem("student_name") || "Student";
+  const [score, setScore] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const exam_id = localStorage.getItem("exam_id");
+    const student_id = localStorage.getItem("student_id");
+
+    if (!exam_id || !student_id) {
+      navigate("/", { replace: true });
+      return;
+    }
+
+    fetch(`http://localhost:8000/calculate-marks/${exam_id}/${student_id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setScore(data.total_marks || 0);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Score fetch error:", err);
+        setLoading(false);
+      });
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.clear();
+    sessionStorage.clear();
+    navigate("/", { replace: true });
+  };
 
   return (
-    <div style={{ padding: "40px", textAlign: "center" }}>
+    <div style={{ textAlign: "center", marginTop: "100px" }}>
       <h1>🎉 Exam Completed!</h1>
-      <h2>{name}, your score is:</h2>
-      <h1 style={{ fontSize: "60px", color: "green" }}>{score}</h1>
+
+      <h2>Your score is:</h2>
+
+      {loading ? (
+        <h1 style={{ color: "gray" }}>Loading...</h1>
+      ) : (
+        <h1 style={{ color: "green", fontSize: "80px" }}>{score}</h1>
+      )}
 
       <button
         style={{
@@ -19,12 +52,10 @@ function ResultPage() {
           fontSize: "18px",
           cursor: "pointer",
         }}
-        onClick={() => navigate("/dashboard")}
+        onClick={handleLogout}
       >
-        Go to Dashboard
+        Logout
       </button>
     </div>
   );
 }
-
-export default ResultPage;

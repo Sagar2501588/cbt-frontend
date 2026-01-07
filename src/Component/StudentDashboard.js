@@ -8,6 +8,14 @@ function StudentDashboard() {
   const [guidelineRead, setGuidelineRead] = useState(false);
   const [activeExam, setActiveExam] = useState(null);
 
+  useEffect(() => {
+  const student = localStorage.getItem("student_id");
+  if (!student) {
+    navigate("/", { replace: true });
+  }
+}, []);
+
+
   // 🔒 Login guard: login ছাড়া dashboard দেখা যাবে না
   useEffect(() => {
     const studentId = localStorage.getItem("student_id");

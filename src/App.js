@@ -3,6 +3,7 @@ import Login from "./Component/login";
 import StudentDashboard from "./Component/StudentDashboard";
 import ExamPage from "./Component/ExamPage";
 import ResultPage from "./Component/ResultPage";
+import "katex/dist/katex.min.css";
 
 
 function App() {
