@@ -53,19 +53,32 @@ function StudentDashboard() {
   }, []);
 
   // Start Exam Handler
-  const handleStartExam = () => {
-    if (!guidelineRead) {
-      alert("Please read and accept the guidelines before starting the exam.");
-      return;
-    }
+const handleStartExam = async () => {
+  if (!guidelineRead) {
+    alert("Please read and accept the guidelines before starting the exam.");
+    return;
+  }
 
-    if (!activeExam?.exam_id) {
-      alert("No active exam is available.");
-      return;
-    }
+  if (!activeExam?.exam_id) {
+    alert("No active exam available.");
+    return;
+  }
 
-    navigate(`/exam/${activeExam.exam_id}`);
-  };
+  const studentId = localStorage.getItem("student_id");
+
+  // 1️⃣ Start Exam Attempt Register in backend
+  await fetch(`${API_BASE}/start-exam`, {
+    method: "POST",
+    body: new URLSearchParams({
+      exam_id: activeExam.exam_id,
+      student_id: studentId
+    })
+  });
+
+  // 2️⃣ Go to exam page
+  navigate(`/exam/${activeExam.exam_id}`);
+};
+
 
   return (
     <div className="dashboard-container">
