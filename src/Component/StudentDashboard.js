@@ -59,25 +59,27 @@ const handleStartExam = async () => {
     return;
   }
 
-  if (!activeExam?.exam_id) {
-    alert("No active exam available.");
-    return;
-  }
-
   const studentId = localStorage.getItem("student_id");
 
-  // 1️⃣ Start Exam Attempt Register in backend
-  await fetch(`${API_BASE}/start-exam`, {
+  const res = await fetch(`${API_BASE}/start-exam`, {
     method: "POST",
     body: new URLSearchParams({
       exam_id: activeExam.exam_id,
-      student_id: studentId
-    })
+      student_id: studentId,
+    }),
   });
 
-  // 2️⃣ Go to exam page
+  const data = await res.json();
+
+  if (data.error) {
+    alert(data.error);  // 🚫 Show backend block message
+    return;             // ❌ Do NOT navigate
+  }
+
+  // Exam allowed → enter exam
   navigate(`/exam/${activeExam.exam_id}`);
 };
+
 
 
   return (
