@@ -462,7 +462,7 @@ function ExamPage() {
       <div className="exam-navbar">
         <div className="left-nav">
           <h3>Graduate Aptitude Test (Mock)</h3>
-          <p>Organizing Institute: XYZ Institute</p>
+          <p>Organizing Institute: GALAXY of Geomatics</p>
         </div>
         <div className="right-nav">
           <p className="timer">Time Left: {formatTime()}</p>
