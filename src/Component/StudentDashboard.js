@@ -61,13 +61,25 @@ const handleStartExam = async () => {
 
   const studentId = localStorage.getItem("student_id");
 
+  // const res = await fetch(`${API_BASE}/start-exam`, {
+  //   method: "POST",
+  //   body: new URLSearchParams({
+  //     exam_id: activeExam.exam_id,
+  //     student_id: studentId,
+  //   }),
+  // });
+
   const res = await fetch(`${API_BASE}/start-exam`, {
-    method: "POST",
-    body: new URLSearchParams({
-      exam_id: activeExam.exam_id,
-      student_id: studentId,
-    }),
-  });
+  method: "POST",
+  headers: {
+    "Content-Type": "application/x-www-form-urlencoded",
+  },
+  body: new URLSearchParams({
+    exam_id: activeExam.exam_id.toString(),
+    student_id: studentId,
+  }),
+});
+
 
   const data = await res.json();
 
