@@ -31,7 +31,7 @@ function ExamPage() {
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [msqAnswers, setMsqAnswers] = useState({});  // MSQ checkbox
   const [natAnswers, setNatAnswers] = useState({});  // NAT input
- 
+
 
   useEffect(() => {
     if (examIdNum) {
@@ -39,7 +39,7 @@ function ExamPage() {
     }
   }, [examIdNum]);
 
- 
+
 
 
 
@@ -283,35 +283,71 @@ function ExamPage() {
   // };
 
   const goNext = () => {
-  if (current < questions.length - 1) {
-    setCurrent(current + 1);
-  }
-};
+    if (current < questions.length - 1) {
+      setCurrent(current + 1);
+    }
+  };
+
+
+  // const handleOptionSelect = (optionIndex) => {
+  //   const qId = questions[current].id;
+  //   const qType = questions[current].question_type;
+  //   // const qId = questions?.[current]?.id;
+  //       if (!qId) return;
+
+  //   // A/B/C/D mapping
+  //   const optLetter = ["A", "B", "C", "D"][optionIndex];
+
+  //   // ✅ MCQ → Single select
+  //   if (qType === "MCQ") {
+  //     setAnswers((prev) => ({
+  //       ...prev,
+  //       [current]: optLetter,
+  //     }));
+
+  //     // backend expects "A"/"B"/"C"/"D"
+  //     saveAnswer(qId, optLetter);
+  //   }
+
+  //   // ✅ MSQ → Multiple select (checkbox)
+  //   else if (qType === "MSQ") {
+  //     const prevSelected = answers[current] || []; // should be array now
+  //     let updated = [];
+
+  //     if (prevSelected.includes(optLetter)) {
+  //       updated = prevSelected.filter((x) => x !== optLetter);
+  //     } else {
+  //       updated = [...prevSelected, optLetter];
+  //     }
+
+  //     updated.sort(); // keep stable order
+
+  //     setAnswers((prev) => ({
+  //       ...prev,
+  //       [current]: updated,
+  //     }));
+
+  //     // backend expects "A,B,D"
+  //     saveAnswer(qId, updated.join(","));
+  //   }
+  // };
 
 
   const handleOptionSelect = (optionIndex) => {
     const qId = questions[current].id;
     const qType = questions[current].question_type;
-    // const qId = questions?.[current]?.id;
-        if (!qId) return;
+    if (!qId) return;
 
-    // A/B/C/D mapping
     const optLetter = ["A", "B", "C", "D"][optionIndex];
 
-    // ✅ MCQ → Single select
     if (qType === "MCQ") {
       setAnswers((prev) => ({
         ...prev,
-        [current]: optLetter,
+        [current]: optLetter,  // Save the selected answer
       }));
-
-      // backend expects "A"/"B"/"C"/"D"
-      saveAnswer(qId, optLetter);
-    }
-
-    // ✅ MSQ → Multiple select (checkbox)
-    else if (qType === "MSQ") {
-      const prevSelected = answers[current] || []; // should be array now
+      saveAnswer(qId, optLetter);  // Save the answer to the backend
+    } else if (qType === "MSQ") {
+      const prevSelected = answers[current] || [];
       let updated = [];
 
       if (prevSelected.includes(optLetter)) {
@@ -320,21 +356,19 @@ function ExamPage() {
         updated = [...prevSelected, optLetter];
       }
 
-      updated.sort(); // keep stable order
-
+      updated.sort();
       setAnswers((prev) => ({
         ...prev,
-        [current]: updated,
+        [current]: updated,  // Save the updated answer (multiple options)
       }));
 
-      // backend expects "A,B,D"
       saveAnswer(qId, updated.join(","));
     }
   };
 
   const handleNatChange = (value) => {
     const qId = questions[current].id;
-      if (!qId) return;
+    if (!qId) return;
     setAnswers((prev) => ({
       ...prev,
       [current]: value,
@@ -394,10 +428,16 @@ function ExamPage() {
   };
 
 
+  // const handleReview = () => {
+  //   setReview({ ...review, [current]: true });
+  //   handleNext();
+  // };
+
   const handleReview = () => {
-    setReview({ ...review, [current]: true });
-    handleNext();
+    setReview((prev) => ({ ...prev, [current]: true }));  // Mark the current question for review
+    handleNext();  // Move to the next question
   };
+
 
   const handleClear = () => {
     const updated = { ...answers };
@@ -594,7 +634,7 @@ function ExamPage() {
         <div className="exam-right">
           <h4 className="palette-title">Choose a Question</h4>
           <div className="palette-grid">
-            {questions.map((q, index) => {
+            {/* {questions.map((q, index) => {
               let cls = "palette-btn";
               if (!visited[index]) cls += " not-visited";
               else if (review[index] && answers[index] !== undefined)
@@ -612,7 +652,30 @@ function ExamPage() {
                   {index + 1}
                 </button>
               );
+            })} */}
+
+            {questions.map((q, index) => {
+              let cls = "palette-btn";
+
+              // Apply classes for visited, answered, and reviewed questions
+              if (!visited[index]) cls += " not-visited";
+              else if (review[index] && answers[index] !== undefined)
+                cls += " answered-review";  // Green for answered & reviewed
+              else if (review[index]) cls += " review";  // Yellow for reviewed only
+              else if (answers[index] !== undefined) cls += " answered";  // Light green for answered
+              else cls += " not-attempted";  // Red for not attempted
+
+              return (
+                <button
+                  key={index}
+                  className={cls}
+                  onClick={() => setCurrent(index)}
+                >
+                  {index + 1}
+                </button>
+              );
             })}
+
           </div>
 
 
