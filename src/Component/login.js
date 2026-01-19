@@ -219,7 +219,7 @@
 
 import React, { useState } from "react";
 import "./login.css";
-import CryptoJS from "crypto-js";
+// import CryptoJS from "crypto-js";
 import { useNavigate } from "react-router-dom";
 
 const API_BASE = "https://cbt-backend-production-8bf2.up.railway.app";
@@ -236,7 +236,7 @@ function Login() {
   });
 
   // 🔐 Optional (not used now, keep for future)
-  const SECRET_KEY = "Babi@2302";
+  // const SECRET_KEY = "Babi@2302";
   /*
   function encryptData(text) {
     const key = CryptoJS.SHA256(SECRET_KEY);
