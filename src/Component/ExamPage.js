@@ -115,6 +115,14 @@ function ExamPage() {
       return;
     }
 
+    // Convert STD101 → 101 safely
+    // const numericStudentId = Number(studentId.replace(/\D/g, "")) || null;
+
+    // if (!numericStudentId) {
+    //   console.error("❌ student_id could not be converted:", studentId);
+    //   return;
+    // }
+
     const formData = new FormData();
     formData.append("exam_id", examIdNum);
     formData.append("student_id", studentId.trim());
@@ -133,6 +141,32 @@ function ExamPage() {
       console.error("❌ Save error:", err);
     }
   };
+
+
+
+
+
+
+
+
+
+
+
+
+  //   useEffect(() => {
+  //     if (!studentId) {
+  //       alert("Session expired. Please login again.");
+  //       window.location.href = "/login";
+  //     }
+  //   }, [studentId]);
+
+  //   useEffect(() => {
+  //   const studentId = localStorage.getItem("student_id");
+  //   if (!studentId) {
+  //     navigate("/login");
+  //   }
+  // }, [navigate]);
+
 
   useEffect(() => {
     if (!studentId) {
@@ -222,6 +256,31 @@ function ExamPage() {
       .padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
   };
 
+  // const handleOptionSelect = (option) => {
+  //   const qId = questions[currentIndex].id;  // backend question id
+
+  //   setSelectedAnswers((prev) => ({
+  //     ...prev,
+  //     [qId]: option,
+  //   }));
+
+  //   // Call save API
+  //   saveAnswer(qId, option);
+  // };
+
+  // const handleOptionSelect = (optionIndex) => {
+  //   const qId = questions[current].id;
+  //   const selectedOptionText = questions[current].options[optionIndex];
+
+  //   // Save answer to state (UI highlight)
+  //   setAnswers((prev) => ({
+  //     ...prev,
+  //     [current]: optionIndex,
+  //   }));
+
+  //   // Save to backend
+  //   saveAnswer(qId, selectedOptionText);
+  // };
 
   const goNext = () => {
     if (current < questions.length - 1) {
@@ -230,7 +289,48 @@ function ExamPage() {
   };
 
 
+  // const handleOptionSelect = (optionIndex) => {
+  //   const qId = questions[current].id;
+  //   const qType = questions[current].question_type;
+  //   // const qId = questions?.[current]?.id;
+  //       if (!qId) return;
 
+  //   // A/B/C/D mapping
+  //   const optLetter = ["A", "B", "C", "D"][optionIndex];
+
+  //   // ✅ MCQ → Single select
+  //   if (qType === "MCQ") {
+  //     setAnswers((prev) => ({
+  //       ...prev,
+  //       [current]: optLetter,
+  //     }));
+
+  //     // backend expects "A"/"B"/"C"/"D"
+  //     saveAnswer(qId, optLetter);
+  //   }
+
+  //   // ✅ MSQ → Multiple select (checkbox)
+  //   else if (qType === "MSQ") {
+  //     const prevSelected = answers[current] || []; // should be array now
+  //     let updated = [];
+
+  //     if (prevSelected.includes(optLetter)) {
+  //       updated = prevSelected.filter((x) => x !== optLetter);
+  //     } else {
+  //       updated = [...prevSelected, optLetter];
+  //     }
+
+  //     updated.sort(); // keep stable order
+
+  //     setAnswers((prev) => ({
+  //       ...prev,
+  //       [current]: updated,
+  //     }));
+
+  //     // backend expects "A,B,D"
+  //     saveAnswer(qId, updated.join(","));
+  //   }
+  // };
 
 
   const handleOptionSelect = (optionIndex) => {
@@ -280,6 +380,39 @@ function ExamPage() {
 
 
 
+
+  // const handleNext = async () => {
+  //   if (questions.length === 0) return;
+
+  //   const currentQuestion = questions[current];
+  //   const selectedIndex = answers[current];
+
+  //   // ✅ If the student selected an option, save it to DB
+  //   if (selectedIndex !== undefined) {
+  //     const selectedOption = currentQuestion.options[selectedIndex];
+
+  //     try {
+  //       await fetch(`${API_BASE}/save-answer`, {
+  //         method: "POST",
+  //         body: new URLSearchParams({
+  //           exam_id: "1",          // Static for now
+  //           student_id: studentId,
+  //           question_id: currentQuestion.id,
+  //           selected_option: selectedOption,
+  //         }),
+  //       });
+  //       console.log("✅ Answer saved to DB for question:", currentQuestion.id);
+  //     } catch (error) {
+  //       console.error("❌ Error saving answer:", error);
+  //     }
+  //   }
+
+  //   // 👉 Move to the next question
+  //   if (current < questions.length - 1) {
+  //     setCurrent(current + 1);
+  //   }
+  // };
+
   const handleNext = () => {
     if (questions.length === 0) return;
 
@@ -295,6 +428,10 @@ function ExamPage() {
   };
 
 
+  // const handleReview = () => {
+  //   setReview({ ...review, [current]: true });
+  //   handleNext();
+  // };
 
   const handleReview = () => {
     setReview((prev) => ({ ...prev, [current]: true }));  // Mark the current question for review
@@ -308,7 +445,18 @@ function ExamPage() {
     setAnswers(updated);
   };
 
-
+  // const handleSubmit = async () => {
+  //   try {
+  //     const res = await fetch(
+  //       `${API_BASE}/calculate-marks/1/${studentId}`
+  //     );
+  //     const result = await res.json();
+  //     alert(`🎯 Exam Submitted!\nYour Score: ${result.total_marks}`);
+  //   } catch (error) {
+  //     alert("❌ Failed to calculate marks.");
+  //     console.error(error);
+  //   }
+  // };
 
   const handleSubmit = async () => {
     try {
@@ -486,6 +634,26 @@ function ExamPage() {
         <div className="exam-right">
           <h4 className="palette-title">Choose a Question</h4>
           <div className="palette-grid">
+            {/* {questions.map((q, index) => {
+              let cls = "palette-btn";
+              if (!visited[index]) cls += " not-visited";
+              else if (review[index] && answers[index] !== undefined)
+                cls += " answered-review";
+              else if (review[index]) cls += " review";
+              else if (answers[index] !== undefined) cls += " answered";
+              else cls += " not-attempted";
+
+              return (
+                <button
+                  key={index}
+                  className={cls}
+                  onClick={() => setCurrent(index)}
+                >
+                  {index + 1}
+                </button>
+              );
+            })} */}
+
             {questions.map((q, index) => {
               let cls = "palette-btn";
 
