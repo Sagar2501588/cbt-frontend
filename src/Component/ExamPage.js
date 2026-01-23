@@ -40,6 +40,14 @@ function ExamPage() {
   }, [examIdNum]);
 
 
+  const isValidImageUrl = (url) => {
+  if (!url) return false;
+  const clean = String(url).trim();
+  return clean.startsWith("http://") || clean.startsWith("https://");
+};
+
+
+
 
 
 
@@ -514,177 +522,142 @@ function ExamPage() {
       </div>
 
       {/* -------------------- MAIN EXAM LAYOUT -------------------- */}
-      <div className="exam-layout">
-        {/* LEFT: QUESTIONS */}
-        <div className="exam-left">
-          <div className="question-header">
-            <h4>
-              Question No. {current + 1} <span>({questions[current]?.question_type})</span>
-            </h4>
-          </div>
-          <div className="question-body">
-            {/* QUESTION */}
-            <div className="question-text">
-              {renderMath(questions[current]?.question)}
-            </div>
+<div className="exam-layout">
+  {/* LEFT: QUESTIONS */}
+  <div className="exam-left">
+    <div className="question-header">
+      <h4>
+        Question No. {current + 1}{" "}
+        <span>({questions[current]?.question_type})</span>
+      </h4>
+    </div>
 
-            {/* ✅ Question Image (if available) */}
-            {questions[current]?.question_image_url && (
-              <div style={{ marginTop: "15px", textAlign: "center" }}>
-                <img
-                  src={`${questions[current].question_image_url}?v=${questions[current].id}`}
-                  alt="question"
-                  style={{
-                    maxWidth: "100%",
-                    maxHeight: "350px",
-                    borderRadius: "10px",
-                    border: "1px solid #dce3ec",
-                  }}
-                  onError={(e) => {
-                    e.target.style.display = "none";
-                  }}
-                />
-              </div>
-            )}
-
-
-            <div className="options">
-
-              {/* ✅ MCQ */}
-              {questions[current]?.question_type === "MCQ" && (
-                ["A", "B", "C", "D"].map((letter, i) => (
-                  <label key={i} className="option-item">
-                    <input
-                      type="radio"
-                      name={`q${current}`}
-                      checked={answers[current] === letter}
-                      onChange={() => handleOptionSelect(i)}
-                    />
-                    {renderContent(questions[current]?.options[i])}
-
-                  </label>
-                ))
-              )}
-
-              {/* ✅ MSQ */}
-              {questions[current]?.question_type === "MSQ" && (
-                ["A", "B", "C", "D"].map((letter, i) => (
-                  <label key={i} className="option-item">
-                    <input
-                      type="checkbox"
-                      checked={(answers[current] || []).includes(letter)}
-                      onChange={() => handleOptionSelect(i)}
-                    />
-                    {renderContent(questions[current]?.options[i])}
-                  </label>
-                ))
-              )}
-
-              {/* ✅ NAT */}
-              {questions[current]?.question_type === "NAT" && (
-                <div style={{ marginTop: "15px" }}>
-                  <input
-                    type="text"
-                    value={answers[current] || ""}
-                    onChange={(e) => handleNatChange(e.target.value)}
-                    placeholder="Enter your answer"
-                    style={{
-                      width: "90%",
-                      padding: "12px",
-                      borderRadius: "6px",
-                      border: "1px solid #dce3ec",
-                      fontSize: "16px"
-                    }}
-                  />
-                </div>
-              )}
-
-            </div>
-
-
-          </div>
-
-          {/* ACTION BUTTONS */}
-          <div className="action-buttons">
-            <button onClick={handleReview} className="review-btn">
-              Mark for Review & Next
-            </button>
-            <button onClick={handleClear} className="clear-btn">
-              Clear Response
-            </button>
-            <button className="save-next" onClick={handleNext}>
-              Save & Next
-            </button>
-          </div>
-          <div className={`calculator-area ${showCalc ? "open" : ""}`}>
-            <button
-              className="toggle-calc-btn"
-              onClick={() => setShowCalc(!showCalc)}
-            >
-              {showCalc ? "Hide Calculator" : "Show Calculator"}
-            </button>
-
-            {showCalc && <Calculator />}
-          </div>
-
-
-        </div>
-
-        {/* RIGHT: QUESTION PALETTE */}
-        <div className="exam-right">
-          <h4 className="palette-title">Choose a Question</h4>
-          <div className="palette-grid">
-            {/* {questions.map((q, index) => {
-              let cls = "palette-btn";
-              if (!visited[index]) cls += " not-visited";
-              else if (review[index] && answers[index] !== undefined)
-                cls += " answered-review";
-              else if (review[index]) cls += " review";
-              else if (answers[index] !== undefined) cls += " answered";
-              else cls += " not-attempted";
-
-              return (
-                <button
-                  key={index}
-                  className={cls}
-                  onClick={() => setCurrent(index)}
-                >
-                  {index + 1}
-                </button>
-              );
-            })} */}
-
-            {questions.map((q, index) => {
-              let cls = "palette-btn";
-
-              // Apply classes for visited, answered, and reviewed questions
-              if (!visited[index]) cls += " not-visited";
-              else if (review[index] && answers[index] !== undefined)
-                cls += " answered-review";  // Green for answered & reviewed
-              else if (review[index]) cls += " review";  // Yellow for reviewed only
-              else if (answers[index] !== undefined) cls += " answered";  // Light green for answered
-              else cls += " not-attempted";  // Red for not attempted
-
-              return (
-                <button
-                  key={index}
-                  className={cls}
-                  onClick={() => setCurrent(index)}
-                >
-                  {index + 1}
-                </button>
-              );
-            })}
-
-          </div>
-
-
-
-          <button className="submit-btn" onClick={handleSubmit}>
-            Submit
-          </button>
-        </div>
+    <div className="question-body">
+      {/* QUESTION TEXT */}
+      <div className="question-text">
+        {renderMath(questions[current]?.question)}
       </div>
+
+      {/* ✅ QUESTION IMAGE (ONLY IF VALID URL EXISTS) */}
+      {isValidImageUrl(questions[current]?.question_image_url) && (
+        <div style={{ marginTop: "15px", textAlign: "center" }}>
+          <img
+            src={`${questions[current].question_image_url.trim()}?v=${questions[current].id}`}
+            alt="question"
+            style={{
+              maxWidth: "100%",
+              maxHeight: "350px",
+              borderRadius: "10px",
+              border: "1px solid #dce3ec",
+            }}
+          />
+        </div>
+      )}
+
+      <div className="options">
+        {/* ✅ MCQ */}
+        {questions[current]?.question_type === "MCQ" &&
+          ["A", "B", "C", "D"].map((letter, i) => (
+            <label key={i} className="option-item">
+              <input
+                type="radio"
+                name={`q${current}`}
+                checked={answers[current] === letter}
+                onChange={() => handleOptionSelect(i)}
+              />
+              {renderContent(questions[current]?.options[i])}
+            </label>
+          ))}
+
+        {/* ✅ MSQ */}
+        {questions[current]?.question_type === "MSQ" &&
+          ["A", "B", "C", "D"].map((letter, i) => (
+            <label key={i} className="option-item">
+              <input
+                type="checkbox"
+                checked={(answers[current] || []).includes(letter)}
+                onChange={() => handleOptionSelect(i)}
+              />
+              {renderContent(questions[current]?.options[i])}
+            </label>
+          ))}
+
+        {/* ✅ NAT */}
+        {questions[current]?.question_type === "NAT" && (
+          <div style={{ marginTop: "15px" }}>
+            <input
+              type="text"
+              value={answers[current] || ""}
+              onChange={(e) => handleNatChange(e.target.value)}
+              placeholder="Enter your answer"
+              style={{
+                width: "90%",
+                padding: "12px",
+                borderRadius: "6px",
+                border: "1px solid #dce3ec",
+                fontSize: "16px",
+              }}
+            />
+          </div>
+        )}
+      </div>
+    </div>
+
+    {/* ACTION BUTTONS */}
+    <div className="action-buttons">
+      <button onClick={handleReview} className="review-btn">
+        Mark for Review & Next
+      </button>
+      <button onClick={handleClear} className="clear-btn">
+        Clear Response
+      </button>
+      <button className="save-next" onClick={handleNext}>
+        Save & Next
+      </button>
+    </div>
+
+    <div className={`calculator-area ${showCalc ? "open" : ""}`}>
+      <button
+        className="toggle-calc-btn"
+        onClick={() => setShowCalc(!showCalc)}
+      >
+        {showCalc ? "Hide Calculator" : "Show Calculator"}
+      </button>
+      {showCalc && <Calculator />}
+    </div>
+  </div>
+
+  {/* RIGHT: QUESTION PALETTE */}
+  <div className="exam-right">
+    <h4 className="palette-title">Choose a Question</h4>
+    <div className="palette-grid">
+      {questions.map((q, index) => {
+        let cls = "palette-btn";
+        if (!visited[index]) cls += " not-visited";
+        else if (review[index] && answers[index] !== undefined)
+          cls += " answered-review";
+        else if (review[index]) cls += " review";
+        else if (answers[index] !== undefined) cls += " answered";
+        else cls += " not-attempted";
+
+        return (
+          <button
+            key={index}
+            className={cls}
+            onClick={() => setCurrent(index)}
+          >
+            {index + 1}
+          </button>
+        );
+      })}
+    </div>
+
+    <button className="submit-btn" onClick={handleSubmit}>
+      Submit
+    </button>
+  </div>
+</div>
+
     </div>
   );
 }
