@@ -532,7 +532,7 @@ function ExamPage() {
             {questions[current]?.question_image_url && (
               <div style={{ marginTop: "15px", textAlign: "center" }}>
                 <img
-                  src={questions[current].question_image_url}
+                  src={`${questions[current].question_image_url}?v=${questions[current].id}`}
                   alt="question"
                   style={{
                     maxWidth: "100%",
