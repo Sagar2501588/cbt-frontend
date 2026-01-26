@@ -271,38 +271,81 @@ function Login() {
   // --------------------------
   // Register Student
   // --------------------------
+  // const handleRegister = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const hashedPassword = await hashPassword(formData.password);
+
+  //     const res = await fetch(`${API_BASE}/register-student`, {
+  //       method: "POST",
+  //       body: new URLSearchParams({
+  //         name: formData.name,
+  //         mobile: formData.mobile,
+  //         email: formData.email,
+  //         password: hashedPassword,
+  //       }),
+  //     });
+
+  //     const data = await res.json();
+
+  //     if (data.error) {
+  //       alert(data.error);
+  //       return;
+  //     }
+
+  //     alert(data.message);
+  //     localStorage.setItem("student_id", data.student_id);
+  //     localStorage.setItem("student_name", formData.name);
+
+  //     setIsRegister(false); // back to login
+  //   } catch (error) {
+  //     console.error(error);
+  //     alert("Registration failed!");
+  //   }
+  // };
+
   const handleRegister = async (e) => {
-    e.preventDefault();
-    try {
-      const hashedPassword = await hashPassword(formData.password);
+  e.preventDefault();
 
-      const res = await fetch(`${API_BASE}/register-student`, {
-        method: "POST",
-        body: new URLSearchParams({
-          name: formData.name,
-          mobile: formData.mobile,
-          email: formData.email,
-          password: hashedPassword,
-        }),
-      });
+  try {
+    // 🔐 Hash password
+    const hashedPassword = await hashPassword(formData.password);
 
-      const data = await res.json();
+    const res = await fetch(`${API_BASE}/register-student`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded", // ✅ IMPORTANT
+      },
+      body: new URLSearchParams({
+        name: formData.name,
+        mobile: formData.mobile,
+        email: formData.email,
+        password: hashedPassword,
+      }),
+    });
 
-      if (data.error) {
-        alert(data.error);
-        return;
-      }
+    // 🔍 Parse response
+    const data = await res.json();
+    console.log("REGISTER RESPONSE:", data); // ✅ DEBUG
 
-      alert(data.message);
-      localStorage.setItem("student_id", data.student_id);
-      localStorage.setItem("student_name", formData.name);
-
-      setIsRegister(false); // back to login
-    } catch (error) {
-      console.error(error);
-      alert("Registration failed!");
+    // ❌ Backend error handling
+    if (data.status === "error") {
+      alert(data.message); // real backend message
+      return;
     }
-  };
+
+    // ✅ Success
+    alert(data.message);
+    localStorage.setItem("student_id", data.student_id);
+    localStorage.setItem("student_name", formData.name);
+
+    setIsRegister(false); // back to login
+  } catch (err) {
+    console.error("REGISTER EXCEPTION:", err);
+    alert("Registration failed (network / server error)");
+  }
+};
+
 
   // --------------------------
   // Login Student
