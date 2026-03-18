@@ -1,0 +1,197 @@
+/* ================= WRAPPER ================= */
+
+.courseWrapper {
+  padding: 30px 20px;
+  background: #f4f6f9;
+  min-height: 100vh;
+
+  max-width: 1400px;     /* Fixed centered layout */
+  margin: 0 auto;
+}
+
+
+/* ================= TOP BUTTONS ================= */
+
+.topButtons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.navButton {
+  padding: 8px 16px;
+  background: #444;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.navButton:hover {
+  background: #222;
+}
+
+.dashboardBtn {
+  background: darkred;
+}
+
+.dashboardBtn:hover {
+  background: #a00000;
+}
+
+
+/* ================= HEADER ================= */
+
+.courseHeader {
+  margin-bottom: 25px;
+}
+
+.courseHeader h2 {
+  margin-bottom: 10px;
+  font-size: 22px;
+}
+
+.progressBar {
+  width: 100%;
+  height: 8px;
+  background: #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progressFill {
+  width: 40%;
+  height: 100%;
+  background: darkred;
+  border-radius: 5px;
+}
+
+
+/* ================= MAIN LAYOUT ================= */
+
+.courseContainer {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+
+/* ================= SIDEBAR ================= */
+
+.curriculumSection {
+  flex: 0 0 320px;          /* Fixed width sidebar */
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.curriculumSection h3 {
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.lessonItem {
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #f9f9f9;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.lessonItem:hover {
+  background: #eee;
+}
+
+.activeLesson {
+  background: darkred;
+  color: white;
+}
+
+
+/* ================= VIDEO SECTION ================= */
+
+.videoSection {
+  flex: 1;                 /* Remaining width */
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  min-height: 550px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.videoPlayer {
+  width: 100%;
+  height: 520px;          /* Fixed height */
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.placeholder {
+  height: 520px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  font-size: 16px;
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1200px) {
+  .videoPlayer {
+    height: 450px;
+  }
+}
+
+@media (max-width: 992px) {
+  .courseContainer {
+    flex-direction: column;
+  }
+
+  .curriculumSection {
+    flex: none;
+    width: 100%;
+  }
+
+  .videoSection {
+    width: 100%;
+    min-height: auto;
+  }
+
+  .videoPlayer {
+    height: 350px;
+  }
+
+  .placeholder {
+    height: 350px;
+  }
+}
+
+@media (max-width: 576px) {
+  .courseWrapper {
+    padding: 20px 15px;
+  }
+
+  .videoPlayer {
+    height: 250px;
+  }
+
+  .placeholder {
+    height: 250px;
+  }
+
+  .navButton {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+}

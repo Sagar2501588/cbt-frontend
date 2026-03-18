@@ -1,263 +1,33 @@
-// import React, { useState } from "react";
-// import "./login.css";
-// import CryptoJS from "crypto-js";
-// import { useNavigate } from "react-router-dom";
-
-
-// const API_BASE = "https://cbt-backend-production-8bf2.up.railway.app";
-
-
-
-
-// function Login() {
-//   const [isRegister, setIsRegister] = useState(false);
-//   const [formData, setFormData] = useState({
-//     name: "",
-//     mobile: "",
-//     email: "",
-//     password: "",
-//   });
-
-//   const SECRET_KEY = "Babi@2302";
-//   const navigate = useNavigate();
-
-//   function encryptData(text) {
-//     const key = CryptoJS.SHA256(SECRET_KEY);
-//     const iv = CryptoJS.lib.WordArray.random(16);
-
-//     const encrypted = CryptoJS.AES.encrypt(text, key, {
-//       iv: iv,
-//       mode: CryptoJS.mode.CBC,
-//       padding: CryptoJS.pad.Pkcs7
-//     });
-
-//     // Convert ciphertext WordArray → raw bytes
-//     const ciphertext = CryptoJS.enc.Base64.parse(encrypted.toString()).words;
-//     const ctBytes = CryptoJS.lib.WordArray.create(ciphertext, encrypted.ciphertext.sigBytes);
-
-//     // Build final (IV + ciphertext) in raw bytes
-//     const combined = iv.clone().concat(ctBytes);
-
-//     return CryptoJS.enc.Base64.stringify(combined);
-//   }
-
-
-
-
-//   const handleChange = (e) => {
-//     setFormData({ ...formData, [e.target.name]: e.target.value });
-//   };
-
-
-//   async function hashPassword(password) {
-//     const encoder = new TextEncoder();
-//     const data = encoder.encode(password);
-//     const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-
-//     return Array.from(new Uint8Array(hashBuffer))
-//       .map(b => b.toString(16).padStart(2, "0"))
-//       .join("");
-//   }
-
-
-//   // --------------------------
-//   // Register Student
-//   // --------------------------
-//   const handleRegister = async (e) => {
-//     e.preventDefault();
-//     try {
-//       // 🔐 Password hash (SHA256)
-//       const hashedPassword = await hashPassword(formData.password);
-
-//       const res = await fetch(`${API_BASE}/register-student`, {
-//         method: "POST",
-//         body: new URLSearchParams({
-//           name: formData.name,
-//           mobile: formData.mobile,   // ➤ plain text mobile
-//           email: formData.email,     // ➤ plain text email
-//           password: hashedPassword,  // ➤ hashed password
-//         }),
-//       });
-
-//       const data = await res.json();
-//       if (data.error) {
-//         alert(data.error);
-//       } else {
-//         alert(`${data.message}`);
-//         localStorage.setItem("student_id", data.student_id);
-//         localStorage.setItem("student_name", formData.name);
-//         setIsRegister(false);
-//       }
-//     } catch (error) {
-//       alert("Registration failed!");
-//       console.error(error);
-//     }
-//   };
-
-
-
-
-//   // --------------------------
-//   // Login Student
-//   // --------------------------
-//   const handleLogin = async (e) => {
-//     e.preventDefault();
-//     try {
-//       // 🔐 Password hash (SHA256)
-//       const hashedPassword = await hashPassword(formData.password);
-
-//       const res = await fetch(`${API_BASE}/login-student`, {
-//         method: "POST",
-//         body: new URLSearchParams({
-//           email: formData.email,        // ➤ plain email
-//           password: hashedPassword,     // ➤ hashed password
-//         }),
-//       });
-
-//       const data = await res.json();
-
-//       if (data.error) {
-//         alert(data.error);
-//       } else {
-//         alert(`Welcome ${data.name}! Your ID: ${data.student_id}`);
-//         localStorage.setItem("student_id", data.student_id);
-//         localStorage.setItem("student_name", data.name);
-//         // window.location.href = "/exam";
-//         navigate("/dashboard");
-//       }
-//     } catch (error) {
-//       alert("Login failed!");
-//       console.error(error);
-//     }
-//   };
-
-
-
-
-//   return (
-//     <div className="login-container">
-//       <div className="login-box">
-//         <h2>{isRegister ? "Student Registration" : "Student Login"}</h2>
-
-//         {isRegister ? (
-//           <form onSubmit={handleRegister}>
-//             <input
-//               type="text"
-//               name="name"
-//               placeholder="Full Name"
-//               value={formData.name}
-//               onChange={handleChange}
-//               required
-//             />
-//             <input
-//               type="text"
-//               name="mobile"
-//               placeholder="Mobile Number"
-//               value={formData.mobile}
-//               onChange={handleChange}
-//               required
-//             />
-//             <input
-//               type="email"
-//               name="email"
-//               placeholder="Email ID"
-//               value={formData.email}
-//               onChange={handleChange}
-//               required
-//             />
-//             <input
-//               type="password"
-//               name="password"
-//               placeholder="Create Password"
-//               value={formData.password}
-//               onChange={handleChange}
-//               required
-//             />
-//             <button type="submit">Register</button>
-//             <p>
-//               Already have an account?{" "}
-//               <span className="toggle-link" onClick={() => setIsRegister(false)}>
-//                 Login
-//               </span>
-//             </p>
-//           </form>
-//         ) : (
-//           <form onSubmit={handleLogin}>
-//             <input
-//               type="email"
-//               name="email"
-//               placeholder="Enter Email"
-//               value={formData.email}
-//               onChange={handleChange}
-//               required
-//             />
-//             <input
-//               type="password"
-//               name="password"
-//               placeholder="Enter Password"
-//               value={formData.password}
-//               onChange={handleChange}
-//               required
-//             />
-//             <button type="submit">Login</button>
-//             <p>
-//               New user?{" "}
-//               <span className="toggle-link" onClick={() => setIsRegister(true)}>
-//                 Register here
-//               </span>
-//             </p>
-//           </form>
-//         )}
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Login;
-
-
-
 import React, { useState } from "react";
 import "./login.css";
-// import CryptoJS from "crypto-js";
 import { useNavigate } from "react-router-dom";
 
-const API_BASE = "https://cbt-backend-production-8bf2.up.railway.app";
+const API_BASE = "http://127.0.0.1:8000";
 
 function Login() {
   const navigate = useNavigate();
 
-  const [isRegister, setIsRegister] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [isLogin, setIsLogin] = useState(false);
+
+  const [otpSent, setOtpSent] = useState(false);
+  const [mobileVerified, setMobileVerified] = useState(false);
+
   const [formData, setFormData] = useState({
     name: "",
     mobile: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
 
-  // 🔐 Optional (not used now, keep for future)
-  // const SECRET_KEY = "Babi@2302";
-  /*
-  function encryptData(text) {
-    const key = CryptoJS.SHA256(SECRET_KEY);
-    const iv = CryptoJS.lib.WordArray.random(16);
-
-    const encrypted = CryptoJS.AES.encrypt(text, key, {
-      iv,
-      mode: CryptoJS.mode.CBC,
-      padding: CryptoJS.pad.Pkcs7,
-    });
-
-    const combined = iv.clone().concat(encrypted.ciphertext);
-    return CryptoJS.enc.Base64.stringify(combined);
-  }
-  */
+  const [otp, setOtp] = useState("");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // 🔐 Password hash (SHA-256)
   async function hashPassword(password) {
     const encoder = new TextEncoder();
     const data = encoder.encode(password);
@@ -268,96 +38,167 @@ function Login() {
       .join("");
   }
 
-  // --------------------------
-  // Register Student
-  // --------------------------
-  // const handleRegister = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const hashedPassword = await hashPassword(formData.password);
+  // ================= SEND OTP =================
+const handleSendOtp = async () => {
+  if (!formData.mobile) {
+    setError("Enter mobile number first.");
+    return;
+  }
 
-  //     const res = await fetch(`${API_BASE}/register-student`, {
-  //       method: "POST",
-  //       body: new URLSearchParams({
-  //         name: formData.name,
-  //         mobile: formData.mobile,
-  //         email: formData.email,
-  //         password: hashedPassword,
-  //       }),
-  //     });
-
-  //     const data = await res.json();
-
-  //     if (data.error) {
-  //       alert(data.error);
-  //       return;
-  //     }
-
-  //     alert(data.message);
-  //     localStorage.setItem("student_id", data.student_id);
-  //     localStorage.setItem("student_name", formData.name);
-
-  //     setIsRegister(false); // back to login
-  //   } catch (error) {
-  //     console.error(error);
-  //     alert("Registration failed!");
-  //   }
-  // };
-
-  const handleRegister = async (e) => {
-  e.preventDefault();
+  setError("");
+  setLoading(true);
 
   try {
-    // 🔐 Hash password
-    const hashedPassword = await hashPassword(formData.password);
-
-    const res = await fetch(`${API_BASE}/register-student`, {
+    const res = await fetch(`${API_BASE}/auth/send-otp`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded", // ✅ IMPORTANT
+        "Content-Type": "application/x-www-form-urlencoded",
       },
       body: new URLSearchParams({
-        name: formData.name,
         mobile: formData.mobile,
-        email: formData.email,
-        password: hashedPassword,
       }),
     });
 
-    // 🔍 Parse response
     const data = await res.json();
-    console.log("REGISTER RESPONSE:", data); // ✅ DEBUG
 
-    // ❌ Backend error handling
     if (data.status === "error") {
-      alert(data.message); // real backend message
+      setError(data.message);
+      setLoading(false);
       return;
     }
 
-    // ✅ Success
-    alert(data.message);
-    localStorage.setItem("student_id", data.student_id);
-    localStorage.setItem("student_name", formData.name);
+    setOtpSent(true);
 
-    setIsRegister(false); // back to login
   } catch (err) {
-    console.error("REGISTER EXCEPTION:", err);
-    alert("Registration failed (network / server error)");
+    setError("Failed to send OTP.");
   }
+
+  setLoading(false);
 };
 
+// ================= VERIFY OTP =================
+const handleVerifyOtp = async () => {
+  if (!otp) {
+    setError("Enter OTP.");
+    return;
+  }
 
-  // --------------------------
-  // Login Student
-  // --------------------------
+  setError("");
+  setLoading(true);
+
+  try {
+    const res = await fetch(`${API_BASE}/auth/verify-mobile`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({
+        mobile: formData.mobile,
+        otp: otp,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (data.status === "error") {
+      setError(data.message);
+      setLoading(false);
+      return;
+    }
+
+    setMobileVerified(true);
+
+  } catch (err) {
+    setError("OTP verification failed.");
+  }
+
+  setLoading(false);
+};
+
+  // ================= LOGIN =================
   const handleLogin = async (e) => {
     e.preventDefault();
+    setError("");
+
+    if (!formData.email || !formData.password) {
+      setError("Enter email and password.");
+      return;
+    }
+
     try {
+      setLoading(true);
+
       const hashedPassword = await hashPassword(formData.password);
 
       const res = await fetch(`${API_BASE}/login-student`, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
         body: new URLSearchParams({
+          email: formData.email,
+          password: hashedPassword,
+        }),
+      });
+
+      const data = await res.json(); // ✅ আগে data define হবে
+
+      if (data.status === "error") {
+        setError(data.message || "Login failed.");
+        setLoading(false);
+        return;
+      }
+
+      // ✅ এখন safe ভাবে localStorage ব্যবহার
+      localStorage.setItem("student_id", data.student_id);
+      localStorage.setItem("student_name", data.name);
+
+      const pendingCourse = localStorage.getItem("pending_course");
+
+      if (pendingCourse) {
+        localStorage.removeItem("pending_course");
+        navigate(`/payment/${pendingCourse}`);
+      } else {
+        navigate("/dashboard");
+      }
+
+      navigate("/dashboard");
+
+    } catch (err) {
+      setError("Login failed.");
+    }
+
+    setLoading(false);
+  };
+
+  // ================= REGISTER =================
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    if (!mobileVerified) {
+      setError("Please verify mobile first.");
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const hashedPassword = await hashPassword(formData.password);
+
+      const res = await fetch(`${API_BASE}/register-student`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          name: formData.name,
+          mobile: formData.mobile,
           email: formData.email,
           password: hashedPassword,
         }),
@@ -365,50 +206,31 @@ function Login() {
 
       const data = await res.json();
 
-      if (data.error) {
-        alert(data.error);
+      if (data.status === "error") {
+        setError(data.message);
+        setLoading(false);
         return;
       }
 
-      localStorage.setItem("student_id", data.student_id);
-      localStorage.setItem("student_name", data.name);
+      alert("Registration successful! Please login.");
+      setIsLogin(true);
 
-      // ✅ Correct SPA navigation
-      navigate("/dashboard");
-    } catch (error) {
-      console.error(error);
-      alert("Login failed!");
+    } catch (err) {
+      setError("Registration failed.");
     }
+
+    setLoading(false);
   };
 
   return (
     <div className="login-container">
-
-          <div className="login-header-banner">
-      Welcome to Haru Geomatics Mocktest
-    </div>
-    
       <div className="login-box">
-        <h2>{isRegister ? "Student Registration" : "Student Login"}</h2>
+        <h2>{isLogin ? "Student Login" : "Student Registration"}</h2>
 
-        {isRegister ? (
-          <form onSubmit={handleRegister}>
-            <input
-              type="text"
-              name="name"
-              placeholder="Full Name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="text"
-              name="mobile"
-              placeholder="Mobile Number"
-              value={formData.mobile}
-              onChange={handleChange}
-              required
-            />
+        {error && <p className="error-text">{error}</p>}
+
+        {isLogin ? (
+          <form onSubmit={handleLogin}>
             <input
               type="email"
               name="email"
@@ -417,6 +239,83 @@ function Login() {
               onChange={handleChange}
               required
             />
+
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+
+            <button type="submit">
+              {loading ? "Logging in..." : "Login"}
+            </button>
+
+            <p style={{ marginTop: "15px" }}>
+              Don't have an account?{" "}
+              <span
+                style={{ color: "blue", cursor: "pointer" }}
+                onClick={() => setIsLogin(false)}
+              >
+                Sign Up
+              </span>
+            </p>
+          </form>
+        ) : (
+          <form onSubmit={handleRegister}>
+            <input
+              type="text"
+              name="mobile"
+              placeholder="Mobile Number"
+              value={formData.mobile}
+              onChange={handleChange}
+              required
+            />
+
+            {!otpSent && (
+              <button type="button" onClick={handleSendOtp}>
+                Send OTP
+              </button>
+            )}
+
+            {otpSent && !mobileVerified && (
+              <>
+                <input
+                  type="text"
+                  placeholder="Enter OTP"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                />
+                <button type="button" onClick={handleVerifyOtp}>
+                  Verify OTP
+                </button>
+              </>
+            )}
+
+            {mobileVerified && (
+              <p style={{ color: "green" }}>Mobile Verified ✓</p>
+            )}
+
+            <input
+              type="email"
+              name="email"
+              placeholder="Email ID"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+
+            <input
+              type="text"
+              name="name"
+              placeholder="Full Name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+
             <input
               type="password"
               name="password"
@@ -425,37 +324,27 @@ function Login() {
               onChange={handleChange}
               required
             />
-            <button type="submit">Register</button>
-            <p>
-              Already have an account?{" "}
-              <span className="toggle-link" onClick={() => setIsRegister(false)}>
-                Login
-              </span>
-            </p>
-          </form>
-        ) : (
-          <form onSubmit={handleLogin}>
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter Email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
+
             <input
               type="password"
-              name="password"
-              placeholder="Enter Password"
-              value={formData.password}
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              value={formData.confirmPassword}
               onChange={handleChange}
               required
             />
-            <button type="submit">Login</button>
-            <p>
-              New user?{" "}
-              <span className="toggle-link" onClick={() => setIsRegister(true)}>
-                Register here
+
+            <button type="submit">
+              {loading ? "Registering..." : "Sign Up"}
+            </button>
+
+            <p style={{ marginTop: "15px" }}>
+              Already have an account?{" "}
+              <span
+                style={{ color: "blue", cursor: "pointer" }}
+                onClick={() => setIsLogin(true)}
+              >
+                Login
               </span>
             </p>
           </form>

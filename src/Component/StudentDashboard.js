@@ -1,43 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./StudentDashboard.css";
 import { API_BASE } from "../config";
 
 function StudentDashboard() {
   const navigate = useNavigate();
-  const [guidelineRead, setGuidelineRead] = useState(false);
+  const location = useLocation();
+
   const [activeExam, setActiveExam] = useState(null);
+  const [studentName, setStudentName] = useState("");
+  const [search, setSearch] = useState("");
 
-  // 🔒 Check login
-  useEffect(() => {
-    const student = localStorage.getItem("student_id");
-    if (!student) {
-      navigate("/", { replace: true });
-    }
-  }, []);
-
-  // 🔒 Login guard
+  // 🔐 Login Check
   useEffect(() => {
     const studentId = localStorage.getItem("student_id");
+    const name = localStorage.getItem("student_name");
+
     if (!studentId) {
       navigate("/login");
+    } else {
+      setStudentName(name || "Student");
     }
   }, [navigate]);
 
-  // 🟦 Disable BACK button
-  useEffect(() => {
-    const disableBack = () => {
-      window.history.pushState(null, "", window.location.href);
-    };
-    disableBack();
-    window.addEventListener("popstate", disableBack);
-
-    return () => {
-      window.removeEventListener("popstate", disableBack);
-    };
-  }, []);
-
-  // 🟩 Load Active Exam
+  // 📘 Load Active Exam
   useEffect(() => {
     async function loadExam() {
       try {
@@ -45,176 +31,147 @@ function StudentDashboard() {
         const data = await res.json();
         setActiveExam(data);
       } catch (err) {
-        console.error("❌ Failed to load active exam", err);
+        console.error("Failed to load exam");
       }
     }
-
     loadExam();
   }, []);
 
-  // Start Exam Handler
-const handleStartExam = async () => {
-  if (!guidelineRead) {
-    alert("Please read and accept the guidelines before starting the exam.");
-    return;
-  }
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/login");
+  };
 
-  const studentId = localStorage.getItem("student_id");
-
-  // const res = await fetch(`${API_BASE}/start-exam`, {
-  //   method: "POST",
-  //   body: new URLSearchParams({
-  //     exam_id: activeExam.exam_id,
-  //     student_id: studentId,
-  //   }),
-  // });
-
-  const res = await fetch(`${API_BASE}/start-exam`, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/x-www-form-urlencoded",
-  },
-  body: new URLSearchParams({
-    exam_id: activeExam.exam_id.toString(),
-    student_id: studentId,
-  }),
-});
-
-
-  const data = await res.json();
-
-  if (data.error) {
-    alert(data.error);  // 🚫 Show backend block message
-    return;             // ❌ Do NOT navigate
-  }
-
-  // Exam allowed → enter exam
-  navigate(`/exam/${activeExam.exam_id}`);
-};
-
-
+  // Sidebar active helper
+  const isActive = (path) => location.pathname === path;
 
   return (
-    <div className="dashboard-container">
-      <h2>Student Dashboard</h2>
+    <div className="dashboard-layout">
 
-      {/* Active Exam Info */}
-      <div className="exam-card">
-        <h3>{activeExam ? `Exam ID: ${activeExam.exam_id}` : "Loading active exam..."}</h3>
-        <p>
-          <strong>Status:</strong> Active Exam
-        </p>
+      {/* ================= SIDEBAR ================= */}
+      <div className="sidebar">
+        <h2 className="logo">Galaxy Of Geomatics</h2>
+        <ul>
+
+          {/* 🔥 NEW HOME BUTTON */}
+          <li
+            className={isActive("/") ? "active" : ""}
+            onClick={() => navigate("/")}
+          >
+            Home
+          </li>
+
+          <li
+            className={isActive("/dashboard") ? "active" : ""}
+            onClick={() => navigate("/dashboard")}
+          >
+            Dashboard
+          </li>
+
+          <li
+            className={isActive("/test") ? "active" : ""}
+            onClick={() => navigate("/test")}
+          >
+            Test
+          </li>
+
+          <li
+            className={isActive("/result") ? "active" : ""}
+            onClick={() => navigate("/result")}
+          >
+            Result
+          </li>
+
+          <li
+            className={isActive("/study-material") ? "active" : ""}
+            onClick={() => navigate("/study-material")}
+          >
+            Study Material
+          </li>
+
+          <li
+            className={isActive("/video-lecture") ? "active" : ""}
+            onClick={() => navigate("/video-lecture")}
+          >
+            Video Lecture
+          </li>
+
+        </ul>
       </div>
 
-      {/* ====================== GUIDELINES BOX ====================== */}
-      <div className="guideline-box">
-        <h4>General Instructions during Examination</h4>
+      {/* ================= MAIN CONTENT ================= */}
+      <div className="main-content">
 
-        <p>Please read the following instructions carefully:</p>
+        {/* TOPBAR */}
+        <div className="topbar">
+          <div>Welcome, {studentName}</div>
+          <button onClick={handleLogout} className="logout-btn">
+            Logout
+          </button>
+        </div>
 
-        <ol>
-          <li>Total duration of the GATE GEOMATICS (GE) examination is 180 minutes (3 hours).</li>
+        <h2 className="page-title">Test</h2>
 
-          <li>
-            The countdown timer on your screen will show remaining time. It will continue even if the tab
-            is minimized. When the timer becomes zero, the exam will auto-submit and cannot be reattempted.
-          </li>
+        {/* STATS CARDS */}
+        <div className="card-row">
+          <div className="stat-card">
+            <h4>Active Test</h4>
+            <p>1</p>
+          </div>
+          <div className="stat-card">
+            <h4>Upcoming Test</h4>
+            <p>0</p>
+          </div>
+          <div className="stat-card">
+            <h4>Archived Test</h4>
+            <p>115</p>
+          </div>
+        </div>
 
-          <li>The ‘Gate Calculator’ is available during the exam.</li>
+        {/* TABLE SECTION */}
+        <div className="table-section">
+          <div className="table-header">
+            <span>Show 10 entries</span>
+            <input
+              type="text"
+              placeholder="Search..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
 
-          <li>You may navigate to any section during the examination.</li>
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Test Name</th>
+                <th>No. of Questions</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {activeExam && (
+                <tr>
+                  <td>1</td>
+                  <td>GE - Geomatics Engineering - Free Demo Test</td>
+                  <td>20</td>
+                  <td>
+                    <button
+                      className="result-btn"
+                      onClick={() =>
+                        navigate(`/exam/${activeExam.exam_id}`)
+                      }
+                    >
+                      Start
+                    </button>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
 
-          <li>
-            The Question Palette on the right side will show the status of each question. Click any question
-            number to move directly to that question.
-          </li>
-
-          <li>
-            This paper is divided into three sections:
-            <ul>
-              <li>
-                <strong>General Aptitude (GA):</strong> 10 questions (15 marks)
-              </li>
-              <li>
-                <strong>Part A (Compulsory):</strong> 36 questions (55 marks)
-              </li>
-              <li>
-                <strong>Part B1/B2 (Choose One):</strong> 19 questions (30 marks)
-              </li>
-            </ul>
-          </li>
-
-          <li>
-            Total number of questions: <strong>65</strong>, carrying a maximum of{" "}
-            <strong>100 marks</strong>.
-          </li>
-
-          <li>
-            <strong>Marking Scheme:</strong>
-            <ul>
-              <li>1-mark MCQ → -1/3 for incorrect answer</li>
-              <li>2-mark MCQ → -2/3 for incorrect answer</li>
-              <li>No negative marking for MSQ & NAT</li>
-              <li>No marks for unanswered questions</li>
-            </ul>
-          </li>
-
-          <li>
-            Attempt questions only from the optional section (Part B1 or Part B2) that you selected.
-          </li>
-
-          <li>
-            <strong>To answer a question:</strong>
-            <ul>
-              <li>Click on a question number from the Question Palette.</li>
-
-              <li>
-                Select an answer:
-                <ul>
-                  <li>MCQ → click on one bubble</li>
-                  <li>MSQ → select one or more checkboxes</li>
-                  <li>NAT → enter a number using keypad</li>
-                </ul>
-              </li>
-
-              <li>Click <strong>Save & Next</strong> to save the answer and move to the next question.</li>
-
-              <li>
-                Click <strong>Mark for Review & Next</strong> to save the answer and mark it for review.
-              </li>
-
-              <li>Click <strong>Clear Response</strong> to remove chosen answer(s).</li>
-            </ul>
-
-            <p>
-              Note: If a question is answered but marked for review, it will still be evaluated unless
-              changed later.
-            </p>
-          </li>
-
-          <li>Do not refresh or close the window during the examination.</li>
-
-          <li>
-            Read each question carefully before answering. Follow all instructions during the exam for
-            submitting your answers.
-          </li>
-        </ol>
-
-        {/* Checkbox */}
-        <label style={{ marginTop: "12px", display: "block" }}>
-          <input
-            type="checkbox"
-            checked={guidelineRead}
-            onChange={() => setGuidelineRead(!guidelineRead)}
-          />
-          &nbsp; I have read and understood the guidelines.
-        </label>
       </div>
-
-      {/* ====================== START EXAM BUTTON ====================== */}
-      <button className="start-btn" onClick={handleStartExam} disabled={!guidelineRead}>
-        Start Exam
-      </button>
     </div>
   );
 }

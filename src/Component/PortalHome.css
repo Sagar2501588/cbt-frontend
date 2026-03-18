@@ -1,0 +1,364 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  padding: 12px 60px;
+  border-bottom: 1px solid #e5e5e5;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* Logo + Text Container */
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.siteLogo {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.logo {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: darkred;
+  letter-spacing: 1px;
+}
+
+/* Navigation Links */
+.navbar nav {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.navbar nav a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  position: relative;
+  transition: 0.3s;
+}
+
+/* Underline Hover Effect */
+.navbar nav a::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  left: 0;
+  bottom: -4px;
+  background: darkred;
+  transition: 0.3s;
+}
+
+.navbar nav a:hover {
+  color: darkred;
+}
+
+.navbar nav a:hover::after {
+  width: 100%;
+}
+
+/* Login Button */
+.loginBtn {
+  padding: 8px 20px;
+  border: none;
+  background: darkred;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.loginBtn:hover {
+  background: #a00000;
+}
+
+/* Hero */
+.hero {
+  height: 575px;
+
+  background:
+    linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+    url("S:\11.Portfolio\CBT\cbtmodel\assets\bg.png");
+
+  background-size: cover;      /* পুরো div fill করবে */
+  background-position: center; /* মাঝখান থেকে crop হবে */
+  background-repeat: no-repeat;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  color: white;
+  text-align: center;
+  padding: 0 20px; /* padding কমাও */
+}
+
+/* Courses */
+.courses {
+  padding: 20px 60px;
+  text-align: center;
+}
+
+.courseGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 per row */
+  gap: 35px;
+  margin-top: 40px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.courseCard {
+  padding: 40px 30px;   /* Bigger padding */
+  border-radius: 16px;
+  border: 1px solid #ddd;
+  background: #f9f9f9;
+  transition: 0.3s;
+  min-height: 220px;   /* Bigger height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.courseCard h3 {
+  font-size: 25px;
+  margin-bottom: 12px;
+}
+
+.courseCard p {
+  font-size: 15px;
+}
+
+.courseCard:hover {
+  transform: translateY(-8px);
+  background: white;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* Contact */
+/* .contact {
+  background: #f1f1f1;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.contactForm {
+  max-width: 400px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.contactForm input,
+.contactForm textarea {
+  margin: 10px 0;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.contactForm button {
+  padding: 12px;
+  background: darkred;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+} */
+
+/* Contact Section */
+.contact {
+  padding: 80px 60px;
+  background: #111;
+  color: white;
+  text-align: center;
+}
+
+.contact h2 {
+  margin-bottom: 40px;
+}
+
+.contactContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  max-width: 1100px;
+  margin: auto;
+}
+
+/* Form */
+.contactForm {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.contactForm input,
+.contactForm textarea {
+  padding: 14px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+}
+
+.contactForm textarea {
+  min-height: 120px;
+  resize: none;
+}
+
+.contactForm button {
+  padding: 14px;
+  border-radius: 8px;
+  border: none;
+  background: crimson;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.contactForm button:hover {
+  background: darkred;
+}
+
+/* Contact Info */
+.contactInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: flex-start;
+}
+
+.contactInfo a {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.contactInfo a i {
+  margin-right: 10px;
+}
+
+.contactInfo a:hover {
+  color: crimson;
+}
+
+.contactNumber {
+  margin-top: 20px;
+  font-weight: bold;
+  color: #ffcc00;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .contactContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .contactInfo {
+    align-items: center;
+  }
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 20px;
+  background: black;
+  color: white;
+}
+
+.buyBtn {
+  margin-top: 15px;
+  padding: 10px;
+  border: none;
+  background: darkred;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.buyBtn:hover {
+  background: crimson;
+}
+
+/* ================= USER SECTION ================= */
+
+.userSection {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.welcomeText {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  background: #f3f3f3;
+  padding: 6px 12px;
+  border-radius: 20px;
+}
+
+/* ================= NAV BUTTON ================= */
+
+.navBtn {
+  padding: 8px 18px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  background: #222;
+  color: white;
+}
+
+.navBtn:hover {
+  background: #000;
+  transform: translateY(-2px);
+}
+
+/* ================= DASHBOARD BUTTON STYLE ================= */
+
+.navBtn:first-of-type {
+  background: darkred;
+}
+
+.navBtn:first-of-type:hover {
+  background: #a00000;
+}
+
+/* ================= LOGOUT BUTTON ================= */
+
+.logoutBtn {
+  background: #e5e5e5;
+  color: #333;
+}
+
+.logoutBtn:hover {
+  background: crimson;
+  color: white;
+  transform: translateY(-2px);
+}
