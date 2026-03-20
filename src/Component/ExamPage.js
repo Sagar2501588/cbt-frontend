@@ -123,14 +123,6 @@ function ExamPage() {
       return;
     }
 
-    // Convert STD101 → 101 safely
-    // const numericStudentId = Number(studentId.replace(/\D/g, "")) || null;
-
-    // if (!numericStudentId) {
-    //   console.error("❌ student_id could not be converted:", studentId);
-    //   return;
-    // }
-
     const formData = new FormData();
     formData.append("exam_id", examIdNum);
     formData.append("student_id", studentId.trim());
@@ -149,32 +141,6 @@ function ExamPage() {
       console.error("❌ Save error:", err);
     }
   };
-
-
-
-
-
-
-
-
-
-
-
-
-  //   useEffect(() => {
-  //     if (!studentId) {
-  //       alert("Session expired. Please login again.");
-  //       window.location.href = "/login";
-  //     }
-  //   }, [studentId]);
-
-  //   useEffect(() => {
-  //   const studentId = localStorage.getItem("student_id");
-  //   if (!studentId) {
-  //     navigate("/login");
-  //   }
-  // }, [navigate]);
-
 
   useEffect(() => {
     if (!studentId) {
@@ -295,52 +261,7 @@ function ExamPage() {
       setCurrent(current + 1);
     }
   };
-
-
-  // const handleOptionSelect = (optionIndex) => {
-  //   const qId = questions[current].id;
-  //   const qType = questions[current].question_type;
-  //   // const qId = questions?.[current]?.id;
-  //       if (!qId) return;
-
-  //   // A/B/C/D mapping
-  //   const optLetter = ["A", "B", "C", "D"][optionIndex];
-
-  //   // ✅ MCQ → Single select
-  //   if (qType === "MCQ") {
-  //     setAnswers((prev) => ({
-  //       ...prev,
-  //       [current]: optLetter,
-  //     }));
-
-  //     // backend expects "A"/"B"/"C"/"D"
-  //     saveAnswer(qId, optLetter);
-  //   }
-
-  //   // ✅ MSQ → Multiple select (checkbox)
-  //   else if (qType === "MSQ") {
-  //     const prevSelected = answers[current] || []; // should be array now
-  //     let updated = [];
-
-  //     if (prevSelected.includes(optLetter)) {
-  //       updated = prevSelected.filter((x) => x !== optLetter);
-  //     } else {
-  //       updated = [...prevSelected, optLetter];
-  //     }
-
-  //     updated.sort(); // keep stable order
-
-  //     setAnswers((prev) => ({
-  //       ...prev,
-  //       [current]: updated,
-  //     }));
-
-  //     // backend expects "A,B,D"
-  //     saveAnswer(qId, updated.join(","));
-  //   }
-  // };
-
-
+  
   const handleOptionSelect = (optionIndex) => {
     const qId = questions[current].id;
     const qType = questions[current].question_type;

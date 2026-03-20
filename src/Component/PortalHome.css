@@ -95,10 +95,10 @@ body {
 
   background:
     linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-    url("S:\11.Portfolio\CBT\cbtmodel\assets\bg.png");
+    url("../assets/bg.png");
 
-  background-size: cover;      /* পুরো div fill করবে */
-  background-position: center; /* মাঝখান থেকে crop হবে */
+  background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
 
   display: flex;
@@ -108,7 +108,7 @@ body {
 
   color: white;
   text-align: center;
-  padding: 0 20px; /* padding কমাও */
+  padding: 0 20px;
 }
 
 /* Courses */
