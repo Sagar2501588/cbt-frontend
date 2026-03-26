@@ -3,7 +3,7 @@ import "./login.css";
 import { useNavigate } from "react-router-dom";
 
 // const API_BASE = "http://127.0.0.1:8000";
-const API_BASE = "https://your-backend-url.up.railway.app";
+const API_BASE = "https://cbt-backend-production-a2f9.up.railway.app";
 
 function Login() {
   const navigate = useNavigate();
