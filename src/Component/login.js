@@ -49,30 +49,35 @@ const handleSendOtp = async () => {
   setError("");
   setLoading(true);
 
-  try {
-    const res = await fetch(`${API_BASE}/auth/send-otp`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: new URLSearchParams({
-        mobile: formData.mobile,
-      }),
-    });
+try {
+  // ✅ FIX: mobile format correct করা
+  const formattedMobile = formData.mobile.trim().startsWith("+")
+    ? formData.mobile.trim()
+    : "+91" + formData.mobile.trim();
 
-    const data = await res.json();
+  const res = await fetch(`${API_BASE}/auth/send-otp`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams({
+      mobile: formattedMobile,
+    }),
+  });
 
-    if (data.status === "error") {
-      setError(data.message);
-      setLoading(false);
-      return;
-    }
+  const data = await res.json();
 
-    setOtpSent(true);
-
-  } catch (err) {
-    setError("Failed to send OTP.");
+  if (data.status === "error") {
+    setError(data.message);
+    setLoading(false);
+    return;
   }
+
+  setOtpSent(true);
+
+} catch (err) {
+  setError("Failed to send OTP.");
+}
 
   setLoading(false);
 };
@@ -87,31 +92,36 @@ const handleVerifyOtp = async () => {
   setError("");
   setLoading(true);
 
-  try {
-    const res = await fetch(`${API_BASE}/auth/verify-mobile`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: new URLSearchParams({
-        mobile: formData.mobile,
-        otp: otp,
-      }),
-    });
+try {
+  // ✅ FIX: mobile format correct করা (MOST IMPORTANT)
+  const formattedMobile = formData.mobile.trim().startsWith("+")
+    ? formData.mobile.trim()
+    : "+91" + formData.mobile.trim();
 
-    const data = await res.json();
+  const res = await fetch(`${API_BASE}/auth/verify-mobile`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams({
+      mobile: formattedMobile,
+      otp: otp,
+    }),
+  });
 
-    if (data.status === "error") {
-      setError(data.message);
-      setLoading(false);
-      return;
-    }
+  const data = await res.json();
 
-    setMobileVerified(true);
-
-  } catch (err) {
-    setError("OTP verification failed.");
+  if (data.status === "error") {
+    setError(data.message);
+    setLoading(false);
+    return;
   }
+
+  setMobileVerified(true);
+
+} catch (err) {
+  setError("OTP verification failed.");
+}
 
   setLoading(false);
 };
