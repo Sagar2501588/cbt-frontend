@@ -1,53 +1,29 @@
-// import React from "react";
-// import { useParams, useNavigate } from "react-router-dom";
-
-// function PaymentPage() {
-//   const { slug } = useParams();
-//   const navigate = useNavigate();
-
-//   const handlePaymentSuccess = async () => {
-//     const studentId = localStorage.getItem("student_id");
-
-//     const res = await fetch("http://127.0.0.1:8000/buy-course", {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/x-www-form-urlencoded",
-//       },
-//       body: new URLSearchParams({
-//         student_id: studentId,
-//         course_slug: slug,
-//       }),
-//     });
-
-//     const data = await res.json();
-
-//     if (data.status === "success") {
-//       alert("Payment Successful!");
-//       navigate("/video-lecture");
-//     } else {
-//       alert(data.message);
-//     }
-//   };
-
-//   return (
-//     <div style={{ padding: "40px" }}>
-//       <h2>Payment Page</h2>
-//       <button onClick={handlePaymentSuccess}>
-//         Simulate Payment Success
-//       </button>
-//     </div>
-//   );
-// }
-
-// export default PaymentPage;
-
-
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 function PaymentPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const [price, setPrice] = useState(0);
+
+  // ✅ Fetch course price (UI purpose)
+  useEffect(() => {
+    const fetchCourse = async () => {
+      try {
+        const res = await fetch(
+          `http://127.0.0.1:8000/course-details/${slug}`
+        );
+        const data = await res.json();
+
+        // 🔥 TEMP (until backend returns price)
+        setPrice(data.price);
+      } catch (err) {
+        console.error("Course fetch error:", err);
+      }
+    };
+
+    fetchCourse();
+  }, [slug]);
 
   // ✅ Load Razorpay SDK
   const loadRazorpay = () => {
@@ -70,7 +46,6 @@ function PaymentPage() {
       return;
     }
 
-    // 1️⃣ Load Razorpay
     const isLoaded = await loadRazorpay();
     if (!isLoaded) {
       alert("Razorpay SDK failed to load");
@@ -78,7 +53,6 @@ function PaymentPage() {
     }
 
     try {
-      // 2️⃣ Create Order from backend
       const orderRes = await fetch("http://127.0.0.1:8000/create-order", {
         method: "POST",
         headers: {
@@ -96,16 +70,14 @@ function PaymentPage() {
         return;
       }
 
-      // 3️⃣ Razorpay options
       const options = {
-        key: orderData.key, // 🔥 from backend
-        amount: orderData.amount * 100,
+        key: orderData.key,
+        amount: orderData.amount, // ✅ FIXED (no *100)
         currency: "INR",
         name: "Geomatics Galaxy",
         description: "Course Purchase",
         order_id: orderData.order_id,
 
-        // ✅ Payment success handler
         handler: async function (response) {
           const verifyRes = await fetch(
             "http://127.0.0.1:8000/verify-payment",
@@ -134,14 +106,12 @@ function PaymentPage() {
           }
         },
 
-        // ❌ Payment failed
         modal: {
           ondismiss: function () {
             console.log("Payment popup closed");
           },
         },
 
-        // ✅ Prefill (optional)
         prefill: {
           name: localStorage.getItem("student_name") || "",
         },
@@ -151,34 +121,90 @@ function PaymentPage() {
         },
       };
 
-      // 4️⃣ Open Razorpay popup
       const rzp = new window.Razorpay(options);
       rzp.open();
     } catch (error) {
-      console.error(error);
+      console.error("Payment error:", error);
       alert("Something went wrong");
     }
   };
 
   return (
-    <div style={{ padding: "40px", textAlign: "center" }}>
-      <h2>Complete Your Payment</h2>
-
-      <button
-        onClick={handlePayment}
+    <div
+      style={{
+        padding: "40px",
+        textAlign: "center",
+        minHeight: "100vh",
+        background: "#eff4e9",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <div
         style={{
-          padding: "12px 25px",
-          fontSize: "16px",
-          background: "#3399cc",
-          color: "white",
-          border: "none",
-          borderRadius: "6px",
-          cursor: "pointer",
-          marginTop: "20px",
+          background: "#fff",
+          padding: "30px",
+          borderRadius: "12px",
+          width: "350px",
+          boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
         }}
       >
-        Pay Now
-      </button>
+        <h2 style={{ marginBottom: "10px", color: "#0f172a" }}>
+          Complete Your Payment
+        </h2>
+
+        <p style={{ color: "#64748b", fontSize: "14px" }}>
+          Secure payment via Razorpay
+        </p>
+
+        <div
+          style={{
+            background: "#f1f5f9",
+            padding: "15px",
+            borderRadius: "8px",
+            marginTop: "20px",
+          }}
+        >
+          <p style={{ margin: 0, fontWeight: "bold" }}>Course</p>
+          <p style={{ margin: "5px 0", color: "#334155" }}>{slug}</p>
+
+          <p
+            style={{
+              fontSize: "22px",
+              fontWeight: "bold",
+              color: "#000000",
+            }}
+          >
+            ₹{price}
+          </p>
+        </div>
+
+        <button
+          onClick={handlePayment}
+          style={{
+            width: "100%",
+            padding: "12px",
+            fontSize: "16px",
+            marginTop: "20px",
+            background: "linear-gradient(135deg, #3399cc, #2563eb)",
+            color: "white",
+            border: "none",
+            borderRadius: "8px",
+            cursor: "pointer",
+            fontWeight: "bold",
+            transition: "0.3s",
+          }}
+          onMouseOver={(e) => (e.target.style.transform = "scale(1.05)")}
+          onMouseOut={(e) => (e.target.style.transform = "scale(1)")}
+        >
+          🔒 Pay Securely
+        </button>
+
+        <p style={{ marginTop: "12px", fontSize: "12px", color: "#94a3b8" }}>
+          100% secure • No hidden charges
+        </p>
+      </div>
     </div>
   );
 }

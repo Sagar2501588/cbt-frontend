@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -8,7 +12,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #ffffff;
+  background: #eff4e9;
   padding: 12px 60px;
   border-bottom: 1px solid #e5e5e5;
   position: sticky;
@@ -91,7 +95,7 @@ body {
 
 /* Hero */
 .hero {
-  height: 575px;
+  min-height: 70vh; /* ✅ flexible height */
 
   background:
     linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
@@ -108,7 +112,14 @@ body {
 
   color: white;
   text-align: center;
-  padding: 0 20px;
+  padding: 60px 20px;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: 60vh;
+    padding: 40px 15px;
+  }
 }
 
 /* Courses */
@@ -131,7 +142,7 @@ body {
   padding: 40px 30px;   /* Bigger padding */
   border-radius: 16px;
   border: 1px solid #ddd;
-  background: #f9f9f9;
+  background: #eff4e9;
   transition: 0.3s;
   min-height: 220px;   /* Bigger height */
   display: flex;
@@ -361,4 +372,29 @@ body {
   background: crimson;
   color: white;
   transform: translateY(-2px);
+}
+
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 20px;
+    gap: 10px;
+  }
+
+  .logoContainer {
+    justify-content: center;
+  }
+
+  .navbar nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .userSection {
+    flex-direction: column;
+    gap: 8px;
+  }
 }
