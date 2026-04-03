@@ -65,6 +65,7 @@ function PaymentPage() {
       });
 
       const orderData = await orderRes.json();
+      console.log(orderData);
 
       if (!orderData.order_id) {
         alert("Order creation failed");
