@@ -5,13 +5,14 @@ function PaymentPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
   const [price, setPrice] = useState(0);
+  const BASE_URL = "https://cbt-backend-production-a2f9.up.railway.app";
 
   // ✅ Fetch course price (UI purpose)
   useEffect(() => {
     const fetchCourse = async () => {
       try {
         const res = await fetch(
-          `http://127.0.0.1:8000/course-details/${slug}`
+          `https://cbt-backend-production-a2f9.up.railway.app/course-details/${slug}`
         );
         const data = await res.json();
 
@@ -53,7 +54,7 @@ function PaymentPage() {
     }
 
     try {
-      const orderRes = await fetch("http://127.0.0.1:8000/create-order", {
+      const orderRes = await fetch("https://cbt-backend-production-a2f9.up.railway.app/create-order", {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -80,7 +81,7 @@ function PaymentPage() {
 
         handler: async function (response) {
           const verifyRes = await fetch(
-            "http://127.0.0.1:8000/verify-payment",
+            "https://cbt-backend-production-a2f9.up.railway.app/verify-payment",
             {
               method: "POST",
               headers: {
