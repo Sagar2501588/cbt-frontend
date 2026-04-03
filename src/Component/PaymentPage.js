@@ -102,7 +102,8 @@ function PaymentPage() {
 
           if (verifyData.status === "success") {
             alert("Payment Successful 🎉");
-            navigate("/video-lecture");
+            // 
+            window.location.href = "/video-lecture";
           } else {
             alert("Payment verification failed ❌");
           }

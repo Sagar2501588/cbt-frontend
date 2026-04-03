@@ -9,21 +9,32 @@ function VideoLecture() {
 
   useEffect(() => {
     async function loadCourses() {
-      const studentId = localStorage.getItem("student_id");
-      if (!studentId) return;
+      try {
+        const studentId = localStorage.getItem("student_id");
+        console.log("Student ID:", studentId);
 
-      const res = await fetch(`${API_BASE}/my-courses`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams({
-          student_id: studentId,
-        }),
-      });
+        if (!studentId) {
+          console.log("No student ID found");
+          return;
+        }
 
-      const data = await res.json();
-      setCourses(data.courses || []);
+        const res = await fetch(`${API_BASE}/my-courses`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: new URLSearchParams({
+            student_id: studentId,
+          }),
+        });
+
+        const data = await res.json();
+        console.log("API Response:", data);
+
+        setCourses(data.courses || []);
+      } catch (error) {
+        console.error("Error loading courses:", error);
+      }
     }
 
     loadCourses();
