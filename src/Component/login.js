@@ -10,7 +10,7 @@ function Login() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
 
   const [otpSent, setOtpSent] = useState(false);
   const [mobileVerified, setMobileVerified] = useState(false);
@@ -129,8 +129,53 @@ function Login() {
   };
 
   // ================= LOGIN =================
-  const handleLogin = async () => {
+  // const handleLogin = async () => {
+  //   try {
+  //     const res = await fetch(`${API_BASE}/login-student`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/x-www-form-urlencoded",
+  //       },
+  //       body: new URLSearchParams({
+  //         email: formData.email,
+  //         password: formData.password,
+  //       }),
+  //     });
+
+  //     const data = await res.json();
+  //     console.log("LOGIN RESPONSE:", data);
+
+  //     if (data.status === "success") {
+  //       localStorage.setItem("student_id", data.student_id);
+  //       localStorage.setItem("student_name", data.name);
+
+  //       const pendingCourse = localStorage.getItem("pending_course");
+
+  //       if (pendingCourse) {
+  //         localStorage.removeItem("pending_course");
+  //         navigate(`/payment/${pendingCourse}`);
+  //       } else {
+  //         navigate("/");
+  //       }
+
+  //     } else {
+  //       alert(data.error || "Login failed");
+  //     }
+
+  //   } catch (err) {
+  //     console.error("Login error:", err);
+  //   }
+  // };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
     try {
+      setLoading(true);
+      setError("");
+
+      const hashedPassword = await hashPassword(formData.password);
+
       const res = await fetch(`${API_BASE}/login-student`, {
         method: "POST",
         headers: {
@@ -138,33 +183,25 @@ function Login() {
         },
         body: new URLSearchParams({
           email: formData.email,
-          password: formData.password,
+          password: hashedPassword,
         }),
       });
 
       const data = await res.json();
-      console.log("LOGIN RESPONSE:", data);
 
       if (data.status === "success") {
         localStorage.setItem("student_id", data.student_id);
         localStorage.setItem("student_name", data.name);
-
-        const pendingCourse = localStorage.getItem("pending_course");
-
-        if (pendingCourse) {
-          localStorage.removeItem("pending_course");
-          navigate(`/payment/${pendingCourse}`);
-        } else {
-          navigate("/");
-        }
-
+        navigate("/dashboard");
       } else {
-        alert(data.error || "Login failed");
+        setError(data.error || "Invalid email or password");
       }
 
     } catch (err) {
-      console.error("Login error:", err);
+      setError("Something went wrong");
     }
+
+    setLoading(false);
   };
 
   // ================= REGISTER =================

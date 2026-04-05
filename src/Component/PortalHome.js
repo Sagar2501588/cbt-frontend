@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./PortalHome.css";
+import { FaYoutube, FaTelegramPlane, FaWhatsapp, FaInstagram, FaTwitter } from "react-icons/fa";
 import logoImg from "../assets/new_logo.png";
 import { useNavigate } from "react-router-dom";
 import sankalpB1 from "../assets/Sankalp B1.jpeg";
@@ -92,7 +93,7 @@ export default function PortalHome() {
       <section id="home" className="hero"></section>
 
       {/* ================= COURSES ================= */}
-      <section id="courses" className="courses">
+      {/* <section id="courses" className="courses">
         <h2>Courses Available</h2>
 
         <div className="courseGrid">
@@ -231,10 +232,158 @@ export default function PortalHome() {
             </button>
           </div>
         </div>
+      </section> */}
+
+      <section id="courses" className="courses">
+        <div className="coursesHeader">
+          <h1>Courses Available</h1>
+          <p>
+            Choose from our comprehensive range of GATE Geomatics
+            preparation courses
+          </p>
+        </div>
+
+        <div className="courseGrid">
+
+          {/* FREE */}
+          <div className="card">
+            <div className="cardContent">
+              <h3>Free Content</h3>
+              <p className="desc">Basic Learning Materials Available</p>
+
+              <div className="cardFooter">
+                <span className="price">FREE</span>
+                <button onClick={() => handleBuy("free-content")}>
+                  Buy Now
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* SANKALP B1 */}
+          <div className="card">
+            <div className="cardImage">
+              <img src={sankalpB1} alt="Sankalp B1" />
+              <span className="badge">Featured</span>
+            </div>
+
+            <div className="cardContent">
+              <h3>Batch SANKALP (B1)</h3>
+              <p className="desc">Includes: Part A & Part B1</p>
+              <p className="date">Activation: 14 Apr 2026</p>
+
+              <div className="cardFooter">
+                <span className="price">₹5000</span>
+                <button onClick={() => handleBuy("sankalp-b1")}>
+                  Buy Now
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* SANKALP B2 */}
+          <div className="card">
+            <div className="cardImage">
+              <img src={sankalpB2} alt="Sankalp B2" />
+            </div>
+
+            <div className="cardContent">
+              <h3>Batch SANKALP (B2)</h3>
+              <p className="desc">Includes: Part A & Part B2</p>
+              <p className="date">Activation: 14 Apr 2026</p>
+
+              <div className="cardFooter">
+                <span className="price">₹5,000</span>
+                <button onClick={() => handleBuy("sankalp-b2")}>
+                  Buy Now
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* PRITHVI */}
+          <div className="card">
+            <div className="cardImage">
+              <img src={courseImages["prithvi"]} alt="Prithvi" />
+            </div>
+
+            <div className="cardContent">
+              <h3>Batch PRITHVI</h3>
+              <p className="desc">Includes: Part A Only</p>
+              <p className="date">Activation: 14 Apr 2026</p>
+
+              <div className="cardFooter">
+                <span className="price">₹3000</span>
+                <button onClick={() => handleBuy("prithvi")}>
+                  Buy Now
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* DISHANTAR */}
+          <div className="card">
+            <div className="cardImage">
+              <img src={courseImages["dishantar"]} alt="Dishantar" />
+            </div>
+
+            <div className="cardContent">
+              <h3>Batch DISHANTAR</h3>
+              <p className="desc">Includes: Part B1 Only</p>
+              <p className="date">Activation: 14 Aug 2026</p>
+
+              <div className="cardFooter">
+                <span className="price">₹3000</span>
+                <button onClick={() => handleBuy("dishantar")}>
+                  Buy Now
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* PRATIBIMB */}
+          <div className="card">
+            <div className="cardImage">
+              <img src={courseImages["pratibimb"]} alt="Pratibimb" />
+            </div>
+
+            <div className="cardContent">
+              <h3>Batch PRATIBIMB</h3>
+              <p className="desc">Includes: Part B2 Only</p>
+              <p className="date">Activation: 14 Aug 2026</p>
+
+              <div className="cardFooter">
+                <span className="price">₹3,000</span>
+                <button onClick={() => handleBuy("pratibimb")}>
+                  Buy Now
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* GATI */}
+          <div className="card">
+            <div className="cardContent">
+              <h3>Batch GATI – Crash Course</h3>
+              <p className="desc">
+                Includes: Part A, Part B1 & Part B2
+              </p>
+              <p className="date">Activation: 02 Oct 2026</p>
+
+              <div className="cardFooter">
+                <span className="price">₹4000</span>
+                <button onClick={() => handleBuy("gati-crash-course")}>
+                  Buy Now
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </section>
 
       {/* ================= CONTACT ================= */}
-      <section id="contact" className="contact">
+      {/* <section id="contact" className="contact">
         <h2>Contact Us</h2>
 
         <div className="contactContainer">
@@ -256,6 +405,77 @@ export default function PortalHome() {
 
             <p className="contactNumber">9459889005 (WhatsApp)</p>
           </div>
+        </div>
+      </section> */}
+
+
+      <section id="contact" className="contact">
+        <h1 className="contactTitle">Get In Touch</h1>
+        <p className="contactSubtitle">
+          Have questions? We're here to help you on your GATE preparation journey
+        </p>
+
+        <div className="contactWrapper">
+
+          {/* LEFT */}
+          <div className="contactCard">
+            <h2>Send us a Message</h2>
+
+            <input type="text" placeholder="Enter your name" />
+            <input type="email" placeholder="your.email@example.com" />
+            <textarea placeholder="How can we help you?" />
+
+            <button className="sendBtn">Send Message</button>
+          </div>
+
+          {/* RIGHT */}
+          <div className="contactRight">
+
+            <div className="contactCard">
+              <h2>Connect With Us</h2>
+
+              <a href="https://www.youtube.com/@GeomaticsGalaxy" target="_blank" rel="noreferrer">
+                <div className="socialItem">
+                  <FaYoutube className="icon" />
+                  YouTube
+                </div>
+              </a>
+
+              <a href="https://t.me/galaxyofgeomatics" target="_blank" rel="noreferrer">
+                <div className="socialItem">
+                  <FaTelegramPlane className="icon" />
+                  Telegram
+                </div>
+              </a>
+
+              <div className="socialItem highlight">
+                <FaWhatsapp className="icon" />
+                +91 98765 43210
+              </div>
+
+              <a href="https://www.instagram.com/galaxyofgeomatics" target="_blank" rel="noreferrer">
+                <div className="socialItem">
+                  <FaInstagram className="icon" />
+                  Instagram
+                </div>
+              </a>
+
+              <a href="https://x.com/GeomaticsGalaxy" target="_blank" rel="noreferrer">
+                <div className="socialItem">
+                  <FaTwitter className="icon" />
+                  Twitter
+                </div>
+              </a>
+            </div>
+
+            <div className="helpCard">
+              <h3>Need Immediate Help?</h3>
+              <p>Our support team is available 24/7</p>
+              <button>Chat Now</button>
+            </div>
+
+          </div>
+
         </div>
       </section>
 
