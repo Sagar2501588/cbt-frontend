@@ -19,8 +19,6 @@ const courseImages = {
 function StudentDashboard() {
   const navigate = useNavigate();
   const location = useLocation();
-
-
   const [activeExam, setActiveExam] = useState(null);
   const [studentName, setStudentName] = useState("");
   const [search, setSearch] = useState("");
@@ -88,137 +86,6 @@ function StudentDashboard() {
   // Sidebar active helper
   const isActive = (path) => location.pathname === path;
 
-  // return (
-  //   <div className="dashboard-layout">
-
-  //     {/* ================= SIDEBAR ================= */}
-  //     <div className="sidebar">
-  //       <h2 className="logo">Galaxy Of Geomatics</h2>
-  //       <ul>
-
-  //         {/* 🔥 NEW HOME BUTTON */}
-  //         <li
-  //           className={isActive("/") ? "active" : ""}
-  //           onClick={() => navigate("/")}
-  //         >
-  //           Home
-  //         </li>
-
-  //         <li
-  //           className={isActive("/dashboard") ? "active" : ""}
-  //           onClick={() => navigate("/dashboard")}
-  //         >
-  //           Dashboard
-  //         </li>
-
-  //         <li
-  //           className={isActive("/test") ? "active" : ""}
-  //           onClick={() => navigate("/test")}
-  //         >
-  //           Test
-  //         </li>
-
-  //         <li
-  //           className={isActive("/result") ? "active" : ""}
-  //           onClick={() => navigate("/result")}
-  //         >
-  //           Result
-  //         </li>
-
-  //         <li
-  //           className={isActive("/study-material") ? "active" : ""}
-  //           onClick={() => navigate("/study-material")}
-  //         >
-  //           Study Material
-  //         </li>
-
-  //         <li
-  //           className={isActive("/video-lecture") ? "active" : ""}
-  //           onClick={() => navigate("/video-lecture")}
-  //         >
-  //           Video Lecture
-  //         </li>
-
-  //       </ul>
-  //     </div>
-
-  //     {/* ================= MAIN CONTENT ================= */}
-  //     <div className="main-content">
-
-  //       {/* TOPBAR */}
-  //       <div className="topbar">
-  //         <div>Welcome, {studentName}</div>
-  //         <button onClick={handleLogout} className="logout-btn">
-  //           Logout
-  //         </button>
-  //       </div>
-
-  //       <h2 className="page-title">Test</h2>
-
-  //       {/* STATS CARDS */}
-  //       <div className="card-row">
-  //         <div className="stat-card">
-  //           <h4>Active Test</h4>
-  //           <p>1</p>
-  //         </div>
-  //         <div className="stat-card">
-  //           <h4>Upcoming Test</h4>
-  //           <p>0</p>
-  //         </div>
-  //         <div className="stat-card">
-  //           <h4>Archived Test</h4>
-  //           <p>115</p>
-  //         </div>
-  //       </div>
-
-  //       {/* TABLE SECTION */}
-  //       <div className="table-section">
-  //         <div className="table-header">
-  //           <span>Show 10 entries</span>
-  //           <input
-  //             type="text"
-  //             placeholder="Search..."
-  //             value={search}
-  //             onChange={(e) => setSearch(e.target.value)}
-  //           />
-  //         </div>
-
-  //         <table>
-  //           <thead>
-  //             <tr>
-  //               <th>#</th>
-  //               <th>Test Name</th>
-  //               <th>No. of Questions</th>
-  //               <th>Action</th>
-  //             </tr>
-  //           </thead>
-  //           <tbody>
-  //             {activeExam && (
-  //               <tr>
-  //                 <td>1</td>
-  //                 <td>GE - Geomatics Engineering - Free Demo Test</td>
-  //                 <td>20</td>
-  //                 <td>
-  //                   <button
-  //                     className="result-btn"
-  //                     onClick={() =>
-  //                       navigate(`/exam/${activeExam.exam_id}`)
-  //                     }
-  //                   >
-  //                     Start
-  //                   </button>
-  //                 </td>
-  //               </tr>
-  //             )}
-  //           </tbody>
-  //         </table>
-  //       </div>
-
-  //     </div>
-  //   </div>
-  // );
-
-
   return (
     <div className="dashboard-layout">
 
@@ -236,11 +103,11 @@ function StudentDashboard() {
             📊 Dashboard
           </li>
 
-          <li onClick={() => navigate("/courses")}>📚 My Courses</li>
+          <li onClick={() => navigate("/video-lecture")}>📚 My Courses</li>
           <li onClick={() => navigate("/test")}>📝 Tests</li>
-          <li onClick={() => navigate("/result")}>🏆 Results</li>
+          {/* <li onClick={() => navigate("/result")}>🏆 Results</li> */}
           <li onClick={() => navigate("/study-material")}>📄 Study Material</li>
-          <li onClick={() => navigate("/video-lecture")}>🎥 Video Lectures</li>
+          {/* <li onClick={() => navigate("/video-lecture")}>🎥 Video Lectures</li> */}
 
         </ul>
       </div>
@@ -249,22 +116,6 @@ function StudentDashboard() {
       <div className="main-content">
 
         {/* 🔵 TOPBAR */}
-        {/* <div className="topbar">
-        <div>
-          <h2>Welcome, {studentName}</h2>
-          <p className="subtitle">Let's continue your learning journey!</p>
-        </div>
-
-        <input
-          className="search-box"
-          placeholder="Search courses, tests..."
-        />
-
-        <div className="profile">
-          👤 {studentName}
-        </div>
-      </div> */}
-
         <div className="topbar">
 
           <div className="topbar-left">
@@ -296,8 +147,8 @@ function StudentDashboard() {
 
               {openMenu && (
                 <div className="dropdown">
-                  <div className="dropdown-item">My Profile</div>
-                  <div className="dropdown-item">Settings</div>
+                  {/* <div className="dropdown-item">My Profile</div>
+                  <div className="dropdown-item">Settings</div> */}
                   <div className="dropdown-divider"></div>
                   <div
                     className="dropdown-item logout"
