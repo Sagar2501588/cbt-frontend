@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./login.css";
 import { useNavigate } from "react-router-dom";
 
+
 // const API_BASE = "http://127.0.0.1:8000";
 const API_BASE = "https://cbt-backend-production-a2f9.up.railway.app";
 
@@ -136,7 +137,7 @@ const handleLogin = async (e) => {
       setLoading(true);
       setError("");
 
-      const hashedPassword = await hashPassword(formData.password);
+      // const hashedPassword = await hashPassword(formData.password);
 
       const res = await fetch(`${API_BASE}/login-student`, {
         method: "POST",
@@ -145,7 +146,7 @@ const handleLogin = async (e) => {
         },
         body: new URLSearchParams({
           email: formData.email,
-          password: hashedPassword,
+          password: formData.password,
         }),
       });
 
@@ -184,7 +185,7 @@ const handleLogin = async (e) => {
     try {
       setLoading(true);
 
-      const hashedPassword = await hashPassword(formData.password);
+      // const hashedPassword = await hashPassword(formData.password);
 
       const res = await fetch(`${API_BASE}/register-student`, {
         method: "POST",
@@ -195,7 +196,7 @@ const handleLogin = async (e) => {
           name: formData.name,
           mobile: formData.mobile,
           email: formData.email,
-          password: hashedPassword,
+          password: formData.password,
         }),
       });
 
