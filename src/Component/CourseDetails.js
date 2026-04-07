@@ -1,28 +1,50 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CourseDetails.css";
+import { useEffect } from "react";
 
 export default function CourseDetails() {
   const navigate = useNavigate();
 
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [activeIndex, setActiveIndex] = useState(null);
-
-  const videos = [
-    {
-      title: "Introduction",
-      url: "https://www.w3schools.com/html/mov_bbb.mp4",
-    },
-    {
-      title: "Chapter 1",
-      url: "https://www.w3schools.com/html/movie.mp4",
-    },
-  ];
+  const [videos, setVideos] = useState([]);
 
   const handleVideoSelect = (videoUrl, index) => {
     setSelectedVideo(videoUrl);
     setActiveIndex(index);
   };
+
+  useEffect(() => {
+    const fetchCourse = async () => {
+      const student_id = localStorage.getItem("student_id");
+
+      const formData = new FormData();
+      formData.append("student_id", student_id);
+
+      const res = await fetch(
+        "https://cbt-backend-production-a2f9.up.railway.app/my-courses",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const data = await res.json();
+
+      if (data.courses.length > 0) {
+        const course = data.courses[0];
+        setVideos(course.videos || []);
+
+        if (course.videos && course.videos.length > 0) {
+          setSelectedVideo(course.videos[0].video_url);
+          setActiveIndex(0);
+        }
+      }
+    };
+
+    fetchCourse();
+  }, []);
 
   return (
     <div className="courseWrapper">
@@ -53,12 +75,11 @@ export default function CourseDetails() {
           {videos.map((video, index) => (
             <div
               key={index}
-              onClick={() => handleVideoSelect(video.url, index)}
-              className={`lessonItem ${
-                activeIndex === index ? "activeLesson" : ""
-              }`}
+              onClick={() => handleVideoSelect(video.video_url, index)}
+              className={`lessonItem ${activeIndex === index ? "activeLesson" : ""
+                }`}
             >
-              {video.title}
+              {video.title || `Video ${index + 1}`}
             </div>
           ))}
         </div>
