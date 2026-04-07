@@ -30,6 +30,7 @@ function VideoLecture() {
 
         const data = await res.json();
         console.log("API Response:", data);
+        console.log("Courses:", data);
 
         setCourses(data.courses || []);
       } catch (error) {
