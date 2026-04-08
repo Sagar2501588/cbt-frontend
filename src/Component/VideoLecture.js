@@ -3,9 +3,31 @@ import { API_BASE } from "../config";
 import { useNavigate } from "react-router-dom";
 import "./VideoLecture.css";
 
+import sankalpB1 from "../assets/Sankalp B1.jpeg";
+import sankalpB2 from "../assets/Sankalp B2.jpeg";
+import prithvi from "../assets/PRITHVI.jpeg";
+import dishantar from "../assets/DISHANTAR.jpeg";
+import pratibimb from "../assets/PRATIBIMB.jpeg";
+
+
+
 function VideoLecture() {
   const [courses, setCourses] = useState([]);
   const navigate = useNavigate();
+  const [studentName, setStudentName] = useState("");
+
+  const courseImages = {
+    "sankalp-b1": sankalpB1,
+    "sankalp-b2": sankalpB2,
+    "prithvi": prithvi,
+    "dishantar": dishantar,
+    "pratibimb": pratibimb,
+  };
+
+  useEffect(() => {
+    const name = localStorage.getItem("student_name");
+    setStudentName(name || "Student");
+  }, []);
 
   useEffect(() => {
     async function loadCourses() {
@@ -41,8 +63,28 @@ function VideoLecture() {
     loadCourses();
   }, []);
 
+
   return (
     <div className="videoLectureWrapper">
+
+      {/* NAVBAR */}
+      <div className="topNavbar">
+        <div className="navLeft">
+          <div className="logoBox">G</div>
+          <span className="brandName">Geomatics Galaxy</span>
+        </div>
+
+        <div className="navRight">
+
+          <div className="profileMini">
+            <div className="avatarCircle">
+              {studentName ? studentName.charAt(0).toUpperCase() : "S"}
+            </div>
+            <span className="userName">{studentName}</span>
+          </div>
+        </div>
+      </div>
+
       <h2 className="pageTitle">My Purchased Courses</h2>
 
       {courses.length === 0 ? (
@@ -50,26 +92,44 @@ function VideoLecture() {
           <p>No courses purchased yet.</p>
         </div>
       ) : (
-        <div className="courseGrid">
+        <div className="courseGrid centered">
           {courses.map((course) => (
             <div key={course.id} className="courseCard">
-              <div className="courseCardContent">
+
+              <div className="courseImageWrapper">
+                <img
+                  src={courseImages[course.course_slug] || "https://picsum.photos/400/200"}
+                  alt={course.name}
+                  className="courseImage"
+                />
+
+                {course.progress === 100 && (
+                  <span className="badge">Completed</span>
+                )}
+              </div>
+
+              <div className="courseContent">
                 <h3>{course.name}</h3>
-                <p className="courseSlug">{course.course_slug}</p>
+                <p className="courseSub">{course.course_slug}</p>
 
                 <button
                   className="courseBtn"
                   onClick={() => navigate(`/course/${course.course_slug}`)}
                 >
-                  Go To Course
+                  {course.progress === 100
+                    ? "Review Course"
+                    : "Continue Course"}
                 </button>
               </div>
+
             </div>
           ))}
         </div>
       )}
     </div>
   );
+
+
 }
 
 export default VideoLecture;

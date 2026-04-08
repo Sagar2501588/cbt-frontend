@@ -264,7 +264,7 @@ export default function PortalHome() {
           <div className="card">
             <div className="cardImage">
               <img src={sankalpB1} alt="Sankalp B1" />
-              <span className="badge">Featured</span>
+              {/* <span className="badge">Featured</span> */}
             </div>
 
             <div className="cardContent">

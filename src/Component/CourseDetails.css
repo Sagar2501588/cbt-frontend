@@ -1,197 +1,318 @@
-/* ================= WRAPPER ================= */
-
+/* ===== GLOBAL WRAPPER ===== */
 .courseWrapper {
-  padding: 30px 20px;
-  background: #f4f6f9;
+  padding: 25px;
+  background: #f8fafc;
   min-height: 100vh;
-
-  max-width: 1400px;     /* Fixed centered layout */
+  max-width: 1300px;   /* 👉 main fix */
   margin: 0 auto;
 }
 
-
-/* ================= TOP BUTTONS ================= */
-
-.topButtons {
+/* ===== TOP BAR ===== */
+.topBar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
-.navButton {
+.courseTitle {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.backBtn,
+.dashboardBtn {
   padding: 8px 16px;
-  background: #444;
-  color: white;
+  border-radius: 8px;
   border: none;
-  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  background: #1e293b;
+  color: white;
   font-size: 14px;
-}
-
-.navButton:hover {
-  background: #222;
+  transition: 0.3s;
 }
 
 .dashboardBtn {
-  background: darkred;
+  background: #dc2626;
+}
+
+.backBtn:hover {
+  background: #0f172a;
 }
 
 .dashboardBtn:hover {
-  background: #a00000;
+  background: #b91c1c;
 }
 
-
-/* ================= HEADER ================= */
-
-.courseHeader {
-  margin-bottom: 25px;
-}
-
-.courseHeader h2 {
-  margin-bottom: 10px;
-  font-size: 22px;
+/* ===== PROGRESS ===== */
+.progressTop {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 .progressBar {
-  width: 100%;
+  flex: 1;
   height: 8px;
-  background: #ddd;
-  border-radius: 5px;
+  background: #e5e7eb;
+  border-radius: 20px;
   overflow: hidden;
 }
 
 .progressFill {
-  width: 40%;
   height: 100%;
-  background: darkred;
-  border-radius: 5px;
+  background: linear-gradient(90deg, #2563eb, #6366f1);
+  border-radius: 20px;
 }
 
+.progressText {
+  font-size: 13px;
+  color: #475569;
+}
 
-/* ================= MAIN LAYOUT ================= */
-
+/* ===== MAIN LAYOUT ===== */
 .courseContainer {
   display: flex;
-  gap: 30px;
-  align-items: flex-start;
+  gap: 20px;
 }
 
-
-/* ================= SIDEBAR ================= */
-
+/* ===== SIDEBAR ===== */
 .curriculumSection {
-  flex: 0 0 320px;          /* Fixed width sidebar */
+  width: 300px;
   background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  border-radius: 14px;
+  padding: 18px;
+  height: 600px;
+  overflow-y: auto;
 }
 
 .curriculumSection h3 {
-  margin-bottom: 15px;
+  margin-bottom: 12px;
   font-size: 18px;
 }
 
+/* LESSON ITEM */
 .lessonItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 12px;
-  margin-bottom: 10px;
-  border-radius: 8px;
+  border-radius: 10px;
+  margin-bottom: 8px;
   cursor: pointer;
-  background: #f9f9f9;
-  transition: all 0.3s ease;
-  font-size: 14px;
+  background: #f8fafc;
+  transition: 0.3s;
 }
 
 .lessonItem:hover {
-  background: #eee;
+  background: #e2e8f0;
 }
 
 .activeLesson {
-  background: darkred;
+  background: linear-gradient(90deg, #2563eb, #6366f1);
   color: white;
 }
 
-
-/* ================= VIDEO SECTION ================= */
-
-.videoSection {
-  flex: 1;                 /* Remaining width */
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-  min-height: 550px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.lessonTitle {
+  font-size: 14px;
 }
 
+.lessonMeta {
+  font-size: 12px;
+}
+
+/* ===== VIDEO SECTION ===== */
+.videoSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* 👉 center everything */
+  gap: 15px;
+}
+
+/* VIDEO PLAYER */
 .videoPlayer {
   width: 100%;
-  height: 520px;          /* Fixed height */
-  object-fit: cover;
-  border-radius: 10px;
+  max-width: 900px;
+  max-height: 70vh;   /* 🔥 main magic */
+  border-radius: 14px;
+  background: black;
+  margin: 0 auto;
+  object-fit: contain;  /* 🔥 landscape + portrait both fit */
 }
 
+/* PLACEHOLDER */
 .placeholder {
-  height: 520px;
+  height: 420px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #888;
-  font-size: 16px;
+  background: #e2e8f0;
+  border-radius: 14px;
 }
 
-
-/* ================= RESPONSIVE ================= */
-
-@media (max-width: 1200px) {
-  .videoPlayer {
-    height: 450px;
-  }
+/* ===== VIDEO DETAILS ===== */
+.videoDetails {
+  width: 100%;
+  max-width: 900px;   /* 👉 match video width */
+  background: white;
+  padding: 18px;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
 }
 
+.videoDetails h3 {
+  margin-bottom: 6px;
+}
+
+.videoDetails p {
+  font-size: 14px;
+  color: #64748b;
+}
+
+/* ===== BUTTONS ===== */
+.actionBtns {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+}
+
+.completeBtn {
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.downloadBtn {
+  background: white;
+  border: 1px solid #2563eb;
+  color: #2563eb;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* ===== RESPONSIVE ===== */
 @media (max-width: 992px) {
   .courseContainer {
     flex-direction: column;
   }
 
   .curriculumSection {
-    flex: none;
     width: 100%;
-  }
-
-  .videoSection {
-    width: 100%;
-    min-height: auto;
+    height: auto;
   }
 
   .videoPlayer {
-    height: 350px;
+    height: 300px;
   }
 
   .placeholder {
-    height: 350px;
+    height: 300px;
   }
 }
 
 @media (max-width: 576px) {
-  .courseWrapper {
-    padding: 20px 15px;
-  }
-
   .videoPlayer {
-    height: 250px;
+    height: 220px;
   }
 
   .placeholder {
-    height: 250px;
+    height: 220px;
+  }
+}
+
+/* VIDEO WRAPPER */
+.videoPlayerWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background: black;
+  border-radius: 14px;
+  padding: 10px;
+}
+
+/* SMART VIDEO FIT */
+.videoPlayer {
+  width: 100%;
+  max-width: 900px;
+  max-height: 70vh;
+  border-radius: 10px;
+  object-fit: contain;
+}
+
+.videoSection {
+  align-items: center;
+}
+
+
+@media (max-width: 768px) {
+
+  /* 🔵 TOP BAR STACK */
+  .topBar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
   }
 
-  .navButton {
-    font-size: 12px;
-    padding: 6px 12px;
+  .courseTitle {
+    font-size: 18px;
+  }
+
+  /* 🔵 PROGRESS */
+  .progressTop {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  /* 🔵 MAIN LAYOUT STACK */
+  .courseContainer {
+    flex-direction: column;
+  }
+
+  /* 🔵 SIDEBAR FULL WIDTH */
+  .curriculumSection {
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+  }
+
+  /* 🔵 LESSON ITEM */
+  .lessonItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  /* 🔵 VIDEO */
+  .videoPlayer {
+    width: 100%;
+    max-height: 250px;
+  }
+
+  .videoPlayerWrapper {
+    padding: 5px;
+  }
+
+  /* 🔵 DETAILS */
+  .videoDetails {
+    padding: 12px;
+  }
+
+  /* 🔵 BUTTONS STACK */
+  .actionBtns {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .completeBtn,
+  .downloadBtn {
+    width: 100%;
+    text-align: center;
   }
 }

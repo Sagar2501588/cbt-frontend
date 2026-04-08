@@ -1,90 +1,222 @@
-/* ================= WRAPPER ================= */
-
+/* ===== GLOBAL ===== */
 .videoLectureWrapper {
-  padding: 40px 20px;
+  padding: 30px 40px;
+  background: #f8fafc;
   min-height: 100vh;
-  background: #f4f6f9;
-  max-width: 1400px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 100%;
 }
 
-.pageTitle {
-  font-size: 24px;
+/* ===== NAVBAR ===== */
+.topNavbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 14px 22px;
+  border-radius: 14px;
   margin-bottom: 30px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+}
+
+.navLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logoBox {
+  width: 38px;
+  height: 38px;
+  background: #1e293b;
+  color: white;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.brandName {
+  font-size: 17px;
   font-weight: 600;
 }
 
-/* ================= EMPTY STATE ================= */
-
-.emptyState {
-  background: white;
-  padding: 40px;
-  border-radius: 12px;
-  text-align: center;
-  color: #777;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+.navRight {
+  display: flex;
+  align-items: center;
+  gap: 18px;
 }
 
-/* ================= GRID ================= */
+.profileMini {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
+.avatarCircle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== TITLE ===== */
+.pageTitle {
+  font-size: 28px;
+  margin-bottom: 20px;
+  margin-left: 5px;
+}
+
+/* ===== SEARCH ===== */
+.searchInput {
+  width: 300px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  border: none;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  margin-bottom: 15px;
+}
+
+/* ===== FILTER ===== */
+.filterTabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.tab {
+  padding: 9px 18px;
+  border-radius: 12px;
+  background: #e2e8f0;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.tab.active {
+  background: #1e293b;
+  color: white;
+}
+
+/* ===== GRID ===== */
 .courseGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 30px;
 }
 
-/* ================= CARD ================= */
-
+/* ===== CARD ===== */
 .courseCard {
   background: white;
-  border-radius: 14px;
-  padding: 25px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.06);
-  transition: all 0.3s ease;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.07);
+  transition: 0.3s;
 }
 
 .courseCard:hover {
   transform: translateY(-6px);
-  box-shadow: 0 12px 35px rgba(0,0,0,0.12);
 }
 
-.courseCardContent h3 {
-  margin-bottom: 10px;
-  font-size: 18px;
+/* ===== IMAGE ===== */
+.courseImageWrapper {
+  position: relative;
 }
 
-.courseSlug {
-  font-size: 13px;
-  color: #999;
-  margin-bottom: 20px;
+.courseImage {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
 }
 
-/* ================= BUTTON ================= */
-
-.courseBtn {
-  padding: 10px 18px;
-  background: darkred;
+/* BADGE */
+.badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #22c55e;
   color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+}
+
+/* ===== CONTENT ===== */
+.courseContent {
+  padding: 18px;
+}
+
+.courseContent h3 {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.courseSub {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 10px;
+}
+
+/* ===== PROGRESS ===== */
+.progressRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.progressBar {
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 10px;
+  margin: 8px 0;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #2563eb, #6366f1);
+  border-radius: 10px;
+}
+
+/* ===== META ===== */
+.courseMeta {
+  display: flex;
+  gap: 15px;
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 15px;
+}
+
+/* ===== BUTTON ===== */
+.courseBtn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
   border: none;
-  border-radius: 6px;
+  background: linear-gradient(90deg, #ef4444, #dc2626);
+  color: white;
+  font-weight: 600;
   cursor: pointer;
-  font-weight: 500;
-  transition: all 0.3s ease;
 }
 
 .courseBtn:hover {
-  background: #a00000;
-  transform: scale(1.05);
+  opacity: 0.9;
 }
 
-/* ================= RESPONSIVE ================= */
-
+/* ===== MOBILE ===== */
 @media (max-width: 768px) {
-  .videoLectureWrapper {
-    padding: 25px 15px;
+
+  .searchInput {
+    width: 100%;
   }
 
-  .pageTitle {
-    font-size: 20px;
+  .courseGrid {
+    grid-template-columns: 1fr;
   }
+
 }

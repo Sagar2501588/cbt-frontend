@@ -24,6 +24,7 @@ function StudentDashboard() {
   const [search, setSearch] = useState("");
   const [courses, setCourses] = useState([]);
   const [openMenu, setOpenMenu] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(false);
 
   // 🔐 Login Check
   useEffect(() => {
@@ -90,7 +91,12 @@ function StudentDashboard() {
     <div className="dashboard-layout">
 
       {/* ================= SIDEBAR ================= */}
-      <div className="sidebar">
+      {/* <div className="sidebar"> */}
+      <div className={`sidebar ${showSidebar ? "show" : ""}`}>
+        {/* 👉 এইটা ADD করো */}
+        <div className="close-btn" onClick={() => setShowSidebar(false)}>
+          ✕
+        </div>
         <h2 className="logo">Geomatics Galaxy</h2>
         <ul>
 
@@ -119,6 +125,10 @@ function StudentDashboard() {
         <div className="topbar">
 
           <div className="topbar-left">
+            {/* ☰ ONLY MOBILE */}
+            <div className="hamburger" onClick={() => setShowSidebar(true)}>
+              ☰
+            </div>
             <h2>Welcome, {studentName}</h2>
             <p className="subtitle">Let's continue your learning journey!</p>
           </div>
@@ -129,7 +139,6 @@ function StudentDashboard() {
           />
 
           <div className="topbar-right">
-            🔔
             <div className="profile-wrapper">
 
               <div
@@ -190,49 +199,57 @@ function StudentDashboard() {
         {/* 🟣 MY COURSES */}
         <div className="section-header">
           <h2>My Courses</h2>
-          <span className="view-all">View All →</span>
+          {/* <span className="view-all">View All →</span> */}
         </div>
 
         <div className="course-grid">
           {courses.length > 0 ? (
             courses.map((course) => (
-              <div className="course-card" key={course.id}>
+              <div className="courseCard" key={course.id}>
 
                 {/* IMAGE */}
-                <div className="course-image-wrapper">
+                <div className="courseImageWrapper">
                   <img
-                    src={courseImages[course.course_slug] || "https://picsum.photos/300/200"}
+                    src={courseImages[course.course_slug] || "https://picsum.photos/400/200"}
                     alt={course.name}
-                    className="course-img"
+                    className="courseImage"
                   />
 
-                  <div className="play-icon">▶</div>
+                  {course.progress === 100 && (
+                    <span className="badge">Completed</span>
+                  )}
                 </div>
 
                 {/* CONTENT */}
-                <div className="course-content">
+                <div className="courseContent">
 
                   <h3>{course.name}</h3>
+                  <p className="courseSub">{course.course_slug}</p>
 
-                  <div className="progress-row">
+                  {/* <div className="progressRow">
                     <span>Progress</span>
-                    <span className="progress-percent">
-                      {course.progress || 0}%
-                    </span>
+                    <span>{course.progress || 0}%</span>
                   </div>
 
-                  <div className="progress-bar">
+                  <div className="progressBar">
                     <div
-                      className="progress-fill"
+                      className="progressFill"
                       style={{ width: `${course.progress || 0}%` }}
-                    ></div>
-                  </div>
+                    />
+                  </div> */}
+
+                  {/* <div className="courseMeta">
+                    <span>⏱ {course.duration || "12 hrs"}</span>
+                    <span>📚 {course.total_lessons || 24} Lessons</span>
+                  </div> */}
 
                   <button
-                    className="continue-btn"
+                    className="courseBtn"
                     onClick={() => navigate(`/course/${course.course_slug}`)}
                   >
-                    Continue Learning
+                    {course.progress === 100
+                      ? "Review Course"
+                      : "Continue Course"}
                   </button>
 
                 </div>
