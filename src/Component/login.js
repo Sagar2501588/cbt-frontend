@@ -130,7 +130,7 @@ function Login() {
   };
 
   // ================= LOGIN =================
-const handleLogin = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
@@ -218,142 +218,295 @@ const handleLogin = async (e) => {
     setLoading(false);
   };
 
+  // return (
+  //   <div className="login-container">
+
+  //     {/* LEFT PANEL */}
+  //     <div className="login-left">
+  //       <h1>Welcome Back</h1>
+  //       <p>
+  //         Unlock your learning journey and access premium courses,
+  //         video lectures, and your personalized dashboard.
+  //       </p>
+  //     </div>
+
+  //     {/* RIGHT PANEL */}
+  //     <div className="login-right">
+  //       <div className="login-box">
+
+  //         <h2>{isLogin ? "Sign In" : "Create Account"}</h2>
+
+  //         {error && <p className="error-text">{error}</p>}
+
+  //         {isLogin ? (
+  //           <form onSubmit={handleLogin}>
+  //             <input
+  //               type="email"
+  //               name="email"
+  //               placeholder="Email"
+  //               value={formData.email}
+  //               onChange={handleChange}
+  //               required
+  //             />
+
+  //             <input
+  //               type="password"
+  //               name="password"
+  //               placeholder="Password"
+  //               value={formData.password}
+  //               onChange={handleChange}
+  //               required
+  //             />
+
+  //             <button type="submit">
+  //               {loading ? "Logging in..." : "Sign In"}
+  //             </button>
+
+  //             <p className="toggle-text">
+  //               Don't have an account?{" "}
+  //               <span onClick={() => setIsLogin(false)}>Sign Up</span>
+  //             </p>
+  //           </form>
+  //         ) : (
+  //           <form onSubmit={handleRegister}>
+  //             <input
+  //               type="text"
+  //               name="mobile"
+  //               placeholder="Mobile"
+  //               value={formData.mobile}
+  //               onChange={handleChange}
+  //               required
+  //             />
+
+  //             {!otpSent && (
+  //               <button type="button" onClick={handleSendOtp}>
+  //                 Send OTP
+  //               </button>
+  //             )}
+
+  //             {otpSent && !mobileVerified && (
+  //               <>
+  //                 <input
+  //                   type="text"
+  //                   placeholder="Enter OTP"
+  //                   value={otp}
+  //                   onChange={(e) => setOtp(e.target.value)}
+  //                 />
+  //                 <button type="button" onClick={handleVerifyOtp}>
+  //                   Verify OTP
+  //                 </button>
+  //               </>
+  //             )}
+
+  //             {mobileVerified && (
+  //               <p style={{ color: "green" }}>Verified ✓</p>
+  //             )}
+
+  //             <input
+  //               type="email"
+  //               name="email"
+  //               placeholder="Email"
+  //               value={formData.email}
+  //               onChange={handleChange}
+  //               required
+  //             />
+
+  //             <input
+  //               type="text"
+  //               name="name"
+  //               placeholder="Full Name"
+  //               value={formData.name}
+  //               onChange={handleChange}
+  //               required
+  //             />
+
+  //             <input
+  //               type="password"
+  //               name="password"
+  //               placeholder="Password"
+  //               value={formData.password}
+  //               onChange={handleChange}
+  //               required
+  //             />
+
+  //             <input
+  //               type="password"
+  //               name="confirmPassword"
+  //               placeholder="Confirm Password"
+  //               value={formData.confirmPassword}
+  //               onChange={handleChange}
+  //               required
+  //             />
+
+  //             <button type="submit">
+  //               {loading ? "Creating..." : "Sign Up"}
+  //             </button>
+
+  //             <p className="toggle-text">
+  //               Already have an account?{" "}
+  //               <span onClick={() => setIsLogin(true)}>Login</span>
+  //             </p>
+
+  //             <p className="toggle-text">
+  //               Forgot Password?{" "}
+  //               <span onClick={() => navigate("/forgot-password")}>
+  //                 Reset here
+  //               </span>
+  //             </p>
+  //           </form>
+  //         )}
+
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
+
+
   return (
-    <div className="login-container">
+  <div className="login-container">
 
-      {/* LEFT PANEL */}
-      <div className="login-left">
-        <h1>Welcome Back</h1>
-        <p>
-          Unlock your learning journey and access premium courses,
-          video lectures, and your personalized dashboard.
-        </p>
-      </div>
+    {/* LEFT PANEL */}
+    <div className="login-left">
+      <h1>Welcome Back</h1>
+      <p>
+        Unlock your learning journey and access premium courses,
+        video lectures, and your personalized dashboard.
+      </p>
+    </div>
 
-      {/* RIGHT PANEL */}
-      <div className="login-right">
-        <div className="login-box">
+    {/* RIGHT PANEL */}
+    <div className="login-right">
+      <div className="login-box">
 
-          <h2>{isLogin ? "Sign In" : "Create Account"}</h2>
+        <h2>{isLogin ? "Sign In" : "Create Account"}</h2>
 
-          {error && <p className="error-text">{error}</p>}
+        {error && <p className="error-text">{error}</p>}
 
-          {isLogin ? (
-            <form onSubmit={handleLogin}>
-              <input
-                type="email"
-                name="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
+        {isLogin ? (
+          <form onSubmit={handleLogin}>
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
 
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
 
-              <button type="submit">
-                {loading ? "Logging in..." : "Sign In"}
+            <button type="submit">
+              {loading ? "Logging in..." : "Sign In"}
+            </button>
+
+            {/* 🔥 FIXED: Forgot Password এখানে */}
+            <p className="toggle-text">
+              Forgot Password?{" "}
+              <span onClick={() => navigate("/forgot-password")}>
+                Reset here
+              </span>
+            </p>
+
+            <p className="toggle-text">
+              Don't have an account?{" "}
+              <span onClick={() => setIsLogin(false)}>Sign Up</span>
+            </p>
+          </form>
+        ) : (
+          <form onSubmit={handleRegister}>
+            <input
+              type="text"
+              name="mobile"
+              placeholder="Mobile"
+              value={formData.mobile}
+              onChange={handleChange}
+              required
+            />
+
+            {!otpSent && (
+              <button type="button" onClick={handleSendOtp}>
+                Send OTP
               </button>
+            )}
 
-              <p className="toggle-text">
-                Don't have an account?{" "}
-                <span onClick={() => setIsLogin(false)}>Sign Up</span>
-              </p>
-            </form>
-          ) : (
-            <form onSubmit={handleRegister}>
-              <input
-                type="text"
-                name="mobile"
-                placeholder="Mobile"
-                value={formData.mobile}
-                onChange={handleChange}
-                required
-              />
-
-              {!otpSent && (
-                <button type="button" onClick={handleSendOtp}>
-                  Send OTP
+            {otpSent && !mobileVerified && (
+              <>
+                <input
+                  type="text"
+                  placeholder="Enter OTP"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                />
+                <button type="button" onClick={handleVerifyOtp}>
+                  Verify OTP
                 </button>
-              )}
+              </>
+            )}
 
-              {otpSent && !mobileVerified && (
-                <>
-                  <input
-                    type="text"
-                    placeholder="Enter OTP"
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value)}
-                  />
-                  <button type="button" onClick={handleVerifyOtp}>
-                    Verify OTP
-                  </button>
-                </>
-              )}
+            {mobileVerified && (
+              <p style={{ color: "green" }}>Verified ✓</p>
+            )}
 
-              {mobileVerified && (
-                <p style={{ color: "green" }}>Verified ✓</p>
-              )}
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
 
-              <input
-                type="email"
-                name="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
+            <input
+              type="text"
+              name="name"
+              placeholder="Full Name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
 
-              <input
-                type="text"
-                name="name"
-                placeholder="Full Name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
 
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
+            <input
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              required
+            />
 
-              <input
-                type="password"
-                name="confirmPassword"
-                placeholder="Confirm Password"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                required
-              />
+            <button type="submit">
+              {loading ? "Creating..." : "Sign Up"}
+            </button>
 
-              <button type="submit">
-                {loading ? "Creating..." : "Sign Up"}
-              </button>
+            <p className="toggle-text">
+              Already have an account?{" "}
+              <span onClick={() => setIsLogin(true)}>Login</span>
+            </p>
 
-              <p className="toggle-text">
-                Already have an account?{" "}
-                <span onClick={() => setIsLogin(true)}>Login</span>
-              </p>
-            </form>
-          )}
+            {/* ❌ এখানে থেকে REMOVE করা হয়েছে */}
+          </form>
+        )}
 
-        </div>
       </div>
     </div>
-  );
-
+  </div>
+);
 }
 
 export default Login;

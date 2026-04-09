@@ -8,6 +8,9 @@ import PortalHome from "./Component/PortalHome";
 import CourseDetails from "./Component/CourseDetails";
 import VideoLecture from "./Component/VideoLecture";
 import PaymentPage from "./Component/PaymentPage";
+import ComingSoon from "./Component/ComingSoon";
+import ForgotPassword from "./Component/ForgotPassword";
+import ResetPassword from "./Component/ResetPassword";
 
 
 
@@ -26,6 +29,11 @@ function App() {
       {/* <Route path="/test" element={<Test />} />
       <Route path="/result" element={<Result />} />
       <Route path="/study-material" element={<StudyMaterial />} /> */}
+      <Route path="/test" element={<ComingSoon />} />
+      <Route path="/study-material" element={<ComingSoon />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password/:token" element={<ResetPassword />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
     </Routes>
   );
 }
