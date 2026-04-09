@@ -27,7 +27,12 @@ export default function ForgotPassword() {
 
       const data = await res.json();
 
+      // ✅ Only ONE alert
       alert(data.message);
+
+      // ❌ REMOVE reset_link logic completely
+      // (OTP flow use korbo, link na)
+
     } catch (err) {
       alert("Something went wrong");
     }
@@ -37,13 +42,17 @@ export default function ForgotPassword() {
 
   return (
     <div className="login-container">
+
+      {/* LEFT PANEL */}
       <div className="login-left">
         <h1>Forgot Password</h1>
-        <p>Enter your email to reset your password</p>
+        <p>Enter your email to receive OTP</p>
       </div>
 
+      {/* RIGHT PANEL */}
       <div className="login-right">
         <div className="login-box">
+
           <h2>Reset Password</h2>
 
           <input
@@ -55,8 +64,9 @@ export default function ForgotPassword() {
           />
 
           <button onClick={handleSubmit}>
-            {loading ? "Sending..." : "Send Reset Link"}
+            {loading ? "Sending OTP..." : "Send OTP"}
           </button>
+
         </div>
       </div>
     </div>
