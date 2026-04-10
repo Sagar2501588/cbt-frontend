@@ -125,63 +125,59 @@ export default function ForgotPassword() {
   return (
     <div className="login-container">
 
-      {/* LEFT PANEL */}
-      <div className="login-left">
-        <h1>Forgot Password</h1>
-        <p>Reset your password using OTP</p>
-      </div>
+      <div className="login-box">
 
-      {/* RIGHT PANEL */}
-      <div className="login-right">
-        <div className="login-box">
-
-          <h2>Reset Password</h2>
-
-          {/* MOBILE */}
-          <input
-            type="text"
-            placeholder="Enter mobile (+91XXXXXXXXXX)"
-            value={mobile}
-            onChange={(e) => setMobile(e.target.value)}
-          />
-
-          <button onClick={handleSendOtp}>
-            {loading ? "Sending OTP..." : "Send OTP"}
-          </button>
-
-          {/* OTP SECTION */}
-          {otpSent && (
-            <>
-              <input
-                type="text"
-                placeholder="Enter OTP"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-              />
-
-              <button onClick={handleVerifyOtp}>
-                Verify OTP
-              </button>
-            </>
-          )}
-
-          {/* PASSWORD SECTION */}
-          {otpVerified && (
-            <>
-              <input
-                type="password"
-                placeholder="New Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-
-              <button onClick={handleReset}>
-                {loading ? "Processing..." : "Reset Password"}
-              </button>
-            </>
-          )}
-
+        {/* ICON */}
+        <div className="login-icon">
+          <i className="fa fa-lock"></i>
         </div>
+
+        <h2>RESET PASSWORD</h2>
+
+        {/* MOBILE */}
+        <input
+          type="text"
+          placeholder="Mobile Number"
+          value={mobile}
+          onChange={(e) => setMobile(e.target.value)}
+        />
+
+        <button onClick={handleSendOtp}>
+          {loading ? "Sending OTP..." : "Send OTP"}
+        </button>
+
+        {/* OTP */}
+        {otpSent && (
+          <>
+            <input
+              type="text"
+              placeholder="Enter OTP"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+            />
+
+            <button onClick={handleVerifyOtp}>
+              Verify OTP
+            </button>
+          </>
+        )}
+
+        {/* PASSWORD */}
+        {otpVerified && (
+          <>
+            <input
+              type="password"
+              placeholder="New Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+
+            <button onClick={handleReset}>
+              {loading ? "Processing..." : "Reset Password"}
+            </button>
+          </>
+        )}
+
       </div>
     </div>
   );

@@ -8,6 +8,8 @@ import sankalpB2 from "../assets/Sankalp B2.jpeg";
 import prithvi from "../assets/PRITHVI.jpeg";
 import dishantar from "../assets/DISHANTAR.jpeg";
 import pratibimb from "../assets/PRATIBIMB.jpeg";
+import gati from "../assets/gati.jpeg";
+import free from "../assets/free.jpeg";
 
 export default function PortalHome() {
   const navigate = useNavigate();
@@ -36,20 +38,36 @@ export default function PortalHome() {
   };
 
   // ✅ Buy function
-  const handleBuy = (slug) => {
-    const studentId = localStorage.getItem("student_id");
+  // const handleBuy = (slug) => {
+  //   const studentId = localStorage.getItem("student_id");
 
-    if (!studentId) {
-      localStorage.setItem("pending_course", slug);
-      navigate("/login");
-    } else {
-      navigate(`/payment/${slug}`);
-    }
-  };
+  //   if (!studentId) {
+  //     localStorage.setItem("pending_course", slug);
+  //     navigate("/login");
+  //   } else {
+  //     navigate(`/payment/${slug}`);
+  //   }
+  // };
+
+  const handleBuy = (slug) => {
+  const studentId = localStorage.getItem("student_id");
+
+  if (!studentId) {
+    localStorage.setItem("pending_course", slug);
+    navigate("/login");
+    return;
+  }
+
+  // ✅ FREE COURSE FIX
+  if (slug === "free-content") {
+    navigate(`/course/${slug}`); // direct open (no payment)
+  } else {
+    navigate(`/payment/${slug}`);
+  }
+};
 
   return (
     <div>
-      {/* ================= NAVBAR ================= */}
       <header className="navbar">
         <div className="logoContainer">
           <img src={logoImg} alt="Logo" className="siteLogo" />
@@ -246,7 +264,26 @@ export default function PortalHome() {
         <div className="courseGrid">
 
           {/* FREE */}
+          {/* <div className="card">
+            <div className="cardContent">
+              <h3>Free Content</h3>
+              <p className="desc">Basic Learning Materials Available</p>
+
+              <div className="cardFooter">
+                <span className="price">FREE</span>
+                <button onClick={() => handleBuy("free-content")}>
+                  Buy Now
+                </button>
+              </div>
+            </div>
+          </div> */}
+
+          {/* FREE */}
           <div className="card">
+            <div className="cardImage">
+              <img src={free} alt="Free Course" />
+            </div>
+
             <div className="cardContent">
               <h3>Free Content</h3>
               <p className="desc">Basic Learning Materials Available</p>
@@ -362,7 +399,29 @@ export default function PortalHome() {
           </div>
 
           {/* GATI */}
+          {/* <div className="card">
+            <div className="cardContent">
+              <h3>Batch GATI – Crash Course</h3>
+              <p className="desc">
+                Includes: Part A, Part B1 & Part B2
+              </p>
+              <p className="date">Activation: 02 Oct 2026</p>
+
+              <div className="cardFooter">
+                <span className="price">₹4000</span>
+                <button onClick={() => handleBuy("gati-crash-course")}>
+                  Buy Now
+                </button>
+              </div>
+            </div>
+          </div> */}
+
+          {/* GATI */}
           <div className="card">
+            <div className="cardImage">
+              <img src={gati} alt="Gati Course" />
+            </div>
+
             <div className="cardContent">
               <h3>Batch GATI – Crash Course</h3>
               <p className="desc">
@@ -448,10 +507,21 @@ export default function PortalHome() {
                 </div>
               </a>
 
-              <div className="socialItem highlight">
+              {/* <div className="socialItem highlight">
                 <FaWhatsapp className="icon" />
                 +91 98765 43210
-              </div>
+              </div> */}
+
+              <a
+                href="https://whatsapp.com/channel/0029VamEEeW545uqRpkY2U2L"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <div className="socialItem highlight">
+                  <FaWhatsapp className="icon" />
+                  WhatsApp Channel
+                </div>
+              </a>
 
               <a href="https://www.instagram.com/galaxyofgeomatics" target="_blank" rel="noreferrer">
                 <div className="socialItem">
@@ -471,7 +541,14 @@ export default function PortalHome() {
             <div className="helpCard">
               <h3>Need Immediate Help?</h3>
               <p>Our support team is available 24/7</p>
-              <button>Chat Now</button>
+
+              <a
+                href="https://wa.me/919459889005"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <button>Chat Now</button>
+              </a>
             </div>
 
           </div>

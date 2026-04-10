@@ -117,60 +117,117 @@ export default function ResetPassword() {
     setLoading(false);
   };
 
-  return (
-    <div className="login-container">
-      <div className="login-left">
-        <h1>Reset Password</h1>
-        <p>Use OTP to securely reset your password</p>
+  // return (
+  //   <div className="login-container">
+  //     <div className="login-left">
+  //       <h1>Reset Password</h1>
+  //       <p>Use OTP to securely reset your password</p>
+  //     </div>
+
+  //     <div className="login-right">
+  //       <div className="login-box">
+
+  //         <h2>Reset Password</h2>
+
+  //         {/* MOBILE */}
+  //         <input
+  //           type="text"
+  //           placeholder="Enter Mobile (+91XXXXXXXXXX)"
+  //           value={mobile}
+  //           onChange={(e) => setMobile(e.target.value)}
+  //         />
+
+  //         <button onClick={handleSendOtp}>
+  //           Send OTP
+  //         </button>
+
+  //         {/* OTP */}
+  //         <input
+  //           type="text"
+  //           placeholder="Enter OTP"
+  //           value={otp}
+  //           onChange={(e) => setOtp(e.target.value)}
+  //         />
+
+  //         <button onClick={handleVerifyOtp}>
+  //           Verify OTP
+  //         </button>
+
+  //         {/* PASSWORD (only after OTP verified) */}
+  //         {otpVerified && (
+  //           <>
+  //             <input
+  //               type="password"
+  //               placeholder="New Password"
+  //               value={password}
+  //               onChange={(e) => setPassword(e.target.value)}
+  //             />
+
+  //             <button onClick={handleReset}>
+  //               {loading ? "Processing..." : "Reset Password"}
+  //             </button>
+  //           </>
+  //         )}
+
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
+
+
+
+return (
+  <div className="login-container">
+
+    <div className="login-box">
+
+      <div className="login-icon">
+        <i className="fa fa-lock"></i>
       </div>
 
-      <div className="login-right">
-        <div className="login-box">
+      <h2>RESET PASSWORD</h2>
 
-          <h2>Reset Password</h2>
+      {/* MOBILE */}
+      <input
+        type="text"
+        placeholder="Mobile Number"
+        value={mobile}
+        onChange={(e) => setMobile(e.target.value)}
+      />
 
-          {/* MOBILE */}
+      <button onClick={handleSendOtp}>
+        {loading ? "Sending OTP..." : "Send OTP"}
+      </button>
+
+      {/* OTP */}
+      <input
+        type="text"
+        placeholder="Enter OTP"
+        value={otp}
+        onChange={(e) => setOtp(e.target.value)}
+      />
+
+      <button onClick={handleVerifyOtp}>
+        Verify OTP
+      </button>
+
+      {/* PASSWORD */}
+      {otpVerified && (
+        <>
           <input
-            type="text"
-            placeholder="Enter Mobile (+91XXXXXXXXXX)"
-            value={mobile}
-            onChange={(e) => setMobile(e.target.value)}
+            type="password"
+            placeholder="New Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
 
-          <button onClick={handleSendOtp}>
-            Send OTP
+          <button onClick={handleReset}>
+            {loading ? "Processing..." : "Reset Password"}
           </button>
+        </>
+      )}
 
-          {/* OTP */}
-          <input
-            type="text"
-            placeholder="Enter OTP"
-            value={otp}
-            onChange={(e) => setOtp(e.target.value)}
-          />
-
-          <button onClick={handleVerifyOtp}>
-            Verify OTP
-          </button>
-
-          {/* PASSWORD (only after OTP verified) */}
-          {otpVerified && (
-            <>
-              <input
-                type="password"
-                placeholder="New Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-
-              <button onClick={handleReset}>
-                {loading ? "Processing..." : "Reset Password"}
-              </button>
-            </>
-          )}
-
-        </div>
-      </div>
     </div>
-  );
+  </div>
+);
 }
