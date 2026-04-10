@@ -3,17 +3,22 @@ import React, { useState } from "react";
 const API_BASE = "https://api.geomaticsgalaxy.com";
 
 export default function ResetPassword() {
-  const [email, setEmail] = useState("");
+  const [mobile, setMobile] = useState("");
   const [otp, setOtp] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [otpVerified, setOtpVerified] = useState(false);
 
   // 🔹 STEP 1: Send OTP
   const handleSendOtp = async () => {
-    if (!email) {
-      alert("Enter your email");
+    if (!mobile) {
+      alert("Enter mobile number");
       return;
     }
+
+    const formattedMobile = mobile.startsWith("+")
+      ? mobile
+      : "+91" + mobile;
 
     try {
       setLoading(true);
@@ -24,7 +29,7 @@ export default function ResetPassword() {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         body: new URLSearchParams({
-          email,
+          mobile: formattedMobile,
         }),
       });
 
@@ -45,22 +50,30 @@ export default function ResetPassword() {
       return;
     }
 
+    const formattedMobile = mobile.startsWith("+")
+      ? mobile
+      : "+91" + mobile;
+
     try {
       setLoading(true);
 
-      const res = await fetch(`${API_BASE}/verify-otp`, {
+      const res = await fetch(`${API_BASE}/auth/verify-mobile`, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         body: new URLSearchParams({
-          email,
+          mobile: formattedMobile,
           otp,
         }),
       });
 
       const data = await res.json();
       alert(data.message);
+
+      if (data.status === "success") {
+        setOtpVerified(true);
+      }
 
     } catch (err) {
       alert("OTP verification failed");
@@ -76,6 +89,10 @@ export default function ResetPassword() {
       return;
     }
 
+    const formattedMobile = mobile.startsWith("+")
+      ? mobile
+      : "+91" + mobile;
+
     try {
       setLoading(true);
 
@@ -85,7 +102,7 @@ export default function ResetPassword() {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         body: new URLSearchParams({
-          email,
+          mobile: formattedMobile,
           password,
         }),
       });
@@ -102,25 +119,22 @@ export default function ResetPassword() {
 
   return (
     <div className="login-container">
-
-      {/* LEFT */}
       <div className="login-left">
         <h1>Reset Password</h1>
         <p>Use OTP to securely reset your password</p>
       </div>
 
-      {/* RIGHT */}
       <div className="login-right">
         <div className="login-box">
 
           <h2>Reset Password</h2>
 
-          {/* EMAIL */}
+          {/* MOBILE */}
           <input
-            type="email"
-            placeholder="Enter Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="text"
+            placeholder="Enter Mobile (+91XXXXXXXXXX)"
+            value={mobile}
+            onChange={(e) => setMobile(e.target.value)}
           />
 
           <button onClick={handleSendOtp}>
@@ -139,21 +153,24 @@ export default function ResetPassword() {
             Verify OTP
           </button>
 
-          {/* PASSWORD */}
-          <input
-            type="password"
-            placeholder="New Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          {/* PASSWORD (only after OTP verified) */}
+          {otpVerified && (
+            <>
+              <input
+                type="password"
+                placeholder="New Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
 
-          <button onClick={handleReset}>
-            {loading ? "Processing..." : "Reset Password"}
-          </button>
+              <button onClick={handleReset}>
+                {loading ? "Processing..." : "Reset Password"}
+              </button>
+            </>
+          )}
 
         </div>
       </div>
-
     </div>
   );
 }

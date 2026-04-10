@@ -15,7 +15,8 @@ export default function CourseDetails() {
   };
   const { slug } = useParams();
   const [courseData, setCourseData] = useState(null);
-  const API_BASE = "https://cbt-backend-production-a2f9.up.railway.app";
+  // const API_BASE = "https://cbt-backend-production-a2f9.up.railway.app";
+  const API_BASE = "https://api.geomaticsgalaxy.com";
 
   useEffect(() => {
     const fetchCourse = async () => {
