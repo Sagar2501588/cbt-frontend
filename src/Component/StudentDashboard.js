@@ -7,6 +7,8 @@ import sankalpB2 from "../assets/Sankalp B2.jpeg";
 import prithvi from "../assets/PRITHVI.jpeg";
 import dishantar from "../assets/DISHANTAR.jpeg";
 import pratibimb from "../assets/PRATIBIMB.jpeg";
+import gati from "../assets/gati.jpeg";
+import free from "../assets/free.jpeg";
 
 const courseImages = {
   "sankalp-b1": sankalpB1,
@@ -14,6 +16,8 @@ const courseImages = {
   "prithvi": prithvi,
   "dishantar": dishantar,
   "pratibimb": pratibimb,
+  "free-content": free,
+  "gati-crash-course": gati,
 };
 
 function StudentDashboard() {

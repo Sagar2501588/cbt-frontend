@@ -20,6 +20,8 @@ export default function PortalHome() {
     "prithvi": prithvi,
     "dishantar": dishantar,
     "pratibimb": pratibimb,
+    "free-content": free,
+    "gati-crash-course": gati,
   };
 
   // ✅ Correct place for useEffect
