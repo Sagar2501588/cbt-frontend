@@ -134,7 +134,7 @@ function StudentDashboard() {
               ☰
             </div>
             <h2>Welcome, {studentName}</h2>
-            <p className="subtitle">Let's continue your learning journey!</p>
+            <p className="subtitle">Let’s dive into the Galaxy of Geomatics!</p>
           </div>
 
           <input

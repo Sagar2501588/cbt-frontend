@@ -52,21 +52,21 @@ export default function PortalHome() {
   // };
 
   const handleBuy = (slug) => {
-  const studentId = localStorage.getItem("student_id");
+    const studentId = localStorage.getItem("student_id");
 
-  if (!studentId) {
-    localStorage.setItem("pending_course", slug);
-    navigate("/login");
-    return;
-  }
+    if (!studentId) {
+      localStorage.setItem("pending_course", slug);
+      navigate("/login");
+      return;
+    }
 
-  // ✅ FREE COURSE FIX
-  if (slug === "free-content") {
-    navigate(`/course/${slug}`); // direct open (no payment)
-  } else {
-    navigate(`/payment/${slug}`);
-  }
-};
+    // ✅ FREE COURSE FIX
+    if (slug === "free-content") {
+      navigate(`/course/${slug}`); // direct open (no payment)
+    } else {
+      navigate(`/payment/${slug}`);
+    }
+  };
 
   return (
     <div>
@@ -78,6 +78,7 @@ export default function PortalHome() {
 
         <nav>
           <a href="#home">Home</a>
+          <a href="/about">About</a>
           <a href="#courses">Courses</a>
           <a href="#contact">Contact</a>
         </nav>
@@ -110,150 +111,21 @@ export default function PortalHome() {
       </header>
 
       {/* ================= HERO ================= */}
-      <section id="home" className="hero"></section>
-
-      {/* ================= COURSES ================= */}
-      {/* <section id="courses" className="courses">
-        <h2>Courses Available</h2>
-
-        <div className="courseGrid">
-          <div className="courseCard">
-            <h3>Free Content</h3>
-            <p>Basic Learning Materials Available</p>
-            <button
-              className="buyBtn"
-              onClick={() => handleBuy("free-content")}
-            >
-              Buy Now
-            </button>
-          </div>
-
-          <div className="courseCard">
-            <img
-              src={sankalpB1}
-              alt="Sankalp B1"
-              className="courseImg"
-            />
-
-            <h3>Batch SANKALP (B1)</h3>
-            <p>Includes: Part A & Part B1</p>
-
-            <p className="activationDate">
-              Activation Date: 14 Apr 2026
-            </p>
-
-            <button
-              className="buyBtn"
-              onClick={() => handleBuy("sankalp-b1")}
-            >
-              Buy Now
-            </button>
-          </div>
-
-          <div className="courseCard">
-            <img
-              src={sankalpB2}
-              alt="Sankalp B2"
-              className="courseImg"
-            />
-
-            <h3>Batch SANKALP (B2)</h3>
-            <p>Includes: Part A & Part B2</p>
-
-            <p className="activationDate">
-              Activation Date: 14 Apr 2026
-            </p>
-
-            <button
-              className="buyBtn"
-              onClick={() => handleBuy("sankalp-b2")}
-            >
-              Buy Now
-            </button>
-          </div>
-
-          <div className="courseCard">
-            <img
-              src={courseImages["prithvi"]}
-              alt="Prithvi"
-              className="courseImg"
-            />
-
-            <h3>Batch PRITHVI</h3>
-            <p>Includes: Part A Only</p>
-
-            <p className="activationDate">
-              Activation Date: 14 Apr 2026
-            </p>
-
-            <button
-              className="buyBtn"
-              onClick={() => handleBuy("prithvi")}
-            >
-              Buy Now
-            </button>
-          </div>
-
-          <div className="courseCard">
-            <img
-              src={courseImages["dishantar"]}
-              alt="Dishantar"
-              className="courseImg"
-            />
-
-            <h3>Batch DISHANTAR</h3>
-            <p>Includes: Part B1 Only</p>
-
-            <p className="activationDate">
-              Activation Date: 14 Aug 2026
-            </p>
-
-            <button
-              className="buyBtn"
-              onClick={() => handleBuy("dishantar")}
-            >
-              Buy Now
-            </button>
-          </div>
-
-          <div className="courseCard">
-            <img
-              src={courseImages["pratibimb"]}
-              alt="Pratibimb"
-              className="courseImg"
-            />
-
-            <h3>Batch PRATIBIMB</h3>
-            <p>Includes: Part B2 Only</p>
-
-            <p className="activationDate">
-              Activation Date: 14 Aug 2026
-            </p>
-
-            <button
-              className="buyBtn"
-              onClick={() => handleBuy("pratibimb")}
-            >
-              Buy Now
-            </button>
-          </div>
-
-          <div className="courseCard">
-            <h3>Batch GATI – Crash Course</h3>
-            <p>Includes: Part A, Part B1 & Part B2</p>
-            <p className="activationDate">
-              Activation Date: 02 Oct 2026
-            </p>
-            <button
-              className="buyBtn"
-              onClick={() => handleBuy("gati-crash-course")}
-            >
-              Buy Now
-            </button>
-          </div>
+      {/* <section id="home" className="hero">
+        <div className="heroContent">
+          <h1>Welcome to Geomatics Galaxy</h1>
         </div>
       </section> */}
 
+      <section id="home" className="hero">
+        <div className="heroContent">
+          <h1 className="heroText">
+            Welcome to <br /> Galaxy of Geomatics <br /> where we NAVIGATE you to SUCCESS
+          </h1>
+        </div>
+      </section>
+
+      {/* ================= COURSES ================= */}
       <section id="courses" className="courses">
         <div className="coursesHeader">
           <h1>Courses Available</h1>

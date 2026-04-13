@@ -1,22 +1,22 @@
 import React from "react";
+import "./ComingSoon.css";
 
 export default function ComingSoon() {
   return (
-    <div style={{
-      height: "100vh",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      flexDirection: "column",
-      background: "#f5f7fb"
-    }}>
-      <h1 style={{ fontSize: "40px", marginBottom: "10px" }}>
-        🚧 Coming Soon
-      </h1>
+    <div className="comingWrapper">
 
-      <p style={{ color: "gray" }}>
-        {/* This feature is under development */}
-      </p>
+      <div className="comingBox">
+        <h1>🚧 Coming Soon</h1>
+
+        <p>
+          This feature is under development.
+        </p>
+
+        <button onClick={() => window.history.back()}>
+          Go Back
+        </button>
+      </div>
+
     </div>
   );
 }

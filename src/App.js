@@ -11,6 +11,7 @@ import PaymentPage from "./Component/PaymentPage";
 import ComingSoon from "./Component/ComingSoon";
 import ForgotPassword from "./Component/ForgotPassword";
 import ResetPassword from "./Component/ResetPassword";
+import About from "./Component/About";
 
 
 
@@ -35,6 +36,7 @@ function App() {
       <Route path="/reset-password/:token" element={<ResetPassword />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/course/:slug" element={<CourseDetails />} />
+      <Route path="/about" element={<About />} />
     </Routes>
   );
 }

@@ -1,13 +1,14 @@
-/* ===== GLOBAL WRAPPER ===== */
+/* 🔥 GLOBAL */
 .courseWrapper {
   padding: 25px;
-  background: #f8fafc;
+  background: #020617;
   min-height: 100vh;
-  max-width: 1300px;   /* 👉 main fix */
+  max-width: 1300px;
   margin: 0 auto;
+  color: white;
 }
 
-/* ===== TOP BAR ===== */
+/* 🔥 TOP BAR */
 .topBar {
   display: flex;
   justify-content: space-between;
@@ -18,33 +19,37 @@
 .courseTitle {
   font-size: 22px;
   font-weight: 600;
+  color: white;
 }
 
+/* 🔥 BUTTONS */
 .backBtn,
 .dashboardBtn {
   padding: 8px 16px;
   border-radius: 8px;
   border: none;
   cursor: pointer;
-  background: #1e293b;
-  color: white;
   font-size: 14px;
   transition: 0.3s;
 }
 
+/* gradient button */
+.backBtn {
+  background: linear-gradient(90deg, #a78bfa, #38bdf8);
+  color: white;
+}
+
 .dashboardBtn {
-  background: #dc2626;
+  background: linear-gradient(90deg, #ef4444, #dc2626);
+  color: white;
 }
 
-.backBtn:hover {
-  background: #0f172a;
-}
-
+.backBtn:hover,
 .dashboardBtn:hover {
-  background: #b91c1c;
+  transform: scale(1.05);
 }
 
-/* ===== PROGRESS ===== */
+/* 🔥 PROGRESS */
 .progressTop {
   display: flex;
   align-items: center;
@@ -55,44 +60,45 @@
 .progressBar {
   flex: 1;
   height: 8px;
-  background: #e5e7eb;
+  background: rgba(255,255,255,0.1);
   border-radius: 20px;
   overflow: hidden;
 }
 
 .progressFill {
   height: 100%;
-  background: linear-gradient(90deg, #2563eb, #6366f1);
+  background: linear-gradient(90deg, #a78bfa, #38bdf8);
   border-radius: 20px;
 }
 
 .progressText {
   font-size: 13px;
-  color: #475569;
+  color: #94a3b8;
 }
 
-/* ===== MAIN LAYOUT ===== */
+/* 🔥 MAIN LAYOUT */
 .courseContainer {
   display: flex;
   gap: 20px;
 }
 
-/* ===== SIDEBAR ===== */
+/* 🔥 SIDEBAR */
 .curriculumSection {
   width: 300px;
-  background: white;
+  background: rgba(255,255,255,0.05);
   border-radius: 14px;
   padding: 18px;
   height: 600px;
   overflow-y: auto;
+  border: 1px solid rgba(255,255,255,0.08);
 }
 
 .curriculumSection h3 {
   margin-bottom: 12px;
-  font-size: 18px;
+  color: white;
 }
 
-/* LESSON ITEM */
+/* 🔥 LESSON ITEM */
 .lessonItem {
   display: flex;
   justify-content: space-between;
@@ -101,132 +107,31 @@
   border-radius: 10px;
   margin-bottom: 8px;
   cursor: pointer;
-  background: #f8fafc;
+  background: rgba(255,255,255,0.04);
+  color: #cbd5f5;
   transition: 0.3s;
 }
 
 .lessonItem:hover {
-  background: #e2e8f0;
+  background: rgba(255,255,255,0.08);
 }
 
+/* ACTIVE */
 .activeLesson {
-  background: linear-gradient(90deg, #2563eb, #6366f1);
+  background: linear-gradient(90deg, #a78bfa, #38bdf8);
   color: white;
 }
 
-.lessonTitle {
-  font-size: 14px;
-}
-
-.lessonMeta {
-  font-size: 12px;
-}
-
-/* ===== VIDEO SECTION ===== */
+/* 🔥 VIDEO SECTION */
 .videoSection {
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;   /* 👉 center everything */
+  align-items: center;
   gap: 15px;
 }
 
-/* VIDEO PLAYER */
-.videoPlayer {
-  width: 100%;
-  max-width: 900px;
-  max-height: 70vh;   /* 🔥 main magic */
-  border-radius: 14px;
-  background: black;
-  margin: 0 auto;
-  object-fit: contain;  /* 🔥 landscape + portrait both fit */
-}
-
-/* PLACEHOLDER */
-.placeholder {
-  height: 420px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #e2e8f0;
-  border-radius: 14px;
-}
-
-/* ===== VIDEO DETAILS ===== */
-.videoDetails {
-  width: 100%;
-  max-width: 900px;   /* 👉 match video width */
-  background: white;
-  padding: 18px;
-  border-radius: 14px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-}
-
-.videoDetails h3 {
-  margin-bottom: 6px;
-}
-
-.videoDetails p {
-  font-size: 14px;
-  color: #64748b;
-}
-
-/* ===== BUTTONS ===== */
-.actionBtns {
-  margin-top: 12px;
-  display: flex;
-  gap: 10px;
-}
-
-.completeBtn {
-  background: #dc2626;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.downloadBtn {
-  background: white;
-  border: 1px solid #2563eb;
-  color: #2563eb;
-  padding: 10px 16px;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 992px) {
-  .courseContainer {
-    flex-direction: column;
-  }
-
-  .curriculumSection {
-    width: 100%;
-    height: auto;
-  }
-
-  .videoPlayer {
-    height: 300px;
-  }
-
-  .placeholder {
-    height: 300px;
-  }
-}
-
-@media (max-width: 576px) {
-  .videoPlayer {
-    height: 220px;
-  }
-
-  .placeholder {
-    height: 220px;
-  }
-}
-
-/* VIDEO WRAPPER */
+/* 🔥 VIDEO */
 .videoPlayerWrapper {
   width: 100%;
   display: flex;
@@ -236,7 +141,6 @@
   padding: 10px;
 }
 
-/* SMART VIDEO FIT */
 .videoPlayer {
   width: 100%;
   max-width: 900px;
@@ -245,74 +149,81 @@
   object-fit: contain;
 }
 
-.videoSection {
+/* 🔥 PLACEHOLDER */
+.placeholder {
+  height: 420px;
+  display: flex;
   align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.08);
+  border-radius: 14px;
+  color: #94a3b8;
 }
 
+/* 🔥 VIDEO DETAILS (optional future use) */
+.videoDetails {
+  width: 100%;
+  max-width: 900px;
+  background: rgba(255,255,255,0.05);
+  padding: 18px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
 
+.videoDetails h3 {
+  color: white;
+}
+
+.videoDetails p {
+  color: #94a3b8;
+}
+
+/* 🔥 BUTTONS */
+.actionBtns {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+}
+
+.completeBtn {
+  background: linear-gradient(90deg, #ef4444, #dc2626);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+}
+
+.downloadBtn {
+  background: transparent;
+  border: 1px solid #38bdf8;
+  color: #38bdf8;
+  padding: 10px 16px;
+  border-radius: 10px;
+}
+
+/* 🔥 RESPONSIVE */
 @media (max-width: 768px) {
 
-  /* 🔵 TOP BAR STACK */
   .topBar {
     flex-direction: column;
-    align-items: flex-start;
     gap: 10px;
   }
 
-  .courseTitle {
-    font-size: 18px;
-  }
-
-  /* 🔵 PROGRESS */
-  .progressTop {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
-  }
-
-  /* 🔵 MAIN LAYOUT STACK */
   .courseContainer {
     flex-direction: column;
   }
 
-  /* 🔵 SIDEBAR FULL WIDTH */
   .curriculumSection {
     width: 100%;
     height: auto;
     max-height: 300px;
   }
 
-  /* 🔵 LESSON ITEM */
-  .lessonItem {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-  }
-
-  /* 🔵 VIDEO */
   .videoPlayer {
-    width: 100%;
     max-height: 250px;
   }
 
-  .videoPlayerWrapper {
-    padding: 5px;
-  }
-
-  /* 🔵 DETAILS */
-  .videoDetails {
-    padding: 12px;
-  }
-
-  /* 🔵 BUTTONS STACK */
-  .actionBtns {
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .completeBtn,
-  .downloadBtn {
-    width: 100%;
-    text-align: center;
+  .placeholder {
+    height: 250px;
   }
 }

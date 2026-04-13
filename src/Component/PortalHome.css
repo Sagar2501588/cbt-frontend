@@ -12,7 +12,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #eff4e9;
+  background: linear-gradient(135deg, #0f1c2e, #1e2f4f);
   padding: 12px 60px;
   border-bottom: 1px solid #e5e5e5;
   position: sticky;
@@ -24,40 +24,55 @@ body {
 .logoContainer {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.logoContainer:hover {
+  transform: scale(1.05);
 }
 
 .siteLogo {
-  width: 50px;
-  height: 50px;
-  object-fit: contain;
-  border-radius: 50%;
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;   /* 🔥 circle না, modern square */
+  object-fit: cover;
+  background: rgba(255,255,255,0.1);
+  padding: 6px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
 }
 
 .logo {
   margin: 0;
   font-size: 24px;
-  font-weight: 700;
-  color: darkred;
+  font-weight: 800;
+  background: linear-gradient(90deg, #ffffff, #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   letter-spacing: 1px;
 }
 
 /* Navigation Links */
 .navbar nav {
   display: flex;
-  align-items: center;
-  gap: 25px;
+  gap: 25px;              /* 🔥 links এর মাঝে proper gap */
+  margin-left: auto;      /* 🔥 পুরো nav ডানে যাবে */
+  margin-right: 20px;     /* 🔥 login button এর সাথে gap */
 }
 
 .navbar nav a {
   text-decoration: none;
-  color: #333;
-  font-weight: 500;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
   position: relative;
   transition: 0.3s;
 }
 
-/* Underline Hover Effect */
+/* 🔥 Underline hover */
 .navbar nav a::after {
   content: "";
   position: absolute;
@@ -65,23 +80,74 @@ body {
   height: 2px;
   left: 0;
   bottom: -4px;
-  background: darkred;
+
+  background: #ff4d4d;   /* 🔥 red underline */
   transition: 0.3s;
 }
 
+/* 🔥 Hover effect */
 .navbar nav a:hover {
-  color: darkred;
+  color: #ff4d4d;   /* 🔥 red on hover */
 }
 
 .navbar nav a:hover::after {
   width: 100%;
 }
 
+
+@media (max-width: 768px) {
+
+  .navbar {
+    flex-direction: row;   /* 🔥 column না */
+    padding: 12px 20px;
+  }
+
+  /* 🔥 nav hide (mobile এ) */
+  .navbar nav {
+    display: none;
+  }
+
+  /* 🔥 only logo + login */
+  .logo {
+    font-size: 18px;
+  }
+
+  .siteLogo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .loginBtn {
+    padding: 6px 14px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    background-image: none !important;
+    background-color: #abc8f1;
+    height: auto !important;   /* 🔥 FIX */
+    min-height: 120px;         /* optional */
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .heroText {
+    display: block;
+    color: #ad1515;
+    font-size: 24px;
+    text-align: center;
+  }
+}
+
 /* Login Button */
 .loginBtn {
   padding: 8px 20px;
   border: none;
-  background: darkred;
+  background: linear-gradient(135deg, #e11d2e, #c50f1f);
   color: white;
   border-radius: 6px;
   cursor: pointer;
@@ -90,15 +156,17 @@ body {
 }
 
 .loginBtn:hover {
-  background: #a00000;
+  background: linear-gradient(135deg, #e11d2e, #c50f1f);
 }
 
 /* Hero */
 .hero {
-  min-height: 70vh; /* ✅ flexible height */
+  width: 100%;
+  height: 60vh;
+  min-height: 300px;
 
   background:
-    linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+    linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
     url("../assets/bg.png");
 
   background-size: cover;
@@ -106,21 +174,22 @@ body {
   background-repeat: no-repeat;
 
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+}
 
-  color: white;
+/* .heroContent h1 {
+  color: rgb(0, 0, 0);
+  font-size: 32px;
   text-align: center;
-  padding: 60px 20px;
+} */
+
+.heroText {
+  width: 100%;
+  display: none;   /* 🔥 desktop e hide */
 }
 
-@media (max-width: 768px) {
-  .hero {
-    min-height: 60vh;
-    padding: 40px 15px;
-  }
-}
+
 
 /* Courses */
 .courses {
@@ -165,101 +234,6 @@ body {
   box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
-/* Contact Section */
-/* .contact {
-  padding: 80px 60px;
-  background: #111;
-  color: white;
-  text-align: center;
-}
-
-.contact h2 {
-  margin-bottom: 40px;
-}
-
-.contactContainer {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 50px;
-  max-width: 1100px;
-  margin: auto;
-} */
-
-/* Form */
-/* .contactForm {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.contactForm input,
-.contactForm textarea {
-  padding: 14px;
-  border-radius: 8px;
-  border: none;
-  outline: none;
-}
-
-.contactForm textarea {
-  min-height: 120px;
-  resize: none;
-}
-
-.contactForm button {
-  padding: 14px;
-  border-radius: 8px;
-  border: none;
-  background: crimson;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.contactForm button:hover {
-  background: darkred;
-}
-
-
-.contactInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  align-items: flex-start;
-}
-
-.contactInfo a {
-  text-decoration: none;
-  color: white;
-  font-size: 16px;
-  transition: 0.3s;
-}
-
-.contactInfo a i {
-  margin-right: 10px;
-}
-
-.contactInfo a:hover {
-  color: crimson;
-}
-
-.contactNumber {
-  margin-top: 20px;
-  font-weight: bold;
-  color: #ffcc00;
-}
-
-
-@media (max-width: 768px) {
-  .contactContainer {
-    grid-template-columns: 1fr;
-  }
-
-  .contactInfo {
-    align-items: center;
-  }
-} */
-
 /* Footer */
 .footer {
   text-align: center;
@@ -295,8 +269,8 @@ body {
 .welcomeText {
   font-size: 14px;
   font-weight: 500;
-  color: #333;
-  background: #f3f3f3;
+  color: #000000;
+  background: #ffffff;
   padding: 6px 12px;
   border-radius: 20px;
 }
@@ -311,23 +285,23 @@ body {
   font-size: 14px;
   font-weight: 500;
   transition: all 0.3s ease;
-  background: #222;
+  background: linear-gradient(135deg, #e11d2e, #c50f1f);
   color: white;
 }
 
 .navBtn:hover {
-  background: #000;
+  background: linear-gradient(135deg, #e11d2e, #c50f1f);
   transform: translateY(-2px);
 }
 
 /* ================= DASHBOARD BUTTON STYLE ================= */
 
 .navBtn:first-of-type {
-  background: darkred;
+  background: linear-gradient(135deg, #e11d2e, #c50f1f);
 }
 
 .navBtn:first-of-type:hover {
-  background: #a00000;
+  background: linear-gradient(135deg, #e11d2e, #c50f1f);
 }
 
 /* ================= LOGOUT BUTTON ================= */
@@ -338,36 +312,10 @@ body {
 }
 
 .logoutBtn:hover {
-  background: crimson;
+  background: linear-gradient(135deg, #e11d2e, #c50f1f);
   color: white;
   transform: translateY(-2px);
 }
-
-
-@media (max-width: 768px) {
-  .navbar {
-    flex-direction: column;
-    align-items: center;
-    padding: 15px 20px;
-    gap: 10px;
-  }
-
-  .logoContainer {
-    justify-content: center;
-  }
-
-  .navbar nav {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 12px;
-  }
-
-  .userSection {
-    flex-direction: column;
-    gap: 8px;
-  }
-}
-
 
 /* ================= NEW COURSE CARD UI ================= */
 
@@ -404,7 +352,8 @@ body {
 
 .cardImage img {
   width: 100%;
-  height: 180px;
+  /* height: 180px; */
+  height: auto;
   object-fit: cover;
 }
 
@@ -449,6 +398,30 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+/* Strong mobile override placed at the end to ensure it wins */
+@media (max-width: 768px) {
+  .hero {
+    background-image: none !important;
+    background-color: #0f1c2e !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    height: auto !important;
+    min-height: 120px !important;
+    padding: 40px 20px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  .heroText {
+    display: block !important;
+    color: #ffffff !important;
+    font-size: 24px !important;
+    text-align: center !important;
+    margin: 0 auto !important;
+  }
 }
 
 /* PRICE */
@@ -724,13 +697,13 @@ body {
 .coursesHeader h1 {
   font-size: 56px;
   font-weight: 800;
-  color: #0f1c2e;
+  color: #ffffff;
   margin-bottom: 16px;
 }
 
 .coursesHeader p {
   font-size: 24px;
-  color: #555;
+  color: #ffffff;
   max-width: 700px;
   margin: 0 auto;
   line-height: 1.5;
@@ -750,3 +723,107 @@ body {
   transition: 0.3s;
 }
 
+@media (max-width: 768px) {
+
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px 16px;
+  }
+
+  /* 🔥 LOGO LINE */
+  .logoContainer {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  /* 🔥 USER SECTION FIX */
+  .userSection {
+    width: 100%;
+    margin-top: 10px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* LEFT: Welcome */
+  .welcomeText {
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  /* RIGHT: buttons */
+  .userSection button {
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 6px;
+  }
+
+  /* button gap */
+  .userSection {
+    gap: 8px;
+  }
+
+  /* group buttons */
+  .userSection button {
+    margin-left: 6px;
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  .hero {
+    padding: 50px 15px !important;
+    min-height: 160px !important;
+    text-align: center;
+  }
+
+  .heroText {
+    font-size: 20px !important;
+    line-height: 1.4;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .courses {
+    padding: 20px 12px;
+  }
+
+  .coursesHeader h1 {
+    font-size: 32px;
+  }
+
+  .coursesHeader p {
+    font-size: 16px;
+  }
+
+  .courseGrid {
+    grid-template-columns: 1fr !important;
+    gap: 20px;
+  }
+
+  .card {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .contactWrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .contactCard {
+    width: 100%;
+  }
+
+  .socialItem {
+    width: 100%;
+  }
+}
