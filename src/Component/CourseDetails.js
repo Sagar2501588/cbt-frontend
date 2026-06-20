@@ -54,37 +54,37 @@ export default function CourseDetails() {
     fetchCourse();
   }, [slug]);
 
-  useEffect(() => {
-    const fetchCourse = async () => {
-      const student_id = localStorage.getItem("student_id");
+  // useEffect(() => {
+  //   const fetchCourse = async () => {
+  //     const student_id = localStorage.getItem("student_id");
 
-      const formData = new FormData();
-      formData.append("student_id", student_id);
+  //     const formData = new FormData();
+  //     formData.append("student_id", student_id);
 
-      const res = await fetch(
-        "https://cbt-backend-production-a2f9.up.railway.app/my-courses",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+  //     const res = await fetch(
+  //       "https://cbt-backend-production-a2f9.up.railway.app/my-courses",
+  //       {
+  //         method: "POST",
+  //         body: formData,
+  //       }
+  //     );
 
-      const data = await res.json();
+  //     const data = await res.json();
 
 
-      if (data.courses.length > 0) {
-        const course = data.courses[0];
-        setVideos(course.videos || []);
+  //     if (data.courses.length > 0) {
+  //       const course = data.courses[0];
+  //       setVideos(course.videos || []);
 
-        if (course.videos && course.videos.length > 0) {
-          setSelectedVideo(course.videos[0].video_url);
-          setActiveIndex(0);
-        }
-      }
-    };
+  //       if (course.videos && course.videos.length > 0) {
+  //         setSelectedVideo(course.videos[0].video_url);
+  //         setActiveIndex(0);
+  //       }
+  //     }
+  //   };
 
-    fetchCourse();
-  }, []);
+  //   fetchCourse();
+  // }, []);
 
   // return (
   //   <div className="courseWrapper">
