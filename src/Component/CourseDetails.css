@@ -99,7 +99,7 @@
 }
 
 /* 🔥 LESSON ITEM */
-.lessonItem {
+/* .lessonItem {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -110,7 +110,49 @@
   background: rgba(255,255,255,0.04);
   color: #cbd5f5;
   transition: 0.3s;
+} */
+
+
+.lessonItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 10px;
+
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  cursor: pointer;
+
+  background: rgba(255,255,255,0.04);
+  color: #cbd5f5;
+  transition: 0.3s;
 }
+
+
+.lessonTitle {
+  flex: 1;
+  min-width: 0;
+
+  color: white;
+  font-size: 14px;
+  line-height: 1.4;
+
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.lessonMeta {
+  flex-shrink: 0;
+  white-space: nowrap;
+
+  margin-left: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #38bdf8;
+}
+
 
 .lessonItem:hover {
   background: rgba(255,255,255,0.08);

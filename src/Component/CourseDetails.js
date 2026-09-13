@@ -206,8 +206,11 @@ export default function CourseDetails() {
                 {video.title || `Lesson ${index + 1}`}
               </span>
 
-              <span className="lessonMeta">
+              {/* <span className="lessonMeta">
                 {index < activeIndex ? "✔ Completed" : "▶ Play"}
+              </span> */}
+              <span className="lessonMeta">
+                ▶ Play
               </span>
             </div>
           ))}

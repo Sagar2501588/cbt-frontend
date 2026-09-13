@@ -12,6 +12,9 @@ import ComingSoon from "./Component/ComingSoon";
 import ForgotPassword from "./Component/ForgotPassword";
 import ResetPassword from "./Component/ResetPassword";
 import About from "./Component/About";
+import StudyMaterial from "./Component/StudyMaterial";
+import CourseMaterials from "./Component/CourseMaterials";
+
 
 
 
@@ -31,7 +34,9 @@ function App() {
       <Route path="/result" element={<Result />} />
       <Route path="/study-material" element={<StudyMaterial />} /> */}
       <Route path="/test" element={<ComingSoon />} />
-      <Route path="/study-material" element={<ComingSoon />} />
+      {/* <Route path="/study-material" element={<ComingSoon />} /> */}
+      <Route path="/study-material" element={<StudyMaterial />} />
+      <Route path="/study-material/:courseSlug" element={<CourseMaterials />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password/:token" element={<ResetPassword />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
