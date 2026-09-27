@@ -14,6 +14,8 @@ import ResetPassword from "./Component/ResetPassword";
 import About from "./Component/About";
 import StudyMaterial from "./Component/StudyMaterial";
 import CourseMaterials from "./Component/CourseMaterials";
+import BlogList from "./Component/BlogList";
+import BlogDetails from "./Component/BlogDetails";
 
 
 
@@ -42,6 +44,9 @@ function App() {
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/course/:slug" element={<CourseDetails />} />
       <Route path="/about" element={<About />} />
+      <Route path="/blogs" element={<BlogList />} />
+      <Route path="/blog/:slug" element={<BlogDetails />} />
+      <Route path="/blog/:slug" element={<BlogDetails />} />
     </Routes>
   );
 }

@@ -10,6 +10,7 @@ import dishantar from "../assets/DISHANTAR.jpeg";
 import pratibimb from "../assets/PRATIBIMB.jpeg";
 import gati from "../assets/gati.jpeg";
 import free from "../assets/free.jpeg";
+import { Link } from "react-router-dom";
 
 export default function PortalHome() {
   const navigate = useNavigate();
@@ -39,18 +40,6 @@ export default function PortalHome() {
     navigate("/");
   };
 
-  // ✅ Buy function
-  // const handleBuy = (slug) => {
-  //   const studentId = localStorage.getItem("student_id");
-
-  //   if (!studentId) {
-  //     localStorage.setItem("pending_course", slug);
-  //     navigate("/login");
-  //   } else {
-  //     navigate(`/payment/${slug}`);
-  //   }
-  // };
-
   const handleBuy = (slug) => {
     const studentId = localStorage.getItem("student_id");
 
@@ -79,6 +68,7 @@ export default function PortalHome() {
         <nav>
           <a href="#home">Home</a>
           <a href="/about">About</a>
+          <Link to="/blogs">Blogs</Link>
           <a href="#courses">Courses</a>
           <a href="#contact">Contact</a>
         </nav>
@@ -111,11 +101,6 @@ export default function PortalHome() {
       </header>
 
       {/* ================= HERO ================= */}
-      {/* <section id="home" className="hero">
-        <div className="heroContent">
-          <h1>Welcome to Geomatics Galaxy</h1>
-        </div>
-      </section> */}
 
       <section id="home" className="hero">
         <div className="heroContent">
@@ -136,21 +121,6 @@ export default function PortalHome() {
         </div>
 
         <div className="courseGrid">
-
-          {/* FREE */}
-          {/* <div className="card">
-            <div className="cardContent">
-              <h3>Free Content</h3>
-              <p className="desc">Basic Learning Materials Available</p>
-
-              <div className="cardFooter">
-                <span className="price">FREE</span>
-                <button onClick={() => handleBuy("free-content")}>
-                  Buy Now
-                </button>
-              </div>
-            </div>
-          </div> */}
 
           {/* FREE */}
           <div className="card">
@@ -273,24 +243,6 @@ export default function PortalHome() {
           </div>
 
           {/* GATI */}
-          {/* <div className="card">
-            <div className="cardContent">
-              <h3>Batch GATI – Crash Course</h3>
-              <p className="desc">
-                Includes: Part A, Part B1 & Part B2
-              </p>
-              <p className="date">Activation: 02 Oct 2026</p>
-
-              <div className="cardFooter">
-                <span className="price">₹4000</span>
-                <button onClick={() => handleBuy("gati-crash-course")}>
-                  Buy Now
-                </button>
-              </div>
-            </div>
-          </div> */}
-
-          {/* GATI */}
           <div className="card">
             <div className="cardImage">
               <img src={gati} alt="Gati Course" />
@@ -314,32 +266,6 @@ export default function PortalHome() {
 
         </div>
       </section>
-
-      {/* ================= CONTACT ================= */}
-      {/* <section id="contact" className="contact">
-        <h2>Contact Us</h2>
-
-        <div className="contactContainer">
-          <form className="contactForm">
-            <input type="text" placeholder="Your Name" required />
-            <input type="email" placeholder="Your Email" required />
-            <textarea placeholder="Message..." required></textarea>
-            <button type="submit">Send Message</button>
-          </form>
-
-          <div className="contactInfo">
-            <h3>Connect With Us</h3>
-
-            <a href="https://www.youtube.com/@GeomaticsGalaxy" target="_blank" rel="noreferrer">YouTube</a>
-            <a href="https://t.me/galaxyofgeomatics" target="_blank" rel="noreferrer">Telegram</a>
-            <a href="https://whatsapp.com/channel/0029VamEEeW545uqRpkY2U2L" target="_blank" rel="noreferrer">WhatsApp Channel</a>
-            <a href="https://www.instagram.com/galaxyofgeomatics" target="_blank" rel="noreferrer">Instagram</a>
-            <a href="https://x.com/GeomaticsGalaxy" target="_blank" rel="noreferrer">X (Twitter)</a>
-
-            <p className="contactNumber">9459889005 (WhatsApp)</p>
-          </div>
-        </div>
-      </section> */}
 
 
       <section id="contact" className="contact">
@@ -429,6 +355,36 @@ export default function PortalHome() {
 
         </div>
       </section>
+
+      {/* ================= GATE OFFICIAL LINKS ================= */}
+<section className="gateLinksSection">
+  <h2>GATE Official Resources</h2>
+  <p>
+    Access the official GATE website and registration portal directly.
+  </p>
+
+  <div className="gateLinksGrid">
+    <a
+      href="https://gate2027.iitm.ac.in/"
+      target="_blank"
+      rel="noreferrer"
+      className="gateLinkCard"
+    >
+      <h3>GATE 2027 Official Website</h3>
+      {/* <span>gate2027.iitm.ac.in</span> */}
+    </a>
+
+    <a
+      href="https://goaps.iitm.ac.in/login"
+      target="_blank"
+      rel="noreferrer"
+      className="gateLinkCard"
+    >
+      <h3>GATE Registration</h3>
+      {/* <span>goaps.iitm.ac.in</span> */}
+    </a>
+  </div>
+</section>
 
       {/* ================= FOOTER ================= */}
       <footer className="footer">
