@@ -264,6 +264,48 @@ export default function PortalHome() {
             </div>
           </div>
 
+          {/* PLAN A */}
+          <div className="card">
+            <div className="cardImage">
+              <img src={courseImages["planA"]} alt="Plan A" />
+            </div>
+
+            <div className="cardContent">
+              <h3>PLAN A (PDF Solutions)</h3>
+              <p className="desc">GATE Geomatics (GE) 2022-2026 Complete PDF Solutions</p>
+              <p className="date">Activation: 08 Oct 2026</p>
+
+              <div className="cardFooter">
+                <span className="price">₹300</span>
+                <button onClick={() => handleBuy("planA")}>
+                  Buy Now
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* PLAN B */}
+          <div className="card">
+            <div className="cardImage">
+              <img src={courseImages["planB"]} alt="Plan B" />
+            </div>
+
+            <div className="cardContent">
+              <h3>PLAN B (Combo Pack)</h3>
+              <p className="desc">
+                GATE Geomatics (GE) 2022-2026 PDF + 2026 Video Solutions
+              </p>
+              <p className="date">Activation: 08 Oct 2026</p>
+
+              <div className="cardFooter">
+                <span className="price">₹400</span>
+                <button onClick={() => handleBuy("planB")}>
+                  Buy Now
+                </button>
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
 
@@ -357,34 +399,34 @@ export default function PortalHome() {
       </section>
 
       {/* ================= GATE OFFICIAL LINKS ================= */}
-<section className="gateLinksSection">
-  <h2>GATE Official Resources</h2>
-  <p>
-    Access the official GATE website and registration portal directly.
-  </p>
+      <section className="gateLinksSection">
+        <h2>GATE Official Resources</h2>
+        <p>
+          Access the official GATE website and registration portal directly.
+        </p>
 
-  <div className="gateLinksGrid">
-    <a
-      href="https://gate2027.iitm.ac.in/"
-      target="_blank"
-      rel="noreferrer"
-      className="gateLinkCard"
-    >
-      <h3>GATE 2027 Official Website</h3>
-      {/* <span>gate2027.iitm.ac.in</span> */}
-    </a>
+        <div className="gateLinksGrid">
+          <a
+            href="https://gate2027.iitm.ac.in/"
+            target="_blank"
+            rel="noreferrer"
+            className="gateLinkCard"
+          >
+            <h3>GATE 2027 Official Website</h3>
+            {/* <span>gate2027.iitm.ac.in</span> */}
+          </a>
 
-    <a
-      href="https://goaps.iitm.ac.in/login"
-      target="_blank"
-      rel="noreferrer"
-      className="gateLinkCard"
-    >
-      <h3>GATE Registration</h3>
-      {/* <span>goaps.iitm.ac.in</span> */}
-    </a>
-  </div>
-</section>
+          <a
+            href="https://goaps.iitm.ac.in/login"
+            target="_blank"
+            rel="noreferrer"
+            className="gateLinkCard"
+          >
+            <h3>GATE Registration</h3>
+            {/* <span>goaps.iitm.ac.in</span> */}
+          </a>
+        </div>
+      </section>
 
       {/* ================= FOOTER ================= */}
       <footer className="footer">
