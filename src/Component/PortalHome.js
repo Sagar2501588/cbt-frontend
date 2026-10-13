@@ -10,6 +10,8 @@ import dishantar from "../assets/DISHANTAR.jpeg";
 import pratibimb from "../assets/PRATIBIMB.jpeg";
 import gati from "../assets/gati.jpeg";
 import free from "../assets/free.jpeg";
+import planA from "../assets/Plan A.png";
+import planB from "../assets/Plan B.png";
 import { Link } from "react-router-dom";
 
 export default function PortalHome() {
@@ -267,13 +269,13 @@ export default function PortalHome() {
           {/* PLAN A */}
           <div className="card">
             <div className="cardImage">
-              <img src={courseImages["planA"]} alt="Plan A" />
+              <img src={planA} alt="Plan A" />
             </div>
 
             <div className="cardContent">
               <h3>PLAN A (PDF Solutions)</h3>
-              <p className="desc">GATE Geomatics (GE) 2022-2026 Complete PDF Solutions</p>
-              <p className="date">Activation: 08 Oct 2026</p>
+              <p className="desc">Solved Previous Years Gate Geomatics (GE) 2022-2026 PDF Book with Detailed Explanation</p>
+              <p className="date">Activation: 14 Oct 2026</p>
 
               <div className="cardFooter">
                 <span className="price">₹300</span>
@@ -287,15 +289,15 @@ export default function PortalHome() {
           {/* PLAN B */}
           <div className="card">
             <div className="cardImage">
-              <img src={courseImages["planB"]} alt="Plan B" />
+              <img src={planB} alt="Plan B" />
             </div>
 
             <div className="cardContent">
               <h3>PLAN B (Combo Pack)</h3>
               <p className="desc">
-                GATE Geomatics (GE) 2022-2026 PDF + 2026 Video Solutions
+                Solved Prv Yrs Gate Geomatics (GE) 2022-2026 PDF Book with Detailed Explanation + Gate GE 2026 Solved Paper Analysis Video
               </p>
-              <p className="date">Activation: 08 Oct 2026</p>
+              <p className="date">Activation: 14 Oct 2026</p>
 
               <div className="cardFooter">
                 <span className="price">₹400</span>
