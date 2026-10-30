@@ -118,7 +118,13 @@ function VideoLecture() {
 
                 <button
                   className="courseBtn"
-                  onClick={() => navigate(`/course/${course.course_slug}`)}
+                  onClick={() => {
+  if (course.course_slug === "gate-geomatics-mock-test") {
+    navigate("/test");
+  } else {
+    navigate(`/course/${course.course_slug}`);
+  }
+}}
                 >
                   {course.progress === 100
                     ? "Review Course"

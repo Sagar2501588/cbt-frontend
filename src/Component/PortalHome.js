@@ -12,6 +12,7 @@ import gati from "../assets/gati.jpeg";
 import free from "../assets/free.jpeg";
 import planA from "../assets/Plan A.png";
 import planB from "../assets/Plan B.png";
+import mockTest from "../assets/Mock Test.png";
 import { Link } from "react-router-dom";
 
 export default function PortalHome() {
@@ -307,6 +308,36 @@ export default function PortalHome() {
               </div>
             </div>
           </div>
+
+          {/* MOCK TEST SERIES */}
+          <div className="card">
+            <div className="cardImage">
+              <img
+                src={mockTest}
+                alt="GATE Geomatics Mock Test Series"
+              />
+            </div>
+
+            <div className="cardContent">
+              <h3>GATE Geomatics Mock Test Series</h3>
+
+              <p className="desc">
+                Practice GATE Geomatics questions with timed mock tests,
+                exam-style questions and performance analysis.
+              </p>
+
+              <p className="date">Includes: Full-Length Mock Tests</p>
+
+              <div className="cardFooter">
+                <span className="price">₹499</span>
+
+                <button onClick={() => handleBuy("gate-geomatics-mock-test")}>
+                  Buy Now
+                </button>
+              </div>
+            </div>
+          </div>
+
 
         </div>
       </section>

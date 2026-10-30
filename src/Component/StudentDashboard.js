@@ -247,14 +247,22 @@ function StudentDashboard() {
                     <span>📚 {course.total_lessons || 24} Lessons</span>
                   </div> */}
 
-                  <button
-                    className="courseBtn"
-                    onClick={() => navigate(`/course/${course.course_slug}`)}
-                  >
-                    {course.progress === 100
-                      ? "Review Course"
-                      : "Continue Course"}
-                  </button>
+                 
+<button
+  className="courseBtn"
+  onClick={() => {
+    if (course.course_slug === "gate-geomatics-mock-test") {
+      navigate("/test");
+    } else {
+      navigate(`/course/${course.course_slug}`);
+    }
+  }}
+>
+  {course.progress === 100
+    ? "Review Course"
+    : "Continue Course"}
+</button>
+
 
                 </div>
               </div>

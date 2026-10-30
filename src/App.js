@@ -16,6 +16,8 @@ import StudyMaterial from "./Component/StudyMaterial";
 import CourseMaterials from "./Component/CourseMaterials";
 import BlogList from "./Component/BlogList";
 import BlogDetails from "./Component/BlogDetails";
+import Test from "./Component/Test";
+import ExamStartGuide from "./Component/ExamStartGuide";
 
 
 
@@ -35,7 +37,7 @@ function App() {
       {/* <Route path="/test" element={<Test />} />
       <Route path="/result" element={<Result />} />
       <Route path="/study-material" element={<StudyMaterial />} /> */}
-      <Route path="/test" element={<ComingSoon />} />
+      <Route path="/test" element={<Test />} />
       {/* <Route path="/study-material" element={<ComingSoon />} /> */}
       <Route path="/study-material" element={<StudyMaterial />} />
       <Route path="/study-material/:courseSlug" element={<CourseMaterials />} />
@@ -47,6 +49,7 @@ function App() {
       <Route path="/blogs" element={<BlogList />} />
       <Route path="/blog/:slug" element={<BlogDetails />} />
       <Route path="/blog/:slug" element={<BlogDetails />} />
+      <Route path="/exam-start-guide/:examId" element={<ExamStartGuide />}/>
     </Routes>
   );
 }

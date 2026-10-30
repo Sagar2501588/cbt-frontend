@@ -10,7 +10,6 @@ import { BlockMath, InlineMath } from "react-katex";
 
 
 
-
 function ExamPage() {
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -31,6 +30,7 @@ function ExamPage() {
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [msqAnswers, setMsqAnswers] = useState({});  // MSQ checkbox
   const [natAnswers, setNatAnswers] = useState({});  // NAT input
+  const [selectedPart, setSelectedPart] = useState("");
 
 
   useEffect(() => {
@@ -41,11 +41,10 @@ function ExamPage() {
 
 
   const isValidImageUrl = (url) => {
-  if (!url) return false;
-  const clean = String(url).trim();
-  return clean.startsWith("http://") || clean.startsWith("https://");
-};
-
+    if (!url) return false;
+    const clean = String(url).trim();
+    return clean.startsWith("http://") || clean.startsWith("https://");
+  };
 
 
 
@@ -177,10 +176,6 @@ function ExamPage() {
 
 
 
-
-
-
-
   useEffect(() => {
     setVisited((prev) => ({ ...prev, [current]: true }));
   }, [current]);
@@ -191,16 +186,54 @@ function ExamPage() {
         const response = await fetch(`${API_BASE}/questions/${examIdNum}`);
         const data = await response.json();
 
+        console.log("API question data:", data);
+        console.log(
+          "ALL QUESTION PARTS:",
+          JSON.stringify(
+            [...new Set(data.map((q) => q.question_part))],
+            null,
+            2
+          )
+        );
+
+        console.log(
+          "FIRST QUESTION:",
+          JSON.stringify(data[0], null, 2)
+        );
+
+        // const formatted = data.map((q) => ({
+        //   id: q.id,
+        //   question: q.question_text,
+        //   question_image_url: q.question_image_url,
+        //   options: [q.option_a, q.option_b, q.option_c, q.option_d],
+        //   question_type: q.question_type,   // ✅ add
+        // }));
+
         const formatted = data.map((q) => ({
           id: q.id,
           question: q.question_text,
           question_image_url: q.question_image_url,
           options: [q.option_a, q.option_b, q.option_c, q.option_d],
-          question_type: q.question_type,   // ✅ add
+          question_type: q.question_type,
+          question_part: q.question_part,
         }));
 
 
         setQuestions(formatted);
+
+
+        const firstPart = formatted.find(
+          (q) =>
+            typeof q.question_part === "string" &&
+            q.question_part.trim() !== ""
+        );
+
+        if (firstPart) {
+          setSelectedPart(firstPart.question_part.trim());
+          setCurrent(formatted.indexOf(firstPart));
+        }
+
+
         setLoading(false);
       } catch (err) {
         setError("Failed to load questions");
@@ -208,6 +241,15 @@ function ExamPage() {
     }
     loadQuestions();
   }, []);
+
+  //   const firstPart = formatted.find(
+  //   (q) => q.question_part && q.question_part.trim()
+  // );
+
+  // if (firstPart) {
+  //   setSelectedPart(firstPart.question_part.trim());
+  //   setCurrent(formatted.indexOf(firstPart));
+  // }
 
   // Timer
   useEffect(() => {
@@ -230,38 +272,13 @@ function ExamPage() {
       .padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
   };
 
-  // const handleOptionSelect = (option) => {
-  //   const qId = questions[currentIndex].id;  // backend question id
-
-  //   setSelectedAnswers((prev) => ({
-  //     ...prev,
-  //     [qId]: option,
-  //   }));
-
-  //   // Call save API
-  //   saveAnswer(qId, option);
-  // };
-
-  // const handleOptionSelect = (optionIndex) => {
-  //   const qId = questions[current].id;
-  //   const selectedOptionText = questions[current].options[optionIndex];
-
-  //   // Save answer to state (UI highlight)
-  //   setAnswers((prev) => ({
-  //     ...prev,
-  //     [current]: optionIndex,
-  //   }));
-
-  //   // Save to backend
-  //   saveAnswer(qId, selectedOptionText);
-  // };
 
   const goNext = () => {
     if (current < questions.length - 1) {
       setCurrent(current + 1);
     }
   };
-  
+
   const handleOptionSelect = (optionIndex) => {
     const qId = questions[current].id;
     const qType = questions[current].question_type;
@@ -307,47 +324,49 @@ function ExamPage() {
     saveAnswer(qId, value);
   };
 
+  const questionParts = [
+    ...new Set(
+      questions
+        .map((q) => q.question_part?.trim())
+        .filter(Boolean)
+    ),
+  ];
+
+  const currentPartIndices = questions
+    .map((q, index) => ({ q, index }))
+    .filter(({ q }) => q.question_part?.trim() === selectedPart)
+    .map(({ index }) => index);
+
+  const handlePartChange = (part) => {
+    setSelectedPart(part);
+
+    const firstIndex = questions.findIndex(
+      (q) => q.question_part?.trim() === part
+    );
+
+    if (firstIndex !== -1) {
+      setCurrent(firstIndex);
+    }
+  };
 
 
-
-  // const handleNext = async () => {
+  // const handleNext = () => {
   //   if (questions.length === 0) return;
 
-  //   const currentQuestion = questions[current];
-  //   const selectedIndex = answers[current];
-
-  //   // ✅ If the student selected an option, save it to DB
-  //   if (selectedIndex !== undefined) {
-  //     const selectedOption = currentQuestion.options[selectedIndex];
-
-  //     try {
-  //       await fetch(`${API_BASE}/save-answer`, {
-  //         method: "POST",
-  //         body: new URLSearchParams({
-  //           exam_id: "1",          // Static for now
-  //           student_id: studentId,
-  //           question_id: currentQuestion.id,
-  //           selected_option: selectedOption,
-  //         }),
-  //       });
-  //       console.log("✅ Answer saved to DB for question:", currentQuestion.id);
-  //     } catch (error) {
-  //       console.error("❌ Error saving answer:", error);
-  //     }
-  //   }
-
-  //   // 👉 Move to the next question
+  //   // Just move to next question (saving already handled in handleOptionSelect)
   //   if (current < questions.length - 1) {
   //     setCurrent(current + 1);
   //   }
   // };
 
   const handleNext = () => {
-    if (questions.length === 0) return;
+    const position = currentPartIndices.indexOf(current);
 
-    // Just move to next question (saving already handled in handleOptionSelect)
-    if (current < questions.length - 1) {
-      setCurrent(current + 1);
+    if (
+      position !== -1 &&
+      position < currentPartIndices.length - 1
+    ) {
+      setCurrent(currentPartIndices[position + 1]);
     }
   };
 
@@ -443,145 +462,165 @@ function ExamPage() {
       </div>
 
       {/* -------------------- MAIN EXAM LAYOUT -------------------- */}
-<div className="exam-layout">
-  {/* LEFT: QUESTIONS */}
-  <div className="exam-left">
-    <div className="question-header">
-      <h4>
-        Question No. {current + 1}{" "}
-        <span>({questions[current]?.question_type})</span>
-      </h4>
-    </div>
-
-    <div className="question-body">
-      {/* QUESTION TEXT */}
-      <div className="question-text">
-        {renderMath(questions[current]?.question)}
-      </div>
-
-      {/* ✅ QUESTION IMAGE (ONLY IF VALID URL EXISTS) */}
-      {isValidImageUrl(questions[current]?.question_image_url) && (
-        <div style={{ marginTop: "15px", textAlign: "center" }}>
-          <img
-            src={`${questions[current].question_image_url.trim()}?v=${questions[current].id}`}
-            alt="question"
-            style={{
-              maxWidth: "100%",
-              maxHeight: "350px",
-              borderRadius: "10px",
-              border: "1px solid #dce3ec",
-            }}
-          />
-        </div>
-      )}
-
-      <div className="options">
-        {/* ✅ MCQ */}
-        {questions[current]?.question_type === "MCQ" &&
-          ["A", "B", "C", "D"].map((letter, i) => (
-            <label key={i} className="option-item">
-              <input
-                type="radio"
-                name={`q${current}`}
-                checked={answers[current] === letter}
-                onChange={() => handleOptionSelect(i)}
-              />
-              {renderContent(questions[current]?.options[i])}
-            </label>
-          ))}
-
-        {/* ✅ MSQ */}
-        {questions[current]?.question_type === "MSQ" &&
-          ["A", "B", "C", "D"].map((letter, i) => (
-            <label key={i} className="option-item">
-              <input
-                type="checkbox"
-                checked={(answers[current] || []).includes(letter)}
-                onChange={() => handleOptionSelect(i)}
-              />
-              {renderContent(questions[current]?.options[i])}
-            </label>
-          ))}
-
-        {/* ✅ NAT */}
-        {questions[current]?.question_type === "NAT" && (
-          <div style={{ marginTop: "15px" }}>
-            <input
-              type="text"
-              value={answers[current] || ""}
-              onChange={(e) => handleNatChange(e.target.value)}
-              placeholder="Enter your answer"
-              style={{
-                width: "90%",
-                padding: "12px",
-                borderRadius: "6px",
-                border: "1px solid #dce3ec",
-                fontSize: "16px",
-              }}
-            />
+      <div className="exam-layout">
+        {/* LEFT: QUESTIONS */}
+        <div className="exam-left">
+          <div className="question-part-tabs">
+            {questionParts.map((part) => (
+              <button
+                key={part}
+                type="button"
+                className={
+                  selectedPart === part
+                    ? "question-tab active"
+                    : "question-tab"
+                }
+                onClick={() => handlePartChange(part)}
+              >
+                {part}
+              </button>
+            ))}
           </div>
-        )}
-      </div>
-    </div>
+          <div className="question-header">
+            <h4>
+              Question No. {current + 1}{" "}
+              <span>({questions[current]?.question_type})</span>
+            </h4>
+          </div>
 
-    {/* ACTION BUTTONS */}
-    <div className="action-buttons">
-      <button onClick={handleReview} className="review-btn">
-        Mark for Review & Next
-      </button>
-      <button onClick={handleClear} className="clear-btn">
-        Clear Response
-      </button>
-      <button className="save-next" onClick={handleNext}>
-        Save & Next
-      </button>
-    </div>
+          <div className="question-body">
+            {/* QUESTION TEXT */}
+            <div className="question-text">
+              {renderMath(questions[current]?.question)}
+            </div>
 
-    <div className={`calculator-area ${showCalc ? "open" : ""}`}>
-      <button
-        className="toggle-calc-btn"
-        onClick={() => setShowCalc(!showCalc)}
-      >
-        {showCalc ? "Hide Calculator" : "Show Calculator"}
-      </button>
-      {showCalc && <Calculator />}
-    </div>
-  </div>
+            {/* ✅ QUESTION IMAGE (ONLY IF VALID URL EXISTS) */}
+            {isValidImageUrl(questions[current]?.question_image_url) && (
+              <div style={{ marginTop: "15px", textAlign: "center" }}>
+                <img
+                  src={`${questions[current].question_image_url.trim()}?v=${questions[current].id}`}
+                  alt="question"
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "350px",
+                    borderRadius: "10px",
+                    border: "1px solid #dce3ec",
+                  }}
+                />
+              </div>
+            )}
 
-  {/* RIGHT: QUESTION PALETTE */}
-  <div className="exam-right">
-    <h4 className="palette-title">Choose a Question</h4>
-    <div className="palette-grid">
-      {questions.map((q, index) => {
-        let cls = "palette-btn";
-        if (!visited[index]) cls += " not-visited";
-        else if (review[index] && answers[index] !== undefined)
-          cls += " answered-review";
-        else if (review[index]) cls += " review";
-        else if (answers[index] !== undefined) cls += " answered";
-        else cls += " not-attempted";
+            <div className="options">
+              {/* ✅ MCQ */}
+              {questions[current]?.question_type === "MCQ" &&
+                ["A", "B", "C", "D"].map((letter, i) => (
+                  <label key={i} className="option-item">
+                    <input
+                      type="radio"
+                      name={`q${current}`}
+                      checked={answers[current] === letter}
+                      onChange={() => handleOptionSelect(i)}
+                    />
+                    {renderContent(questions[current]?.options[i])}
+                  </label>
+                ))}
 
-        return (
-          <button
-            key={index}
-            className={cls}
-            onClick={() => setCurrent(index)}
-          >
-            {index + 1}
+              {/* ✅ MSQ */}
+              {questions[current]?.question_type === "MSQ" &&
+                ["A", "B", "C", "D"].map((letter, i) => (
+                  <label key={i} className="option-item">
+                    <input
+                      type="checkbox"
+                      checked={(answers[current] || []).includes(letter)}
+                      onChange={() => handleOptionSelect(i)}
+                    />
+                    {renderContent(questions[current]?.options[i])}
+                  </label>
+                ))}
+
+              {/* ✅ NAT */}
+              {questions[current]?.question_type === "NAT" && (
+                <div style={{ marginTop: "15px" }}>
+                  <input
+                    type="text"
+                    value={answers[current] || ""}
+                    onChange={(e) => handleNatChange(e.target.value)}
+                    placeholder="Enter your answer"
+                    style={{
+                      width: "90%",
+                      padding: "12px",
+                      borderRadius: "6px",
+                      border: "1px solid #dce3ec",
+                      fontSize: "16px",
+                    }}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* ACTION BUTTONS */}
+          <div className="action-buttons">
+            <button onClick={handleReview} className="review-btn">
+              Mark for Review & Next
+            </button>
+            <button onClick={handleClear} className="clear-btn">
+              Clear Response
+            </button>
+            <button className="save-next" onClick={handleNext}>
+              Save & Next
+            </button>
+          </div>
+
+          <div className={`calculator-area ${showCalc ? "open" : ""}`}>
+            <button
+              className="toggle-calc-btn"
+              onClick={() => setShowCalc(!showCalc)}
+            >
+              {showCalc ? "Hide Calculator" : "Show Calculator"}
+            </button>
+            {showCalc && <Calculator />}
+          </div>
+        </div>
+
+        {/* RIGHT: QUESTION PALETTE */}
+        <div className="exam-right">
+          <h4 className="palette-title">Choose a Question</h4>
+
+          <div className="palette-grid">
+            {currentPartIndices.map((index) => {
+              const q = questions[index];
+
+              let cls = "palette-btn";
+
+              if (!visited[index]) cls += " not-visited";
+              else if (review[index] && answers[index] !== undefined)
+                cls += " answered-review";
+              else if (review[index]) cls += " review";
+              else if (answers[index] !== undefined)
+                cls += " answered";
+              else cls += " not-attempted";
+
+              return (
+                <button
+                  key={q.id}
+                  className={cls}
+                  onClick={() => setCurrent(index)}
+                >
+                  {index + 1}
+                </button>
+              );
+            })}
+          </div>
+
+          <button className="submit-btn" onClick={handleSubmit}>
+            Submit
           </button>
-        );
-      })}
-    </div>
-
-    <button className="submit-btn" onClick={handleSubmit}>
-      Submit
-    </button>
-  </div>
-</div>
+        </div>
+      </div>
 
     </div>
   );
 }
 
 export default ExamPage;
-

@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import "./StudentDashboard.css";
+import { useNavigate, useParams } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
+// import "./StudentDashboard.css";
+import "./ExamStartGuide.css";
 import { API_BASE } from "../config";
 
 function StudentDashboard() {
   const navigate = useNavigate();
+  const { examId } = useParams();
+
   const [guidelineRead, setGuidelineRead] = useState(false);
   const [activeExam, setActiveExam] = useState(null);
 
@@ -75,7 +79,7 @@ const handleStartExam = async () => {
     "Content-Type": "application/x-www-form-urlencoded",
   },
   body: new URLSearchParams({
-    exam_id: activeExam.exam_id.toString(),
+    exam_id: examId || activeExam?.exam_id?.toString(),
     student_id: studentId,
   }),
 });

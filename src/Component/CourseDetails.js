@@ -1,161 +1,106 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import "./CourseDetails.css";
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
 
 export default function CourseDetails() {
   const navigate = useNavigate();
+  const { slug } = useParams();
+
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [activeIndex, setActiveIndex] = useState(null);
   const [videos, setVideos] = useState([]);
-  const handleVideoSelect = (videoUrl, index) => {
-    setSelectedVideo(videoUrl);
-    setActiveIndex(index);
-  };
-  const { slug } = useParams();
   const [courseData, setCourseData] = useState(null);
-  // const API_BASE = "https://cbt-backend-production-a2f9.up.railway.app";
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
   const API_BASE = "https://api.geomaticsgalaxy.com";
+
+  const isMockTest = slug === "gate-geomatics-mock-test";
 
   useEffect(() => {
     const fetchCourse = async () => {
-      const student_id = localStorage.getItem("student_id");
+      try {
+        setLoading(true);
+        setError("");
 
-      const formData = new FormData();
-      formData.append("student_id", student_id);
+        const student_id = localStorage.getItem("student_id");
 
-      const res = await fetch(`${API_BASE}/my-courses`, {
-        method: "POST",
-        body: formData,
-      });
+        if (!student_id) {
+          navigate("/login");
+          return;
+        }
 
-      const data = await res.json();
+        const formData = new FormData();
+        formData.append("student_id", student_id);
 
-      if (data.courses.length > 0) {
+        const res = await fetch(`${API_BASE}/my-courses`, {
+          method: "POST",
+          body: formData,
+        });
 
-        // 👉 MATCH COURSE BY SLUG
-        const selected = data.courses.find(
-          (c) => c.course_slug === slug
+        if (!res.ok) {
+          throw new Error("Unable to load course details.");
+        }
+
+        const data = await res.json();
+
+        const courses = data.courses || [];
+        const selected = courses.find(
+          (course) => course.course_slug === slug
         );
 
-        if (selected) {
-          setCourseData(selected);
-          setVideos(selected.videos || []);
-
-          if (selected.videos?.length > 0) {
-            setSelectedVideo(selected.videos[0].video_url);
-            setActiveIndex(0);
-          }
+        if (!selected) {
+          setError("Course not found in your purchased courses.");
+          setCourseData(null);
+          setVideos([]);
+          return;
         }
+
+        setCourseData(selected);
+
+        const courseVideos = selected.videos || [];
+        setVideos(courseVideos);
+
+        if (courseVideos.length > 0) {
+          setSelectedVideo(courseVideos[0].video_url);
+          setActiveIndex(0);
+        } else {
+          setSelectedVideo(null);
+          setActiveIndex(null);
+        }
+      } catch (err) {
+        setError(err.message || "Something went wrong.");
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchCourse();
-  }, [slug]);
+  }, [slug, navigate]);
 
-  // useEffect(() => {
-  //   const fetchCourse = async () => {
-  //     const student_id = localStorage.getItem("student_id");
+  const handleVideoSelect = (videoUrl, index) => {
+    setSelectedVideo(videoUrl);
+    setActiveIndex(index);
+  };
 
-  //     const formData = new FormData();
-  //     formData.append("student_id", student_id);
-
-  //     const res = await fetch(
-  //       "https://cbt-backend-production-a2f9.up.railway.app/my-courses",
-  //       {
-  //         method: "POST",
-  //         body: formData,
-  //       }
-  //     );
-
-  //     const data = await res.json();
-
-
-  //     if (data.courses.length > 0) {
-  //       const course = data.courses[0];
-  //       setVideos(course.videos || []);
-
-  //       if (course.videos && course.videos.length > 0) {
-  //         setSelectedVideo(course.videos[0].video_url);
-  //         setActiveIndex(0);
-  //       }
-  //     }
-  //   };
-
-  //   fetchCourse();
-  // }, []);
-
-  // return (
-  //   <div className="courseWrapper">
-
-  //     {/* 🔥 Top Navigation Buttons */}
-  //     <div className="topButtons">
-  //       <button className="navButton" onClick={() => navigate(-1)}>
-  //         ← Back
-  //       </button>
-
-  //       <button className="navButton dashboardBtn" onClick={() => navigate("/dashboard")}>
-  //         Dashboard
-  //       </button>
-  //     </div>
-
-  //     <div className="courseHeader">
-  //       <h2>{courseData?.name || "Loading..."}</h2>
-  //       <div className="progressBar">
-  //         <div className="progressFill"></div>
-  //       </div>
-  //     </div>
-
-  //     <div className="courseContainer">
-
-  //       <div className="curriculumSection">
-  //         <h3>Course Content</h3>
-
-  //         {videos.map((video, index) => (
-  //           <div
-  //             key={index}
-  //             onClick={() => handleVideoSelect(video.video_url, index)}
-  //             className={`lessonItem ${activeIndex === index ? "activeLesson" : ""
-  //               }`}
-  //           >
-  //             {video.title || `Video ${index + 1}`}
-  //           </div>
-  //         ))}
-  //       </div>
-
-  //       <div className="videoSection">
-  //         {selectedVideo ? (
-  //           <video
-  //             key={selectedVideo}
-  //             controls
-  //             autoPlay
-  //             className="videoPlayer"
-  //           >
-  //             <source src={selectedVideo} type="video/mp4" />
-  //           </video>
-  //         ) : (
-  //           <div className="placeholder">
-  //             Select a lesson to start learning
-  //           </div>
-  //         )}
-  //       </div>
-
-  //     </div>
-  //   </div>
-  // );
+  const progress =
+    videos.length > 0 && activeIndex !== null
+      ? Math.round(((activeIndex + 1) / videos.length) * 100)
+      : 0;
 
   return (
     <div className="courseWrapper">
-
-      {/* 🔵 TOP BAR */}
+      {/* TOP BAR */}
       <div className="topBar">
-        <button onClick={() => navigate(-1)} className="backBtn">
+        <button
+          onClick={() => navigate(-1)}
+          className="backBtn"
+        >
           ← Back
         </button>
 
         <h2 className="courseTitle">
-          {courseData?.name || "Loading..."}
+          {courseData?.name || "Course Details"}
         </h2>
 
         <button
@@ -166,107 +111,120 @@ export default function CourseDetails() {
         </button>
       </div>
 
-      {/* 🔵 PROGRESS */}
-      <div className="progressTop">
-        <div className="progressBar">
-          <div
-            className="progressFill"
-            style={{
-              width: `${videos.length
-                ? Math.round(((activeIndex + 1) / videos.length) * 100)
-                : 0
-                }%`,
-            }}
-          />
+      {loading ? (
+        <div className="placeholder">
+          Loading course...
         </div>
-
-        <span className="progressText">
-          {videos.length
-            ? Math.round(((activeIndex + 1) / videos.length) * 100)
-            : 0}
-          % Complete
-        </span>
-      </div>
-
-      {/* 🔵 MAIN LAYOUT */}
-      <div className="courseContainer">
-
-        {/* 📚 LEFT SIDEBAR */}
-        <div className="curriculumSection">
-          <h3>Course Content</h3>
-
-          {videos.map((video, index) => (
-            <div
-              key={index}
-              onClick={() => handleVideoSelect(video.video_url, index)}
-              className={`lessonItem ${activeIndex === index ? "activeLesson" : ""
-                }`}
-            >
-              <span className="lessonTitle">
-                {video.title || `Lesson ${index + 1}`}
-              </span>
-
-              {/* <span className="lessonMeta">
-                {index < activeIndex ? "✔ Completed" : "▶ Play"}
-              </span> */}
-              <span className="lessonMeta">
-                ▶ Play
-              </span>
-            </div>
-          ))}
+      ) : error ? (
+        <div className="placeholder">
+          {error}
         </div>
-
-        {/* 🎬 RIGHT VIDEO SECTION */}
-        <div className="videoSection">
-
-          {/* 🎬 PLAYER */}
-          {selectedVideo ? (
-            <div className="videoPlayerWrapper">
-              <video
-                key={selectedVideo}
-                controls
-                autoPlay
-                className="videoPlayer"
-                controlsList="nodownload noplaybackrate"
-                disablePictureInPicture
-              >
-                <source src={selectedVideo} type="video/mp4" />
-              </video>
-            </div>
-          ) : (
-            <div className="placeholder">
-              Select a lesson to start learning
-            </div>
-          )}
-
-          {/* 🎯 VIDEO DETAILS */}
-          {/* <div className="videoDetails">
-            <h3>{videos[activeIndex]?.title}</h3>
+      ) : isMockTest ? (
+        /* MOCK TEST COURSE CONTENT */
+        <div className="courseContainer">
+          <div className="curriculumSection">
+            <h3>GATE Geomatics Mock Test</h3>
 
             <p>
-              Learn this topic step by step with practical examples.
+              Practice your preparation with our online mock test series.
             </p>
 
-            <div className="actionBtns">
-              <button className="completeBtn">
-                Mark as Complete
-              </button>
+            <button
+              className="dashboardBtn"
+              onClick={() => navigate("/test")}
+            >
+              Go to Mock Tests →
+            </button>
+          </div>
 
-              <button className="downloadBtn">
-                Download Notes
+          <div className="videoSection">
+            <div className="placeholder">
+              <h3>Mock Test Series</h3>
+              <p>
+                Open the test section to view your available tests.
+              </p>
+
+              <button
+                className="dashboardBtn"
+                onClick={() => navigate("/test")}
+              >
+                View Available Tests
               </button>
             </div>
-          </div> */}
-
+          </div>
         </div>
+      ) : (
+        /* NORMAL COURSE VIDEO CONTENT */
+        <>
+          <div className="progressTop">
+            <div className="progressBar">
+              <div
+                className="progressFill"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
 
-      </div>
+            <span className="progressText">
+              {progress}% Complete
+            </span>
+          </div>
+
+          <div className="courseContainer">
+            <div className="curriculumSection">
+              <h3>Course Content</h3>
+
+              {videos.length > 0 ? (
+                videos.map((video, index) => (
+                  <div
+                    key={index}
+                    onClick={() =>
+                      handleVideoSelect(video.video_url, index)
+                    }
+                    className={`lessonItem ${
+                      activeIndex === index ? "activeLesson" : ""
+                    }`}
+                  >
+                    <span className="lessonTitle">
+                      {video.title || `Lesson ${index + 1}`}
+                    </span>
+
+                    <span className="lessonMeta">
+                      ▶ Play
+                    </span>
+                  </div>
+                ))
+              ) : (
+                <p>No video lessons available.</p>
+              )}
+            </div>
+
+            <div className="videoSection">
+              {selectedVideo ? (
+                <div className="videoPlayerWrapper">
+                  <video
+                    key={selectedVideo}
+                    controls
+                    autoPlay
+                    className="videoPlayer"
+                    controlsList="nodownload noplaybackrate"
+                    disablePictureInPicture
+                  >
+                    <source
+                      src={selectedVideo}
+                      type="video/mp4"
+                    />
+                    Your browser does not support video playback.
+                  </video>
+                </div>
+              ) : (
+                <div className="placeholder">
+                  Select a lesson to start learning.
+                </div>
+              )}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
-
-
-
-
-
-
 }
