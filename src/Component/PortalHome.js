@@ -71,7 +71,7 @@ export default function PortalHome() {
         <nav>
           <a href="#home">Home</a>
           <a href="/about">About</a>
-          <Link to="/blogs">Blogs</Link>
+          {/* <Link to="/blogs">Blogs</Link> */}
           <a href="#courses">Courses</a>
           <a href="#contact">Contact</a>
         </nav>

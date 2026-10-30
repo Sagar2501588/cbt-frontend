@@ -191,8 +191,10 @@ body {
 /* IMAGE */
 .courseImage {
   width: 100%;
-  height: 180px;
-  object-fit: cover;
+  height: 220px;
+  object-fit: contain;
+  background: #ffffff;
+  display: block;
 }
 
 /* CONTENT */

@@ -885,3 +885,9 @@ body {
     width: 100%;
   }
 }
+
+/* Course Card Heading Color */
+.cardContent h3 {
+  color: #1d4ed8;
+  font-weight: 700;
+}
