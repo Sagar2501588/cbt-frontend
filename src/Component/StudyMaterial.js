@@ -1,70 +1,3 @@
-// import { useEffect, useState } from "react";
-// import axios from "axios";
-
-// export default function StudyMaterial() {
-//   const [pdfs, setPdfs] = useState([]);
-
-//   useEffect(() => {
-//     loadPdfs();
-//   }, []);
-
-//   const loadPdfs = async () => {
-//     try {
-//       const studentId = localStorage.getItem("student_id");
-
-//       const formData = new FormData();
-//       formData.append("student_id", studentId);
-
-//       const res = await axios.post(
-//         "https://cbt-backend-production-a2f9.up.railway.app/my-courses",
-//         formData
-//       );
-
-//       let allPdfs = [];
-
-//       res.data.courses.forEach(course => {
-//         if (course.pdfs) {
-//           allPdfs.push(...course.pdfs);
-//         }
-//       });
-
-//       setPdfs(allPdfs);
-
-//     } catch (err) {
-//       console.log(err);
-//     }
-//   };
-
-//   return (
-//     <div className="p-4">
-//       <h2>Study Materials</h2>
-
-//       {pdfs.map(pdf => (
-//         <div
-//           key={pdf.id}
-//           style={{
-//             padding: "15px",
-//             marginBottom: "10px",
-//             border: "1px solid #ddd",
-//             borderRadius: "10px"
-//           }}
-//         >
-//           <h4>{pdf.title}</h4>
-
-//           <a
-//             href={pdf.pdf_url}
-//             target="_blank"
-//             rel="noreferrer"
-//           >
-//             Open PDF
-//           </a>
-//         </div>
-//       ))}
-//     </div>
-//   );
-// }
-
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -76,6 +9,9 @@ import dishantar from "../assets/DISHANTAR.jpeg";
 import pratibimb from "../assets/PRATIBIMB.jpeg";
 import gati from "../assets/gati.jpeg";
 import free from "../assets/free.jpeg";
+import planA from "../assets/Plan A.png";
+import planB from "../assets/Plan B.png";
+import mockTest from "../assets/Mock Test.png";
 
 export default function StudyMaterial() {
     const [courses, setCourses] = useState([]);
@@ -89,6 +25,9 @@ export default function StudyMaterial() {
         "pratibimb": pratibimb,
         "free-content": free,
         "gati-crash-course": gati,
+        "planA": planA,
+        "planB": planB,
+        "gate-geomatics-mock-test": mockTest
     };
 
     useEffect(() => {
@@ -149,10 +88,7 @@ export default function StudyMaterial() {
 
                         <div className="courseImageWrapper">
                             <img
-                                src={
-                                    courseImages[course.course_slug] ||
-                                    "https://picsum.photos/400/200"
-                                }
+                                src={courseImages[course.course_slug] || free}
                                 alt={course.name}
                                 className="courseImage"
                             />

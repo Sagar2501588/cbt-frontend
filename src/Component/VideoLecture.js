@@ -10,6 +10,9 @@ import dishantar from "../assets/DISHANTAR.jpeg";
 import pratibimb from "../assets/PRATIBIMB.jpeg";
 import gati from "../assets/gati.jpeg";
 import free from "../assets/free.jpeg";
+import planA from "../assets/Plan A.png";
+import planB from "../assets/Plan B.png";
+import mockTest from "../assets/Mock Test.png";
 
 
 
@@ -26,6 +29,9 @@ function VideoLecture() {
     "pratibimb": pratibimb,
     "free-content": free,
     "gati-crash-course": gati,
+    "planA": planA,
+    "planB": planB,
+    "gate-geomatics-mock-test": mockTest
   };
 
   useEffect(() => {
@@ -119,12 +125,12 @@ function VideoLecture() {
                 <button
                   className="courseBtn"
                   onClick={() => {
-  if (course.course_slug === "gate-geomatics-mock-test") {
-    navigate("/test");
-  } else {
-    navigate(`/course/${course.course_slug}`);
-  }
-}}
+                    if (course.course_slug === "gate-geomatics-mock-test") {
+                      navigate("/test");
+                    } else {
+                      navigate(`/course/${course.course_slug}`);
+                    }
+                  }}
                 >
                   {course.progress === 100
                     ? "Review Course"
