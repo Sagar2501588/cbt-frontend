@@ -322,14 +322,16 @@ export default function PortalHome() {
               <h3>GATE Geomatics Mock Test Series</h3>
 
               <p className="desc">
-                Practice GATE Geomatics questions with timed mock tests,
+                Practice GATE Geomatics questions with timed tests,
                 exam-style questions and performance analysis.
               </p>
 
-              <p className="date">Includes: Full-Length Mock Tests</p>
+              <p className="date">
+                Includes: 08 Unit-Wise Tests + 05 Full-Length Mock Tests
+              </p>
 
               <div className="cardFooter">
-                <span className="price">₹499</span>
+                <span className="price">₹1000</span>
 
                 <button onClick={() => handleBuy("gate-geomatics-mock-test")}>
                   Buy Now
